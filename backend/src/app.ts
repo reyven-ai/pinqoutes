@@ -5,4 +5,6 @@ const app = express();
 
 app.use(json());
 
+console.log("stating");
+
 app.listen(3000);
