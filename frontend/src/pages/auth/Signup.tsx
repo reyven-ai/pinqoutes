@@ -7,7 +7,7 @@ import Errors from "@material-ui/icons/CloseRounded";
 import styled from "styled-components";
 import { SignUpProps } from "@/models/types";
 // import ResponsiveImageGrid from "./AuthBackground";
-import { useSignUpMutation } from "@/hooks/useAuth";
+import { useSignUp } from "@/hooks/useAuth";
 
 const icon = {
   fontSize: "17px",
@@ -236,7 +236,7 @@ const SignUp: React.FC<SignUpProps> = () => {
   const [emailInUseWarning, setEmailInUseWarning] = useState("");
 
   const navigate = useNavigate();
-  const signUpMutation = useSignUpMutation();
+  const signUpMutation = useSignUp();
 
   const validateEmail = (email: string): boolean => {
     return email.endsWith("@gmail.com");
