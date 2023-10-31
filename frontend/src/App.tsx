@@ -1,8 +1,11 @@
+import { ReactQueryProvider } from "./providers/ReactQueryProvider";
+import { Router } from "./router/Router";
+
 function App() {
   return (
-    <>
-      <div className="font-bold text-3xl">Hello World</div>
-    </>
+    <ReactQueryProvider>
+      <Router />
+    </ReactQueryProvider>
   );
 }
 
