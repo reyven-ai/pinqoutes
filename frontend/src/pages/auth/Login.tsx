@@ -6,8 +6,7 @@ import InfoWarning from "@material-ui/icons/ErrorOutlineOutlined";
 import Errors from "@material-ui/icons/CloseRounded";
 import styled from "styled-components";
 import { SignUpProps } from "@/models/types";
-// import ResponsiveImageGrid from "./AuthBackground";
-import { useMutation } from "react-query";
+import { useLoginMutation } from "@/hooks/useAuth";
 
 const icon = {
   fontSize: "17px",
@@ -177,7 +176,7 @@ const WarningMessage = styled.p`
   }
 `;
 
-const EmailAlreadyTaken = styled.p`
+const Invalid = styled.p`
   /* text-align: center; */
   /* padding: 1.7rem 1rem; */
   background-color: rgba(22, 51, 0, 0.08);
@@ -210,9 +209,10 @@ const LogIn: React.FC<SignUpProps> = () => {
 
   const [emailWarning, setEmailWarning] = useState("");
   const [passwordWarning, setPasswordWarning] = useState("");
-  const [emailInUseWarning, setEmailInUseWarning] = useState("");
+  const [InvalidKey, setInvalidKey] = useState("");
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
+  const logInMutation = useLoginMutation();
 
   const validateEmail = (email: string): boolean => {
     return email.endsWith("@gmail.com");
@@ -221,25 +221,6 @@ const LogIn: React.FC<SignUpProps> = () => {
   const validatePassword = (password: string): boolean => {
     return password.length >= 8;
   };
-
-  // const signUpMutation = useMutation(
-  //   async (userData: { email: string; password: string }) => {
-  //     const response = await fetch("http://localhost:3000/users/signup", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(userData),
-  //     });
-  //     if (response.ok) {
-  //       return response.json();
-  //     } else if (response.status === 409) {
-  //       throw new Error("Email is already registered.");
-  //     } else {
-  //       throw new Error("Sign up failed");
-  //     }
-  //   }
-  // );
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputEmail = e.target.value;
@@ -270,25 +251,21 @@ const LogIn: React.FC<SignUpProps> = () => {
       setPasswordWarning("");
     }
 
-    //   signUpMutation.mutate(
-    //     { email, password },
-    //     {
-    //       onSuccess: (data) => {
-    //         console.log("Sign up successful:", data);
-    //         navigate("/profile");
-    //       },
-    //       onError: (error: unknown) => {
-    //         if (
-    //           error instanceof Error &&
-    //           error.message === "Email is already registered."
-    //         ) {
-    //           setEmailInUseWarning("Sorry, that email is already taken.");
-    //         } else {
-    //           console.error("Sign up failed:", error);
-    //         }
-    //       },
-    //     }
-    //   );
+    logInMutation
+      .mutateAsync({ email, password }) // Use the mutation function
+      .then((data) => {
+        setTimeout(() => {
+          console.log("Log in successful:", data);
+          navigate("/profile");
+        }, 2000);
+      })
+      .catch((error) => {
+        if (error instanceof Error && error.message === "Invalid credentials") {
+          setInvalidKey("Sorry, that email or password didn't work.");
+        } else {
+          console.error("log in failed:", error);
+        }
+      });
   };
 
   return (
@@ -309,11 +286,11 @@ const LogIn: React.FC<SignUpProps> = () => {
               </p>
             </Header>
             <StyledForm action="" className="w-[470px] mt-8 mb-8 ml-16 mr-16">
-              {emailInUseWarning && (
-                <EmailAlreadyTaken className="text-center pt-6 pb-6 pl-4 pr-4 text-base font-light rounded-2xl mb-4">
+              {InvalidKey && (
+                <Invalid className="text-center pt-6 pb-6 pl-4 pr-4 text-base font-light rounded-2xl mb-4">
                   <Errors style={Failed} />
-                  {emailInUseWarning}
-                </EmailAlreadyTaken>
+                  {InvalidKey}
+                </Invalid>
               )}
               <StyledLabel
                 htmlFor="email"
@@ -328,8 +305,7 @@ const LogIn: React.FC<SignUpProps> = () => {
                 value={email}
                 onChange={handleEmailChange}
                 style={{
-                  border:
-                    emailWarning || emailInUseWarning ? "2px solid red" : "",
+                  border: emailWarning ? "2px solid red" : "",
                 }}
               />
               {emailWarning && (
