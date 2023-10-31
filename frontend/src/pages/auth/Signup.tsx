@@ -8,7 +8,6 @@ import styled from "styled-components";
 import { SignUpProps } from "@/models/types";
 // import ResponsiveImageGrid from "./AuthBackground";
 import { useSignUpMutation } from "@/hooks/useAuth";
-import { useMutation } from "react-query";
 
 const icon = {
   fontSize: "17px",
