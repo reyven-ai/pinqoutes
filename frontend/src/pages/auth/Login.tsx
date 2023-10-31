@@ -7,7 +7,6 @@ import Errors from "@material-ui/icons/CloseRounded";
 import styled from "styled-components";
 import { SignUpProps } from "@/models/types";
 // import ResponsiveImageGrid from "./AuthBackground";
-import { useSignUpMutation } from "@/hooks/useAuth";
 import { useMutation } from "react-query";
 
 const icon = {
@@ -114,11 +113,6 @@ const StyledInput = styled.input`
   background-color: transparent;
   color: rgb(69, 71, 69);
   font-family: "Quicksand", sans-serif;
-
-  @media (max-width: 600px) {
-    padding: 0.8rem 0.8rem;
-    margin-bottom: 1.5rem;
-  }
 `;
 
 const ButtonWrapper = styled.p`
@@ -141,10 +135,6 @@ const SignUpButton = styled.button`
   border: none;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   transition: background-color 0.3s ease-in-out;
-
-  @media (max-width: 600px) {
-    padding: 0.6rem 0;
-  }
 
   &:hover {
     background-color: #ff3c1a;
@@ -169,21 +159,6 @@ const GoogleButton = styled.button`
   }
 `;
 
-const Content = styled.div`
-  p {
-    color: rgb(69, 71, 69);
-    font-size: 15px;
-    margin: 5px 0;
-    text-align: center;
-    font-weight: 300;
-
-    @media (max-width: 600px) {
-      font-size: 14px;
-    }
-  }
-  margin-top: 1.5rem;
-`;
-
 const PasswordContainer = styled.div``;
 
 const ShowPasswordButton = styled.button`
@@ -203,14 +178,15 @@ const WarningMessage = styled.p`
 `;
 
 const EmailAlreadyTaken = styled.p`
+  /* text-align: center; */
+  /* padding: 1.7rem 1rem; */
   background-color: rgba(22, 51, 0, 0.08);
+  /* font-size: 16px; */
+  /* border-radius: 16px; */
+  /* font-weight: 300; */
   color: rgb(69, 71, 69);
   margin-top: -1rem;
-
-  @media (max-width: 600px) {
-    font-size: 15px;
-    padding: 1rem;
-  }
+  /* margin-bottom: 1rem; */
 `;
 
 const Line = styled.div`
@@ -227,7 +203,7 @@ const Text = styled.strong``;
 
 const LineContainer = styled.div``;
 
-const SignUp: React.FC<SignUpProps> = () => {
+const LogIn: React.FC<SignUpProps> = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -236,8 +212,7 @@ const SignUp: React.FC<SignUpProps> = () => {
   const [passwordWarning, setPasswordWarning] = useState("");
   const [emailInUseWarning, setEmailInUseWarning] = useState("");
 
-  const navigate = useNavigate();
-  const signUpMutation = useSignUpMutation();
+  // const navigate = useNavigate();
 
   const validateEmail = (email: string): boolean => {
     return email.endsWith("@gmail.com");
@@ -246,6 +221,25 @@ const SignUp: React.FC<SignUpProps> = () => {
   const validatePassword = (password: string): boolean => {
     return password.length >= 8;
   };
+
+  // const signUpMutation = useMutation(
+  //   async (userData: { email: string; password: string }) => {
+  //     const response = await fetch("http://localhost:3000/users/signup", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(userData),
+  //     });
+  //     if (response.ok) {
+  //       return response.json();
+  //     } else if (response.status === 409) {
+  //       throw new Error("Email is already registered.");
+  //     } else {
+  //       throw new Error("Sign up failed");
+  //     }
+  //   }
+  // );
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputEmail = e.target.value;
@@ -265,32 +259,36 @@ const SignUp: React.FC<SignUpProps> = () => {
     }
   };
 
-  const handleSignUp = async () => {
+  const handleSignUp = () => {
     if (!validateEmail(email)) {
-      setEmailWarning("Please enter a valid email address.");
+      setEmailWarning("Please fill this field");
     }
     if (!validatePassword(password)) {
-      setPasswordWarning("Password must be at least 8 characters long");
+      setPasswordWarning("Please fill this field");
+    } else {
+      setEmailWarning("");
+      setPasswordWarning("");
     }
 
-    signUpMutation
-      .mutateAsync({ email, password }) // Use the mutation function
-      .then((data) => {
-        setTimeout(() => {
-          console.log("Sign up successful:", data);
-          navigate("/profile");
-        }, 2000);
-      })
-      .catch((error) => {
-        if (
-          error instanceof Error &&
-          error.message === "Email is already registered."
-        ) {
-          setEmailInUseWarning("Sorry, that email is already taken.");
-        } else {
-          console.error("Sign up failed:", error);
-        }
-      });
+    //   signUpMutation.mutate(
+    //     { email, password },
+    //     {
+    //       onSuccess: (data) => {
+    //         console.log("Sign up successful:", data);
+    //         navigate("/profile");
+    //       },
+    //       onError: (error: unknown) => {
+    //         if (
+    //           error instanceof Error &&
+    //           error.message === "Email is already registered."
+    //         ) {
+    //           setEmailInUseWarning("Sorry, that email is already taken.");
+    //         } else {
+    //           console.error("Sign up failed:", error);
+    //         }
+    //       },
+    //     }
+    //   );
   };
 
   return (
@@ -300,15 +298,13 @@ const SignUp: React.FC<SignUpProps> = () => {
           <Container>
             <Header className="text-center mb-6">
               <Title className="text-[29px] font-semibold m-2.5">
-                Create your Pintech account
+                Welcome back User.
               </Title>
               <p className="font-light text-[15px] m-0">
-                Already have an account?{" "}
-                <Link
-                  className="font-semibold underline decoration-2"
-                  to="/login"
-                >
-                  Log in
+                New to Pintech?
+                <Link className="font-semibold underline decoration-2" to="/">
+                  {" "}
+                  Sign up
                 </Link>
               </p>
             </Header>
@@ -323,7 +319,7 @@ const SignUp: React.FC<SignUpProps> = () => {
                 htmlFor="email"
                 className="block mb-[3px] text-[15px] font-light"
               >
-                Your email address<span>*</span>
+                Your email address
               </StyledLabel>
               <StyledInput
                 className="block w-full p-4 py-3.5 rounded-xl text-sm mb-[1.9rem]"
@@ -345,7 +341,7 @@ const SignUp: React.FC<SignUpProps> = () => {
                 htmlFor="email"
                 className="block mb-[3px] text-[15px] font-light"
               >
-                Your password<span>*</span>
+                Your password
               </StyledLabel>
               <PasswordContainer className="relative">
                 <StyledInput
@@ -385,7 +381,7 @@ const SignUp: React.FC<SignUpProps> = () => {
                 <LineContainer className="inline-flex items-center">
                   <Line className="inline-block w-[140px] h-[1px] mx-2.5 my-0" />
                   <Text className="inline-block text-sm my-2 font-light">
-                    Or sign up with
+                    Or log in with
                   </Text>
                   <Line className="inline-block w-[140px] h-[1px] mx-2.5 my-0" />
                 </LineContainer>
@@ -410,17 +406,6 @@ const SignUp: React.FC<SignUpProps> = () => {
                   />
                 </AppleButton>
               </ButtonWrapper>
-              <Content>
-                <p>
-                  By signing up, I agree to pinterest{" "}
-                  <Link
-                    className="font-semibold underline decoration-2"
-                    to="/login"
-                  >
-                    terms & conditions
-                  </Link>
-                </p>
-              </Content>
             </StyledForm>
           </Container>
         </Background>
@@ -430,4 +415,4 @@ const SignUp: React.FC<SignUpProps> = () => {
   );
 };
 
-export default SignUp;
+export default LogIn;
