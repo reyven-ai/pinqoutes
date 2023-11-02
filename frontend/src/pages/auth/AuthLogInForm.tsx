@@ -2,7 +2,7 @@ import Visibility from "@material-ui/icons/VisibilityOutlined";
 import VisibilityOff from "@material-ui/icons/VisibilityOffOutlined";
 import InfoWarning from "@material-ui/icons/ErrorOutlineOutlined";
 import Errors from "@material-ui/icons/CloseRounded";
-import { SignUpProps } from "@/models/types";
+import { UsersData } from "@/models/types";
 import { useAuthForm } from "@/hooks/useAuthValidation";
 
 const icon = {
@@ -13,7 +13,7 @@ const Failed = {
   fontSize: "32px",
 };
 
-const AuthLogInForm: React.FC<SignUpProps> = () => {
+const AuthLogInForm: React.FC<UsersData> = () => {
   const {
     showPassword,
     email,

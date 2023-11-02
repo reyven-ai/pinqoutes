@@ -1,10 +1,9 @@
-export interface SignUpProps {
-  onSignUp: (userData: SignUpData) => void;
+export interface UsersData {
+  onSignUp: (userData: UsersData) => void;
 }
 
-export interface SignUpData {
+export interface UsersData {
   email: string;
   password: string;
   error: string;
-  onChange: string;
 }

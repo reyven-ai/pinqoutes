@@ -2,7 +2,7 @@ import Visibility from "@material-ui/icons/VisibilityOutlined";
 import VisibilityOff from "@material-ui/icons/VisibilityOffOutlined";
 import InfoWarning from "@material-ui/icons/ErrorOutlineOutlined";
 import Errors from "@material-ui/icons/CloseRounded";
-import { SignUpProps } from "@/models/types";
+import { UsersData } from "@/models/types";
 import { useAuthForm } from "@/hooks/useAuthValidation";
 
 const icon = {
@@ -13,7 +13,7 @@ const Failed = {
   fontSize: "32px",
 };
 
-const AuthSignUpForm: React.FC<SignUpProps> = () => {
+const AuthSignUpForm: React.FC<UsersData> = () => {
   const {
     showPassword,
     email,
@@ -21,6 +21,7 @@ const AuthSignUpForm: React.FC<SignUpProps> = () => {
     emailWarning,
     passwordWarning,
     emailInUseWarning,
+    isSignUpSuccess,
     setShowPassword,
     handleEmailChange,
     handlePasswordChange,
@@ -101,11 +102,14 @@ const AuthSignUpForm: React.FC<SignUpProps> = () => {
         </button>
       </div>
       <button
-        className="bg-button text-white border-none cursor-pointer p-[0.8rem] w-full rounded-[30px] text-[15px] font-semibold mb-4"
+        className={`bg-button text-white border-none cursor-pointer p-[0.8rem] w-full rounded-[30px] text-[15px] font-semibold mb-4 ${
+          isSignUpSuccess ? "opacity-75" : ""
+        }`}
         type="button"
         onClick={handleSignUp}
+        disabled={isSignUpSuccess}
       >
-        Next
+        Sign Up
       </button>
     </form>
   );
