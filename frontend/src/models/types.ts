@@ -6,4 +6,5 @@ export interface SignUpData {
   email: string;
   password: string;
   error: string;
+  onChange: string;
 }

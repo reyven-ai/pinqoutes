@@ -1,27 +1,31 @@
 import { useMutation } from "react-query";
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 export function useSignUp() {
   return useMutation(async (userData) => {
-    const response = await fetch("http://localhost:3000/signup", {
+    const response = await fetch(`${apiUrl}/signup`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(userData),
     });
+
     if (response.ok) {
       return response.json();
     } else if (response.status === 409) {
-      throw new Error("Email is already registered.");
+      const errorResponse = await response.json();
+      throw new Error(errorResponse.message);
     } else {
       throw new Error("Sign up failed");
     }
   });
 }
 
-export function useLoginMutation() {
+export function useLogin() {
   return useMutation(async (userData) => {
-    const response = await fetch("http://localhost:3000/login", {
+    const response = await fetch(`${apiUrl}/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -32,7 +36,8 @@ export function useLoginMutation() {
     if (response.ok) {
       return response.json();
     } else if (response.status === 401) {
-      throw new Error("Invalid credentials");
+      const errorResponse = await response.json();
+      throw new Error(errorResponse.message);
     } else {
       throw new Error("Login failed");
     }

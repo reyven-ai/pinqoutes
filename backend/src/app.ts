@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction } from "express";
 import { json } from "body-parser";
-import usersAuth from "./auth/routes";
+import usersAuth from "./auth/auth.route";
 import cors = require("cors");
 
 const app = express();
