@@ -1,4 +1,4 @@
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, SyntheticEvent } from "react";
 import validator from "validator";
 import { useNavigate } from "react-router-dom";
 import { useSignUp, useLogin } from "./useApis";
@@ -45,7 +45,8 @@ export const useAuthForm = () => {
   const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>): void =>
     setPassword(handleInputChange(e, validatePassword, setPasswordWarning));
 
-  const handleSignUp = async (): Promise<void> => {
+  const handleSignUp = async (event: SyntheticEvent): Promise<void> => {
+    event.preventDefault();
     const emailValue: string = handleInputChange(
       {
         target: { value: email, name: "Please enter a valid email address." },

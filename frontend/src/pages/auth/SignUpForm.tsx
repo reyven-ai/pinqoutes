@@ -27,11 +27,11 @@ const AuthSignUpForm: React.FC<UsersData> = () => {
   return (
     <form
       action=""
-      // onClick={handleSignUp}
-      className="w-[470px] mt-8 ml-16 mr-16"
+      onSubmit={handleSignUp}
+      className="w-[470px] mt-8 ml-16 mr-16 max-[500px]:w-full"
     >
       {emailInUseWarning && (
-        <p className="text-primaryTextColor mt-[-1rem] bg-invalidCredentialBg text-center pt-6 pb-6 pl-4 pr-4 text-base font-light rounded-2xl mb-4">
+        <p className="mt-[-1rem] bg-invalidCredentialBg text-center pt-6 pb-6 pl-4 pr-4 text-base font-light rounded-2xl mb-4">
           <Errors
             style={Failed}
             className="bg-backgroundErrorIcon p-[5px] mr-[10px] font-light rounded-[50%] bg-error text-white"
@@ -48,7 +48,7 @@ const AuthSignUpForm: React.FC<UsersData> = () => {
       </label>
       <input
         className={cn(
-          "border-[1px] border-inputBorder bg-transparent block w-full p-4 py-3.5 rounded-xl text-sm mb-[1.9rem]",
+          "sm:bg-blue border-[1px] border-inputBorder bg-transparent block w-full p-4 py-3.5 rounded-xl text-sm mb-[1.9rem]",
           "placeholder-gray-500 text-[0.9rem] font-light",
           emailWarning || emailInUseWarning ? "border-2 border-rose-600" : ""
         )}
@@ -114,8 +114,7 @@ const AuthSignUpForm: React.FC<UsersData> = () => {
         className={`bg-backgroundButtonColor text-white border-none cursor-pointer p-[0.8rem] w-full rounded-[30px] text-[15px] font-semibold mb-4 ${
           isSignUpSuccess ? "opacity-75" : ""
         }`}
-        type="button"
-        onClick={handleSignUp}
+        type="submit"
       >
         Sign Up
       </button>
