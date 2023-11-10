@@ -1,8 +1,4 @@
-import bcrypt from "bcrypt";
-import UserRepository from "./auth.repository";
 import validator from "validator";
-
-const userRepository = new UserRepository();
 
 class EmailFormatError extends Error {
   constructor() {
@@ -25,51 +21,26 @@ class UserAlreadyRegisteredError extends Error {
   }
 }
 
-class UserValidation {
-  isEmailValid(email: string) {
-    return validator.isEmail(email);
+function isEmailValid(email: string) {
+  return validator.isEmail(email);
+}
+
+function isPasswordValid(password: string) {
+  if (password.length < 8) {
+    return false;
   }
-  isPasswordValid(password: string) {
-    if (password.length < 8) {
-      return false;
-    }
-    if (!/[A-Z]/.test(password)) {
-      return false;
-    }
-    if (!/\d/.test(password)) {
-      return false;
-    }
-    return true;
+  if (!/[A-Z]/.test(password)) {
+    return false;
   }
-
-  async getByEmail(email: string) {
-    return await userRepository.getByEmail(email);
+  if (!/\d/.test(password)) {
+    return false;
   }
-
-  async signup(email: string, password: string) {
-    if (!this.isEmailValid(email)) {
-      throw new EmailFormatError();
-    }
-
-    if (!this.isPasswordValid(password)) {
-      throw new PasswordRequirementsError();
-    }
-
-    const existingUser = await userRepository.getByEmail(email);
-
-    if (existingUser) {
-      throw new UserAlreadyRegisteredError();
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const user_id = await userRepository.createUser(email, hashedPassword);
-
-    return user_id;
-  }
+  return true;
 }
 
 export {
-  UserValidation,
+  isEmailValid,
+  isPasswordValid,
   EmailFormatError,
   PasswordRequirementsError,
   UserAlreadyRegisteredError,

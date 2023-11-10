@@ -1,11 +1,12 @@
 import pool from "../database/db";
+import { User } from "./types";
 
 class UserRepository {
-  async getByEmail(email: string) {
+  async getByEmail(email: string): Promise<User | null> {
     try {
       const query = "SELECT * FROM users WHERE email = $1";
       const result = await pool.query(query, [email]);
-      return result.rows[0];
+      return result.rows[0] || null;
     } catch (error) {
       throw new Error("Error fetching user by email");
     }

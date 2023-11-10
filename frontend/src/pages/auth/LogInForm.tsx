@@ -3,15 +3,9 @@ import VisibilityOff from "@material-ui/icons/VisibilityOffOutlined";
 import InfoWarning from "@material-ui/icons/ErrorOutlineOutlined";
 import Errors from "@material-ui/icons/CloseRounded";
 import { UsersData } from "@/models/types";
-import { useAuthForm } from "@/hooks/useAuthValidation";
-
-const icon = {
-  fontSize: "17px",
-};
-
-const Failed = {
-  fontSize: "32px",
-};
+import { useAuthForm } from "@/hooks/useUserRegistration";
+import { cn } from "@/components/util/input.util";
+import { Failed, icon } from "@/components/icons/iconStyles";
 
 const AuthLogInForm: React.FC<UsersData> = () => {
   const {
@@ -22,18 +16,20 @@ const AuthLogInForm: React.FC<UsersData> = () => {
     passwordWarning,
     invalid,
     setShowPassword,
+    handleEmailKeyDown,
+    handlePasswordKeyDown,
     handleEmailChange,
     handlePasswordChange,
     handleLogin,
   } = useAuthForm();
 
   return (
-    <form action="" className="w-[470px] mt-8 ml-16 mr-16">
+    <form action="" method="post" className="w-[470px] mt-8 ml-16 mr-16">
       {invalid && (
-        <p className="text-text mt-[-1rem] bg-backgroundErrors text-center pt-6 pb-6 pl-4 pr-4 text-base font-light rounded-2xl mb-4">
+        <p className="text-text mt-[-1rem] bg-invalidCredentialBg text-center pt-6 pb-6 pl-4 pr-4 text-base font-light rounded-2xl mb-4">
           <Errors
             style={Failed}
-            className="bg-backgroundError text-[32px] mr-[10px] p-[0.3rem] font-light rounded-[50%] bg-error text-white"
+            className="bg-backgroundErrorIcon text-[32px] mr-[10px] p-[0.3rem] font-light rounded-[50%] bg-error text-white"
           />
           {invalid}
         </p>
@@ -45,16 +41,17 @@ const AuthLogInForm: React.FC<UsersData> = () => {
         Your email address
       </label>
       <input
-        className="border-[1px] border-border bg-transparent block w-full p-4 py-3.5 rounded-xl text-sm mb-[1.9rem]"
+        className={cn(
+          "border-[1px] border-inputBorder bg-transparent block w-full p-4 py-3.5 rounded-xl text-sm mb-[1.9rem]",
+          emailWarning ? "border-2 border-rose-600" : ""
+        )}
         type="email"
         value={email}
         onChange={handleEmailChange}
-        style={{
-          border: emailWarning ? "2px solid red" : "",
-        }}
+        onKeyDown={handleEmailKeyDown}
       />
       {emailWarning && (
-        <p className="text-textError mt-[-20px] text-[15px] font-light mb-5 items-center">
+        <p className="text-rose-600 mt-[-20px] text-[15px] font-light mb-5 items-center">
           <InfoWarning
             style={icon}
             className="items-center mr-[7px] mb-[2px]"
@@ -63,22 +60,25 @@ const AuthLogInForm: React.FC<UsersData> = () => {
         </p>
       )}
       <label
-        htmlFor="email"
+        htmlFor="password"
         className="text-text block mb-[3px] text-[15px] font-light"
       >
         Your password
       </label>
       <div className="relative">
         <input
-          className="border-[1px] border-border bg-transparent block w-full p-4 py-3.5 rounded-xl text-sm mb-[1.9rem]"
+          id="passwordInput"
+          className={cn(
+            "border-[1px] border-inputBorder bg-transparent block w-full p-4 py-3.5 rounded-xl text-sm mb-[1.9rem]",
+            passwordWarning ? "border-2 border-rose-600" : ""
+          )}
           type={showPassword ? "text" : "password"}
           value={password}
-          // placeholder="Password"
           onChange={handlePasswordChange}
-          style={{ border: passwordWarning ? "2px solid red" : "" }}
+          onKeyDown={handlePasswordKeyDown}
         />
         {passwordWarning && (
-          <p className="text-textError mt-[-20px] text-[15px] font-light mb-5 items-center">
+          <p className="text-rose-600 mt-[-20px] text-[15px] font-light mb-5 items-center">
             <InfoWarning
               style={icon}
               className="items-center mr-[7px] mb-[2px]"
@@ -87,8 +87,10 @@ const AuthLogInForm: React.FC<UsersData> = () => {
           </p>
         )}
         <button
-          className="transform -translate-y-1/2 bg-transparent border-none text-header absolute cursor-pointer font-light left-[93%] top-[50%] z-1"
-          style={{ top: passwordWarning ? "30%" : "" }}
+          className={cn(
+            "transform -translate-y-1/2 bg-transparent border-none text-header absolute cursor-pointer font-light left-[93%] z-1 top-[50%]",
+            passwordWarning ? "top-[30%]" : ""
+          )}
           type="button"
           onClick={() => setShowPassword(!showPassword)} // Toggle showPassword state
         >
@@ -100,7 +102,8 @@ const AuthLogInForm: React.FC<UsersData> = () => {
         </button>
       </div>
       <button
-        className="bg-button text-white border-none cursor-pointer p-[0.8rem] w-full rounded-[30px] text-[15px] font-semibold mb-4"
+        id="nextButton"
+        className="bg-backgroundButtonColor text-white border-none cursor-pointer p-[0.8rem] w-full rounded-[30px] text-[15px] font-semibold mb-4"
         type="button"
         onClick={handleLogin}
       >

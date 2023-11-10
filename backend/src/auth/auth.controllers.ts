@@ -1,14 +1,15 @@
 import jwt from "jsonwebtoken";
+import { config } from "../config";
 import bcrypt from "bcrypt";
 import { RequestHandler } from "express";
 import {
-  UserValidation,
+  UserService,
   EmailFormatError,
   PasswordRequirementsError,
   UserAlreadyRegisteredError,
-} from "./auth.validation";
+} from "./auth.services";
 
-const userService = new UserValidation();
+const userService = new UserService();
 
 const signup: RequestHandler = async (req, res, next) => {
   try {
@@ -50,8 +51,7 @@ const login: RequestHandler = async (req, res, next) => {
 
     const token = jwt.sign(
       { userId: user.user_id, email: user.email },
-      "your-secret-key",
-      { expiresIn: "1h" }
+      config.jwtSecret
     );
 
     res.status(200).json({ token, userId: user.user_id });

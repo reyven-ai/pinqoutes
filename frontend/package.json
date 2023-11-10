@@ -10,11 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "flag-icon-css": "^4.1.7",
+    "geolib": "^3.3.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-query": "^3.39.3",
     "react-router-dom": "^6.17.0",
-    "styled-components": "^6.1.0"
+    "styled-components": "^6.1.0",
+    "tailwind-merge": "^2.0.0"
   },
   "devDependencies": {
     "@types/node": "^20.8.9",

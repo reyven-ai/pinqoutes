@@ -9,16 +9,15 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "rgb(69, 71, 69)",
+        primaryTextColor: "rgb(69, 71, 69)",
         secondary: "#fefefe",
         header: "#333;",
-        text: "rgb(69, 71, 69)",
         textError: "#ea0303",
-        backgroundError: "rgb(168, 32, 13)",
-        backgroundErrors: "rgba(22, 51, 0, 0.08)",
-        button: "rgb(61, 145, 253)",
-        border: "#868685",
-        bboder: "#0e0f0c1f",
+        backgroundErrorIcon: "rgb(168, 32, 13)",
+        invalidCredentialBg: "rgba(22, 51, 0, 0.08)",
+        backgroundButtonColor: "rgb(61, 145, 253)",
+        inputBorder: "#868685",
+        socialButtonBorder: "#0e0f0c1f",
       },
     },
   },
