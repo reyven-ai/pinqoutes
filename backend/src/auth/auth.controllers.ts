@@ -11,7 +11,7 @@ import {
 
 const userService = new UserService();
 
-const signup: RequestHandler = async (req, res, next) => {
+export const signup: RequestHandler = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
@@ -33,7 +33,7 @@ const signup: RequestHandler = async (req, res, next) => {
   }
 };
 
-const login: RequestHandler = async (req, res, next) => {
+export const login: RequestHandler = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
@@ -59,5 +59,3 @@ const login: RequestHandler = async (req, res, next) => {
     next(error);
   }
 };
-
-export { signup, login };
