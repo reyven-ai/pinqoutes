@@ -7,7 +7,19 @@ export default {
     "./src/**/*.{ts,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primaryTextColor: "rgb(69, 71, 69)",
+        secondary: "#fefefe",
+        header: "#333;",
+        textError: "#ea0303",
+        backgroundErrorIcon: "rgb(168, 32, 13)",
+        invalidCredentialBg: "rgba(22, 51, 0, 0.08)",
+        backgroundButtonColor: "rgb(61, 145, 253)",
+        inputBorder: "#868685",
+        socialButtonBorder: "#0e0f0c1f",
+      },
+    },
   },
   plugins: [],
 };
