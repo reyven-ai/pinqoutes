@@ -1,7 +1,8 @@
 import express, { Request, Response, NextFunction } from "express";
 import { json } from "body-parser";
 import usersAuth from "./auth/auth.route";
-import userRoutes from "./user/user.route";
+import userRoutes from "./user/checkAuth.route";
+import usersDetails from "./userDetails/user.route";
 import cors = require("cors");
 
 const PORT = 3000;
@@ -14,6 +15,7 @@ app.use(cors());
 app.use("/", usersAuth);
 
 app.use("/", userRoutes);
+app.use("/profile-details", usersDetails);
 
 app.use(
   (err: Error, req: express.Request, res: Response, next: NextFunction) => {
