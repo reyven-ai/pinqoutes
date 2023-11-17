@@ -4,76 +4,70 @@ import {
   isValidUserAddress,
   isValidUserBirthday,
   isValidUserMobileNumber,
-} from "./user.validation";
+} from "./userDetails.validation";
 import { UserProfile } from "../models/types";
-import { add, remove, update, get } from "./user.services";
+import { add, remove, update, get } from "./userDetails.services";
 import { InternalServerError } from "../errors/errors";
 
 const router = Router();
 
 let userDetails: { [key: string]: UserProfile } = {};
 
-router.post(
-  "/",
-  // checkAuthMiddleware,
-  async (req: Request<{}, {}, UserProfile>, res: Response) => {
-    try {
-      const {
-        username,
-        description,
-        country_of_residence,
-        mobile_phone_number,
-        birthdate,
-      } = req.body;
-      let errors: { [key: string]: string } = {};
+router.post("/", async (req: Request<{}, {}, UserProfile>, res: Response) => {
+  try {
+    const {
+      username,
+      description,
+      country_of_residence,
+      mobile_phone_number,
+      birthdate,
+    } = req.body;
+    let errors: { [key: string]: string } = {};
 
-      if (!isValidUsername(username)) {
-        errors.username = "Invalid username.";
-      }
-
-      if (!isValidUserAddress(country_of_residence)) {
-        errors.country_of_residence = "Invalid address.";
-      }
-
-      if (!isValidUserBirthday(birthdate)) {
-        errors.birthdate = "Invalid birthdate";
-      }
-
-      if (!isValidUserMobileNumber(mobile_phone_number)) {
-        errors.mobile_phone_number = "Invalid number.";
-      }
-
-      if (Object.keys(errors).length > 0) {
-        return res.status(422).json({
-          message: "Creating profile details failed due to validation errors.",
-          errors,
-        });
-      }
-
-      const data = {
-        username,
-        description,
-        country_of_residence,
-        mobile_phone_number,
-        birthdate,
-      };
-      const createdUser = await add(data);
-
-      res.status(201).json({
-        message: "User profile created successfully.",
-        userDetails: createdUser,
-      });
-    } catch (error) {
-      console.error("Error during user profile creation:", error);
-      throw new InternalServerError("Internal Server Error");
-      // res.status(500).json({ message: "Internal Server Error" });
+    if (!isValidUsername(username)) {
+      errors.username = "Invalid username.";
     }
+
+    if (!isValidUserAddress(country_of_residence)) {
+      errors.country_of_residence = "Invalid address.";
+    }
+
+    if (!isValidUserBirthday(birthdate)) {
+      errors.birthdate = "Invalid birthdate";
+    }
+
+    if (!isValidUserMobileNumber(mobile_phone_number)) {
+      errors.mobile_phone_number = "Invalid number.";
+    }
+
+    if (Object.keys(errors).length > 0) {
+      return res.status(422).json({
+        message: "Creating profile details failed due to validation errors.",
+        errors,
+      });
+    }
+
+    const data = {
+      username,
+      description,
+      country_of_residence,
+      mobile_phone_number,
+      birthdate,
+    };
+    const createdUser = await add(data);
+
+    res.status(201).json({
+      message: "User profile created successfully.",
+      userDetails: createdUser,
+    });
+  } catch (error) {
+    console.error("Error during user profile creation:", error);
+    throw new InternalServerError("Internal Server Error");
   }
-);
+});
 
 router.patch(
   "/:userId",
-  // checkAuthMiddleware,
   async (req: Request<{ userId: string }, {}, UserProfile>, res: Response) => {
     try {
       const userId = req.params.userId;
@@ -86,8 +80,6 @@ router.patch(
       } = req.body;
 
       let errors: { [key: string]: string } = {};
-
-      // Validation logic similar to the creation route...
 
       if (Object.keys(errors).length > 0) {
         return res.status(422).json({
@@ -112,14 +104,12 @@ router.patch(
     } catch (error) {
       console.error("Error during user profile update:", error);
       throw new InternalServerError("Internal Server Error");
-      // res.status(500).json({ message: "Internal Server Error" });
     }
   }
 );
 
 router.delete(
   "/:userId",
-  // checkAuthMiddleware,
   async (req: Request<{ userId: string }, {}, {}>, res: Response) => {
     try {
       const userId = req.params.userId;
@@ -129,19 +119,15 @@ router.delete(
     } catch (error) {
       console.error("Error during user profile deletion:", error);
       throw new InternalServerError("Internal Server Error");
-      // res.status(500).json({ message: "Internal Server Error" });
     }
   }
 );
 
 router.get(
   "/:userId",
-  // checkAuthMiddleware,
   async (req: Request<{ userId: string }, {}, {}>, res: Response) => {
     try {
       const userId = req.params.userId;
-
-      // Assuming you have a getUserProfile method in your service
       const userProfile = await get(userId);
 
       if (!userProfile) {
@@ -152,7 +138,6 @@ router.get(
     } catch (error) {
       console.error("Error during user profile retrieval:", error);
       throw new InternalServerError("Internal Server Error");
-      // res.status(500).json({ message: "Internal Server Error" });
     }
   }
 );

@@ -1,5 +1,5 @@
 import { v4 as generateId } from "uuid";
-import { UserDetailsRepository } from "./user.repository";
+import { UserDetailsRepository } from "./userDetails.repository";
 import { NotFoundError } from "../errors/errors";
 import { UserProfile } from "../models/types";
 
