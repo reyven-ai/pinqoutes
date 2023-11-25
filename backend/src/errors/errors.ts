@@ -1,4 +1,6 @@
-class NotFoundError {
+import { Response } from "express";
+
+export class NotFoundError {
   message: string;
   status: number;
 
@@ -8,7 +10,7 @@ class NotFoundError {
   }
 }
 
-class NotAuthError {
+export class NotAuthError {
   message: string;
   status: number;
 
@@ -18,7 +20,7 @@ class NotAuthError {
   }
 }
 
-class BadRequestError {
+export class BadRequestError {
   message: string;
   status: number;
 
@@ -28,7 +30,7 @@ class BadRequestError {
   }
 }
 
-class InternalServerError {
+export class InternalServerError {
   message: string;
   status: number;
 
@@ -38,4 +40,14 @@ class InternalServerError {
   }
 }
 
-export { NotAuthError, NotFoundError, BadRequestError, InternalServerError };
+export function handleError(error: any, res: Response) {
+  console.error(`Error during operation: ${error.message}`);
+
+  if (error instanceof NotFoundError) {
+    return res.status(404).json({ message: error.message });
+  } else if (error instanceof NotAuthError) {
+    return res.status(401).json({ message: error.message });
+  } else {
+    return res.status(500).json({ message: "Internal server error" });
+  }
+}

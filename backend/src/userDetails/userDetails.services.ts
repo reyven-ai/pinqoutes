@@ -1,58 +1,113 @@
-import { v4 as generateId } from "uuid";
 import { UserDetailsRepository } from "./userDetails.repository";
-import { NotFoundError } from "../errors/errors";
-import { UserProfile } from "../models/types";
+import { NotAuthError, NotFoundError } from "../errors/errors";
+import { UserProfileData } from "./userDetails.types";
 
-async function add(data: UserProfile): Promise<{ id: string }> {
+export async function add(data: UserProfileData): Promise<UserProfileData> {
   try {
     const userRepository = new UserDetailsRepository();
-    const createdUserId = await userRepository.createUserProfile(
-      data.username,
-      data.description,
-      data.country_of_residence,
-      data.mobile_phone_number,
-      data.birthdate
+    const createdUserProfile: UserProfileData =
+      await userRepository.createUserProfile(
+        data.user_id,
+        data.username,
+        data.description,
+        data.country_of_residence,
+        data.mobile_phone_number,
+        data.birthdate
+      );
+
+    return createdUserProfile;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error creating user profile");
+  }
+}
+
+export async function update(
+  user_id: number,
+  profileId: string,
+  data: UserProfileData
+): Promise<UserProfileData | null> {
+  try {
+    const userProfile = await get(profileId);
+
+    if (!userProfile) {
+      throw new NotFoundError(`User profile with ID ${profileId} not found.`);
+    }
+
+    if (user_id !== userProfile.user_id) {
+      throw new NotAuthError(
+        "Unauthorized: You can only update your own profile."
+      );
+    }
+
+    const userRepository = new UserDetailsRepository();
+    const updatedUserProfile = await userRepository.updateUserProfile(
+      profileId,
+      data
     );
 
-    return { id: createdUserId };
+    if (!updatedUserProfile) {
+      return null;
+    }
+
+    return updatedUserProfile;
   } catch (error) {
     console.error(error);
-    throw new Error("Error creating user");
+    throw new Error(`Error updating user profile with ID ${profileId}`);
   }
 }
 
-async function update(userId: string, data: UserProfile): Promise<void> {
+export async function get(profileId: string): Promise<UserProfileData | null> {
   try {
     const userRepository = new UserDetailsRepository();
-    // Assuming you have an update method in your repository
-    await userRepository.updateUserProfile(userId, data);
-  } catch (error) {
-    console.error(error);
-    throw new Error(`Error updating user with ID ${userId}`);
-  }
-}
+    const userProfile = await userRepository.getUserProfileById(profileId);
 
-async function get(userId: string): Promise<UserProfile | null> {
-  try {
-    const userRepository = new UserDetailsRepository();
-    // Assuming you have a getUserProfile method in your repository
-    const userProfile = await userRepository.getUserProfileById(userId);
+    if (!userProfile) {
+      return null;
+    }
+
     return userProfile;
   } catch (error) {
     console.error(error);
-    throw new Error(`Error retrieving user profile with ID ${userId}`);
+    throw new NotFoundError(
+      `Error retrieving user profile with ID ${profileId}`
+    );
   }
 }
 
-async function remove(userId: string): Promise<void> {
+export async function remove(
+  user_id: number,
+  profileId: string
+): Promise<UserProfileData | null> {
   try {
+    const userProfile = await get(profileId);
+
+    console.log(">>>>> User Profile:", userProfile);
+
+    console.log(">>>>> User ID:", user_id);
+
+    if (!userProfile) {
+      throw new NotFoundError(`User profile with ID ${profileId} not found.`);
+    }
+
+    if (user_id !== userProfile.user_id) {
+      throw new NotAuthError(
+        "Unauthorized: You can only delete your own profile."
+      );
+    }
+
     const userRepository = new UserDetailsRepository();
-    // Assuming you have a delete method in your repository
-    await userRepository.deleteUserProfile(userId);
+    const deletedUserProfile = await userRepository.deleteUserProfile(
+      profileId
+    );
+
+    if (!deletedUserProfile) {
+      return null;
+    }
+
+    return deletedUserProfile;
   } catch (error) {
     console.error(error);
-    throw new Error(`Error deleting user with ID ${userId}`);
+    throw new Error(`Error deleting user with ID ${profileId}`);
   }
 }
-
-export { add, update, remove, get };

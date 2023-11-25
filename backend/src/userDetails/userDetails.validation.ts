@@ -1,21 +1,21 @@
-import { countryCodes } from "../models/countryCodes";
+import { countryCodes } from "../constants/countryCodes.constants";
 
-function isValidUsername(username: string) {
+export function isValidUsername(username: string) {
   const regex = /^[a-zA-Z0-9-]{3,16}$/;
   return regex.test(username);
 }
 
-function isValidUserAddress(address: string) {
+export function isValidUserAddress(address: string) {
   const regex = /^[A-Za-z\s]+,\s[A-Za-z\s]+$/;
   return regex.test(address);
 }
 
-function isValidUserBirthday(birthday: string) {
+export function isValidUserBirthday(birthday: string) {
   const regex = /^\d{4}-\d{2}-\d{2}$/;
   return regex.test(birthday);
 }
 
-function isValidUserMobileNumber(userMobileNumber: string) {
+export function isValidUserMobileNumber(userMobileNumber: string) {
   const genericPattern = /^[a-zA-Z0-9-]{3,16}$/;
 
   for (const country of countryCodes) {
@@ -26,10 +26,3 @@ function isValidUserMobileNumber(userMobileNumber: string) {
 
   return genericPattern.test(userMobileNumber);
 }
-
-export {
-  isValidUsername,
-  isValidUserAddress,
-  isValidUserBirthday,
-  isValidUserMobileNumber,
-};
