@@ -17,7 +17,7 @@ export function createJSONToken(user: UserAuthToken): string {
   };
 
   return sign(tokenPayload, KEY, {
-    expiresIn: "1h",
+    expiresIn: "7d",
   });
 }
 
