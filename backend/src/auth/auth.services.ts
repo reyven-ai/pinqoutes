@@ -1,7 +1,18 @@
 import { hash } from "bcrypt";
 import UserRepository from "./auth.repository";
 import { NotFoundError } from "../errors/errors";
-import { UserAuthData } from "./auth.types";
+import { UserAuthData, UserAuthToken } from "./auth.types";
+import { sign } from "jsonwebtoken";
+import { config } from "../config";
+
+const KEY: string = config.JWT_SECRET;
+
+export function createJSONToken(user: UserAuthToken): string {
+  console.log("<<<<< UserID", user);
+  return sign({ email: user.email, user_id: user.user_id }, KEY, {
+    expiresIn: "1h",
+  });
+}
 
 export async function add(data: {
   email: string;

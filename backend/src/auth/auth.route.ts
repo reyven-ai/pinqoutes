@@ -3,9 +3,8 @@ import {
   isEmailValidFormat,
   isPasswordValidFormat,
   isValidPassword,
-  createJSONToken,
 } from "./auth.validation";
-import { add, get } from "./auth.services";
+import { add, get, createJSONToken } from "./auth.services";
 import { InternalServerError } from "../errors/errors";
 
 const router = Router();
