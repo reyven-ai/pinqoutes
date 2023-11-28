@@ -4,8 +4,8 @@ import {
   isValidUserAddress,
   isValidUserBirthday,
   isValidUserMobileNumber,
-} from "./userDetails.validation";
-import { add, update, get, remove } from "./userDetails.services";
+} from "./userProfile.validation";
+import { add, update, get, remove } from "./userProfile.services";
 import { handleError } from "../errors/errors";
 import { checkAuthMiddleware } from "../checkAuthMiddleware/checkAuthMiddleware";
 import { AuthResponse } from "../types";

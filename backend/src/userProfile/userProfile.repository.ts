@@ -1,5 +1,5 @@
 import pool from "../database/db";
-import { UserProfileData } from "./userDetails.types";
+import { UserProfileData } from "./userProfile.types";
 import { NotAuthError, NotFoundError } from "../errors/errors";
 
 class UserDetailsRepository {

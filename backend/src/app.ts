@@ -2,7 +2,7 @@ import express, { Request, Response, NextFunction } from "express";
 import { json } from "body-parser";
 import userAuthRoutes from "./auth/auth.route";
 // import userRoutes from "./checkAuthMiddleware/checkAuth.route";
-import userProfileDetailsRoutes from "./userDetails/userDetails.route";
+import userProfileDetailsRoutes from "./userProfile/userProfile.route";
 import cors = require("cors");
 
 const PORT = 3000;

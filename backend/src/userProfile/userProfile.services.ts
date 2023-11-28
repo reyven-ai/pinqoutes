@@ -1,6 +1,6 @@
-import { UserDetailsRepository } from "./userDetails.repository";
+import { UserDetailsRepository } from "./userProfile.repository";
 import { NotAuthError, NotFoundError } from "../errors/errors";
-import { UserProfileData } from "./userDetails.types";
+import { UserProfileData } from "./userProfile.types";
 
 export async function add(data: UserProfileData): Promise<UserProfileData> {
   try {
