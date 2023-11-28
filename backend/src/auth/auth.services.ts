@@ -24,36 +24,19 @@ export function createJSONToken(user: UserAuthToken): string {
 export async function add(data: {
   email: string;
   password: string;
-}): Promise<{ user_id: number; email: string }> {
+}): Promise<{ user_id: number; email: string; password: string }> {
   const hashedPw: string = await hash(data.password, 10);
 
   try {
     const userRepository = new UserRepository();
     const createdUserId = await userRepository.createUser(data.email, hashedPw);
 
-    return { user_id: createdUserId, email: data.email };
-    // return createdUserId;
+    return { user_id: createdUserId, email: data.email, password: hashedPw };
   } catch (error) {
     console.error(error);
     throw new Error("Error creating user");
   }
 }
-
-// export async function add(data:{user_id: number, email: string, password: string}): Promise<number> {
-//   const hashedPw: string = await hash(data.password, 10);
-//   try {
-//     const userRepository = new UserRepository();
-//     const createdUserData = await userRepository.createUser(
-//       data.user_id,
-//       data.email,
-//       hashedPw
-//     );
-//     return createdUserData;
-//   } catch (error) {
-//     console.error(error);
-//     throw new Error("Error creating user");
-//   }
-// }
 
 export async function get(email: string): Promise<UserAuthData> {
   try {
