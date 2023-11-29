@@ -31,7 +31,13 @@ export async function add(data: {
     const userRepository = new UserRepository();
     const createdUserId = await userRepository.createUser(data.email, hashedPw);
 
-    return { user_id: createdUserId, email: data.email, password: hashedPw };
+    const createdUser = {
+      user_id: createdUserId,
+      email: data.email,
+      password: hashedPw,
+    };
+
+    return createdUser;
   } catch (error) {
     console.error(error);
     throw new Error("Error creating user");
