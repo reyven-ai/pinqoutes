@@ -7,7 +7,7 @@ import {
 } from "./userProfile.validation";
 import { add, update, get, remove } from "./userProfile.services";
 import { handleError } from "../errors/errors";
-import { checkAuthMiddleware } from "../checkAuthMiddleware/checkAuthMiddleware";
+import { checkAuthMiddleware } from "../middleware/checkAuthMiddleware";
 import { AuthResponse } from "../types";
 
 const router = Router();
