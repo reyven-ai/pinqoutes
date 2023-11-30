@@ -24,18 +24,14 @@ export function createJSONToken(user: UserAuthToken): string {
 export async function add(data: {
   email: string;
   password: string;
-}): Promise<{ user_id: number; email: string; password: string }> {
+}): Promise<UserAuthData> {
   const hashedPw: string = await hash(data.password, 10);
 
   try {
     const userRepository = new UserRepository();
-    const createdUserId = await userRepository.createUser(data.email, hashedPw);
+    const createdUser = await userRepository.createUser(data.email, hashedPw);
 
-    const createdUser = {
-      user_id: createdUserId,
-      email: data.email,
-      password: hashedPw,
-    };
+    console.log("AuthService >> add >> Created user:", createdUser);
 
     return createdUser;
   } catch (error) {

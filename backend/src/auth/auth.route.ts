@@ -40,6 +40,9 @@ router.post("/signup", async (req: Request, res: Response) => {
 
     const data = { email, password };
     const createdUser = await add(data);
+
+    console.log("AuthRoute >> signup >> Created user:", createdUser);
+
     const authToken = createJSONToken({
       user_id: createdUser.user_id,
       email: createdUser.email,

@@ -13,12 +13,17 @@ class UserRepository {
     }
   }
 
-  async createUser(email: string, hashedPassword: string): Promise<number> {
+  async createUser(
+    email: string,
+    hashedPassword: string
+  ): Promise<UserAuthData> {
     try {
       const query =
-        "INSERT INTO users (email, password) VALUES ($1, $2) RETURNING user_id";
+        "INSERT INTO users (email, password) VALUES ($1, $2) RETURNING *";
+      console.log("WASSUP");
       const result = await pool.query(query, [email, hashedPassword]);
-      return result.rows[0].user_id;
+      // return result.rows[0].user_id;
+      return result.rows[0];
     } catch (error) {
       console.error("Error creating user:", (error as Error).message);
       throw new Error("Error creating user");
