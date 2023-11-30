@@ -9,7 +9,7 @@ import { TokenPayload } from "../types";
 const KEY: string = config.JWT_SECRET;
 
 export function createJSONToken(user: UserAuthToken): string {
-  console.log("<<<<< UserIDdsdsd", user);
+  console.log("<<<<< UserID", user);
 
   const tokenPayload: TokenPayload = {
     email: user.email,

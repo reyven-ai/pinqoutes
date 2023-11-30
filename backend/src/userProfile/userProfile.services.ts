@@ -18,7 +18,7 @@ export async function add(data: UserProfileData): Promise<UserProfileData> {
     return createdUserProfile;
   } catch (error) {
     console.error(error);
-    throw new Error("Error creating user profile");
+    throw new Error("Error creating user profile.");
   }
 }
 
@@ -53,7 +53,7 @@ export async function update(
     return updatedUserProfile;
   } catch (error) {
     console.error(error);
-    throw new Error(`Error updating user profile with ID ${profileId}`);
+    throw new Error(`Error updating user profile with ID ${profileId}.`);
   }
 }
 
@@ -70,7 +70,7 @@ export async function get(profileId: string): Promise<UserProfileData | null> {
   } catch (error) {
     console.error(error);
     throw new NotFoundError(
-      `Error retrieving user profile with ID ${profileId}`
+      `Error retrieving user profile with ID ${profileId}.`
     );
   }
 }
@@ -108,6 +108,6 @@ export async function remove(
     return deletedUserProfile;
   } catch (error) {
     console.error(error);
-    throw new Error(`Error deleting user with ID ${profileId}`);
+    throw new Error(`Error deleting user with ID ${profileId}.`);
   }
 }

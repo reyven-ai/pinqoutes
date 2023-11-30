@@ -79,7 +79,7 @@ router.post("/login", async (req, res) => {
     user_id: user.user_id,
     email: user.email,
   });
-  // console.log("<<< loginUser", user);
+  console.log("<<< loginUser", user);
   res.json({ token: authToken });
   console.log("<<<Validate:", authToken);
 });

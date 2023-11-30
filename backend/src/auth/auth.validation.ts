@@ -29,7 +29,7 @@ export function validateJSONToken(token: string): TokenPayload {
     return verify(token, KEY) as TokenPayload;
   } catch (error) {
     console.error("Token validation failed:", error);
-    throw new NotAuthError("Not authenticated.");
+    throw new NotAuthError("User is not authenticated");
   }
 }
 

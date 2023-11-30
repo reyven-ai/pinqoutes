@@ -3,6 +3,6 @@ export interface UserProfileData {
   username: string;
   description: string;
   country_of_residence: string;
-  mobile_phone_number: string;
   birthdate: string;
+  mobile_phone_number: string;
 }

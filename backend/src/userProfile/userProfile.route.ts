@@ -84,6 +84,7 @@ router.patch(
       const user_id = res.locals.authUser.user_id;
 
       console.log(">>> Profile updated route, userId:", user_id);
+
       const {
         username,
         description,
@@ -171,6 +172,7 @@ router.delete(
       const { user_id } = res.locals.authUser;
 
       console.log(">>> Profile delete route, userId:", user_id);
+
       const result = await remove(user_id, profileId);
 
       if (result === null) {

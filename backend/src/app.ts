@@ -1,7 +1,6 @@
-import express, { Request, Response, NextFunction } from "express";
+import express, { Response, NextFunction } from "express";
 import { json } from "body-parser";
 import userAuthRoutes from "./auth/auth.route";
-// import userRoutes from "./checkAuthMiddleware/checkAuth.route";
 import userProfileDetailsRoutes from "./userProfile/userProfile.route";
 import cors = require("cors");
 
@@ -13,7 +12,6 @@ app.use(json());
 app.use(cors());
 
 app.use("/auth", userAuthRoutes);
-// app.use("/user", userRoutes);
 app.use("/profile", userProfileDetailsRoutes);
 
 app.use(
