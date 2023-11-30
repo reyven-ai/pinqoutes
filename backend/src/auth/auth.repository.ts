@@ -22,7 +22,6 @@ class UserRepository {
         "INSERT INTO users (email, password) VALUES ($1, $2) RETURNING *";
       console.log("WASSUP");
       const result = await pool.query(query, [email, hashedPassword]);
-      // return result.rows[0].user_id;
       return result.rows[0];
     } catch (error) {
       console.error("Error creating user:", (error as Error).message);

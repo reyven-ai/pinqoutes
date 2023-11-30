@@ -31,8 +31,6 @@ export async function add(data: {
     const userRepository = new UserRepository();
     const createdUser = await userRepository.createUser(data.email, hashedPw);
 
-    console.log("AuthService >> add >> Created user:", createdUser);
-
     return createdUser;
   } catch (error) {
     console.error(error);
