@@ -1,32 +1,18 @@
 import validator from "validator";
+import { NotAuthError } from "../errors/errors";
+import { config } from "../config";
+import { verify } from "jsonwebtoken";
+import { compare } from "bcrypt";
+import { TokenPayload } from "../types";
 
-class EmailFormatError extends Error {
-  constructor() {
-    super("Invalid email format");
-    this.name = "EmailFormatError";
-  }
-}
+const KEY: string = config.JWT_SECRET;
 
-class PasswordRequirementsError extends Error {
-  constructor() {
-    super("Password does not meet requirements");
-    this.name = "PasswordRequirementsError";
-  }
-}
-
-class UserAlreadyRegisteredError extends Error {
-  constructor() {
-    super("Email is already registered");
-    this.name = "UserAlreadyRegisteredError";
-  }
-}
-
-function isEmailValid(email: string) {
+export function isEmailValidFormat(email: string) {
   return validator.isEmail(email);
 }
 
-function isPasswordValid(password: string) {
-  if (password.length < 8) {
+export function isPasswordValidFormat(password: string, minLength: number) {
+  if (password.length < minLength) {
     return false;
   }
   if (!/[A-Z]/.test(password)) {
@@ -38,10 +24,18 @@ function isPasswordValid(password: string) {
   return true;
 }
 
-export {
-  isEmailValid,
-  isPasswordValid,
-  EmailFormatError,
-  PasswordRequirementsError,
-  UserAlreadyRegisteredError,
-};
+export function validateJSONToken(token: string): TokenPayload {
+  try {
+    return verify(token, KEY) as TokenPayload;
+  } catch (error) {
+    console.error("Token validation failed:", error);
+    throw new NotAuthError("User is not authenticated");
+  }
+}
+
+export function isValidPassword(
+  password: string,
+  storedPassword: string
+): Promise<boolean> {
+  return compare(password, storedPassword);
+}

@@ -5,7 +5,7 @@ function LogIn() {
   return (
     <div className="flex">
       <div>
-        <div className="bg-secondary flex items-center justify-center w-[550px] h-screen flex-col">
+        <div className="bg-secondary flex items-center justify-center w-[550px] h-screen flex-col max-[550px]:w-full">
           <div>
             <div className="text-center mb-6">
               <h2 className="text-header my[0.5rem] mx-0 text-[29px] font-semibold m-2.5">

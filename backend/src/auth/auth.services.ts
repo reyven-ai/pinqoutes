@@ -1,45 +1,55 @@
-import bcrypt from "bcrypt";
+import { hash } from "bcrypt";
 import UserRepository from "./auth.repository";
-import {
-  isEmailValid,
-  isPasswordValid,
-  EmailFormatError,
-  PasswordRequirementsError,
-  UserAlreadyRegisteredError,
-} from "./auth.validation";
+import { NotFoundError } from "../errors/errors";
+import { UserAuthData, UserAuthToken } from "./auth.types";
+import { sign } from "jsonwebtoken";
+import { config } from "../config";
+import { TokenPayload } from "../types";
 
-const userRepository = new UserRepository();
+const KEY: string = config.JWT_SECRET;
 
-class UserService {
-  async getByEmail(email: string) {
-    return await userRepository.getByEmail(email);
-  }
+export function createJSONToken(user: UserAuthToken): string {
+  console.log("<<<<< UserID", user);
 
-  async signup(email: string, password: string) {
-    if (!isEmailValid(email)) {
-      throw new EmailFormatError();
-    }
+  const tokenPayload: TokenPayload = {
+    email: user.email,
+    user_id: user.user_id,
+  };
 
-    if (!isPasswordValid(password)) {
-      throw new PasswordRequirementsError();
-    }
+  return sign(tokenPayload, KEY, {
+    expiresIn: "7d",
+  });
+}
 
-    const existingUser = await userRepository.getByEmail(email);
+export async function add(data: {
+  email: string;
+  password: string;
+}): Promise<UserAuthData> {
+  const hashedPw: string = await hash(data.password, 10);
 
-    if (existingUser) {
-      throw new UserAlreadyRegisteredError();
-    }
+  try {
+    const userRepository = new UserRepository();
+    const createdUser = await userRepository.createUser(data.email, hashedPw);
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const user_id = await userRepository.createUser(email, hashedPassword);
-
-    return user_id;
+    return createdUser;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error creating user");
   }
 }
 
-export {
-  UserService,
-  UserAlreadyRegisteredError,
-  PasswordRequirementsError,
-  EmailFormatError,
-};
+export async function get(email: string): Promise<UserAuthData> {
+  try {
+    const userRepository = new UserRepository();
+    const user = await userRepository.getByEmail(email);
+
+    if (!user) {
+      throw new NotFoundError("Could not find user for email " + email);
+    }
+
+    return user;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error fetching user by email");
+  }
+}
