@@ -20,7 +20,7 @@ router.post("/signup", async (req: Request, res: Response) => {
       try {
         const existingUser = await get(email);
         if (existingUser) {
-          errors.email = "Sorry that email is already taken.";
+          errors.email = "Sorry, that email is already taken.";
         }
       } catch (err) {
         console.error("Error checking existing user:", err);
@@ -70,7 +70,7 @@ router.post("/login", async (req, res) => {
 
   const pwIsValid = await isValidPassword(password, user.password);
   if (!pwIsValid) {
-    return res.status(422).json({
+    return res.status(401).json({
       message: "Invalid credentials.",
       errors: { credentials: "Sorry, that email or password didn't work." },
     });

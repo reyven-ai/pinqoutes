@@ -1,3 +1,4 @@
+import { promises } from "dns";
 import pool from "../database/db";
 import { UserProfileData } from "./userProfile.types";
 
@@ -77,6 +78,23 @@ class UserDetailsRepository {
       throw new Error("Error retrieving user profile");
     }
   }
+
+  async getSelfUSerProfile(user_id: string): Promise<UserProfileData | null> {
+    try {
+      const query = "SELECT * FROM user_profiles WHERE user_id = $1";
+      const result = await pool.query(query, [user_id]);
+
+      if (result.rows.length > 0) {
+        return result.rows[0] as UserProfileData;
+      } else {
+        return null;
+      }
+    } catch (error) {
+      console.error("Error retrieving user profile:", (error as Error).message);
+      throw new Error("Error retrieving user profile");
+    }
+  }
+
   async deleteUserProfile(profileId: string): Promise<UserProfileData | null> {
     try {
       const query =

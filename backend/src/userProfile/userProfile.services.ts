@@ -1,6 +1,8 @@
 import { UserDetailsRepository } from "./userProfile.repository";
 import { NotAuthError, NotFoundError } from "../errors/errors";
 import { UserProfileData } from "./userProfile.types";
+import UserRepository from "../auth/auth.repository";
+import { useRouteId } from "react-router/dist/lib/hooks";
 
 export async function add(data: UserProfileData): Promise<UserProfileData> {
   try {
@@ -71,6 +73,26 @@ export async function get(profileId: string): Promise<UserProfileData | null> {
     console.error(error);
     throw new NotFoundError(
       `Error retrieving user profile with ID ${profileId}.`
+    );
+  }
+}
+
+export async function getSelfProfile(
+  user_id: string
+): Promise<UserProfileData | null> {
+  try {
+    const userRepository = new UserDetailsRepository();
+    const getSelfUserProfile = await userRepository.getSelfUSerProfile(user_id);
+
+    if (!getSelfUserProfile) {
+      return null;
+    }
+
+    return getSelfUserProfile;
+  } catch (error) {
+    console.error(error);
+    throw new NotFoundError(
+      `Error retrieving user profile with ID ${user_id}.`
     );
   }
 }

@@ -1,7 +1,7 @@
 import { countryCodes } from "../constants/countryCodes.constants";
 
 export function isValidUsername(username: string) {
-  const regex = /^[a-zA-Z0-9-]{3,16}$/;
+  const regex = /^[a-zA-Z0-9\s-]{3,20}$/;
   return regex.test(username);
 }
 
