@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon src/app.ts"
+    "start": "nodemon src/app.ts",
+    "start-migrate": "npm run migrate && npm start",
+    "migrate": "npx knex migrate:latest --knexfile ./src/database/knexfile.ts"
   },
   "author": "",
   "license": "ISC",
@@ -18,6 +20,7 @@
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",
+    "knex": "^3.0.1",
     "pg": "^8.11.3"
   },
   "devDependencies": {
