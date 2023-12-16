@@ -5,3 +5,8 @@ export const icon = {
 export const Failed = {
   fontSize: "32px",
 };
+
+export const profileDetailsIcon = {
+  fontSize: "20px",
+  marginRight: "6px",
+};
