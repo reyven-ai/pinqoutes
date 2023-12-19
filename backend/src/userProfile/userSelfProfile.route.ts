@@ -1,13 +1,13 @@
 import { Router, Request, Response } from "express";
+import { checkAuthMiddleware } from "../middleware/checkAuthMiddleware";
+import { handleError } from "../errors/errors";
+import { add, getSelfProfile, remove, update } from "./userProfile.services";
 import {
-  isValidUsername,
   isValidUserAddress,
   isValidUserBirthday,
   isValidUserMobileNumber,
+  isValidUsername,
 } from "./userProfile.validation";
-import { add, update, get, remove } from "./userProfile.services";
-import { handleError } from "../errors/errors";
-import { checkAuthMiddleware } from "../middleware/checkAuthMiddleware";
 import { AuthResponse } from "../types";
 
 const router = Router();
@@ -76,11 +76,10 @@ router.post(
 );
 
 router.patch(
-  "/:profileId",
+  "/",
   checkAuthMiddleware,
   async (req: Request, res: AuthResponse) => {
     try {
-      const profileId = req.params.profileId;
       const user_id = res.locals.authUser.user_id;
 
       console.log(">>> Profile updated route, userId:", user_id);
@@ -127,7 +126,7 @@ router.patch(
         birthdate,
       };
 
-      const updatedUser = await update(user_id, profileId, data);
+      const updatedUser = await update(user_id, data);
 
       if (!updatedUser) {
         return res.status(404).json({ message: "User profile not found" });
@@ -143,51 +142,34 @@ router.patch(
   }
 );
 
-router.get(
-  "/:profileId",
-  checkAuthMiddleware,
-  async (req: Request<{ profileId: string }, {}, {}>, res: Response) => {
-    try {
-      const profileId = req.params.profileId;
+router.get("/", checkAuthMiddleware, async (req: Request, res: Response) => {
+  try {
+    const userId = res.locals.authUser.user_id;
+    const userProfile = await getSelfProfile(userId);
 
-      const userProfile = await get(profileId);
-
-      if (!userProfile) {
-        return res.status(404).json({ message: "User profile not found" });
-      }
-
-      res.status(200).json({ userProfile });
-    } catch (error) {
-      handleError(error, res);
+    if (!userProfile) {
+      return res.status(404).json({ error: "User profile not found" });
     }
+
+    res.status(200).json({ userProfile });
+  } catch (error) {
+    handleError(error, res);
   }
-);
+});
 
-router.delete(
-  "/:profileId",
-  checkAuthMiddleware,
-  async (req: Request, res: AuthResponse) => {
-    try {
-      const profileId = req.params.profileId;
-      const { user_id } = res.locals.authUser;
+router.delete("/", checkAuthMiddleware, async (req: Request, res: Response) => {
+  try {
+    const userId = res.locals.authUser.user_id;
+    const deletedProfile = await remove(userId);
 
-      console.log(">>> Profile delete route, userId:", user_id);
-
-      const result = await remove(user_id, profileId);
-
-      if (result === null) {
-        return res
-          .status(500)
-          .json({ error: "Failed to delete the user profile" });
-      }
-
-      res.status(200).json({
-        message: "User profile deleted successfully.",
-      });
-    } catch (error) {
-      handleError(error, res);
+    if (!deletedProfile) {
+      return res.status(404).json({ error: "User profile not found" });
     }
+
+    res.status(200).json({ message: "User profile deleted successfully" });
+  } catch (error) {
+    handleError(error, res);
   }
-);
+});
 
 export default router;

@@ -1,8 +1,8 @@
 import express, { Response, NextFunction } from "express";
 import { json } from "body-parser";
 import userAuthRoutes from "./auth/auth.route";
-import userProfileDetailsRoutes from "./userProfile/userProfile.route";
-import getSelfProfile from "./userProfile/getSelfProfile.route";
+// import userProfileDetailsRoutes from "./userProfile/userProfile.route";
+import getSelfProfile from "./userProfile/userSelfProfile.route";
 import cors = require("cors");
 
 const PORT = 3000;
@@ -13,7 +13,7 @@ app.use(json());
 app.use(cors());
 
 app.use("/auth", userAuthRoutes);
-app.use("/profile", userProfileDetailsRoutes);
+// app.use("/profile", userProfileDetailsRoutes);
 app.use("/self", getSelfProfile);
 
 app.use(
