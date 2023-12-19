@@ -1,10 +1,10 @@
 import axios from "axios";
 import authHeader from "./auth.header";
 
-const apiUrl = import.meta.env.VITE_API_USER_PROFILE;
+// const apiUrl = import.meta.env.VITE_API_USER_PROFILE;
 const selfProfileUrl = import.meta.env.VITE_API_SELF_PROFILE;
 
-const USER_PROFILE_URL = apiUrl;
+// const USER_PROFILE_URL = apiUrl;
 
 export const createProfile = (
   username: string,
@@ -15,7 +15,7 @@ export const createProfile = (
 ) => {
   const headers = authHeader();
   return axios.post(
-    USER_PROFILE_URL,
+    selfProfileUrl,
     {
       username,
       description,
@@ -28,7 +28,6 @@ export const createProfile = (
 };
 
 export const updateProfile = (
-  profileId: string,
   username: string,
   description: string,
   country_of_residence: string,
@@ -37,7 +36,7 @@ export const updateProfile = (
 ) => {
   const headers = authHeader();
   return axios.put(
-    `${USER_PROFILE_URL}/${profileId}`,
+    selfProfileUrl,
     {
       username,
       description,
@@ -54,12 +53,17 @@ export const getSelfProfile = () => {
   return axios.get(selfProfileUrl, { headers });
 };
 
-export const getProfile = (profileId: string) => {
+export const deleteProfile = () => {
   const headers = authHeader();
-  return axios.get(`${USER_PROFILE_URL}/${profileId}`, { headers });
+  return axios.delete(selfProfileUrl, { headers });
 };
 
-export const deleteProfile = (profileId: string) => {
-  const headers = authHeader();
-  return axios.delete(`${USER_PROFILE_URL}/${profileId}`, { headers });
-};
+// export const getProfile = (profileId: string) => {
+//   const headers = authHeader();
+//   return axios.get(`${USER_PROFILE_URL}/${profileId}`, { headers });
+// };
+
+// export const deleteProfile = (profileId: string) => {
+//   const headers = authHeader();
+//   return axios.delete(`${USER_PROFILE_URL}/${profileId}`, { headers });
+// };

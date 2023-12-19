@@ -3,11 +3,11 @@ import { cn } from "../util/util";
 import { validCountries } from "@/constants/country";
 import { profileValidationSchema } from "./profile.validation";
 import { countryCodes } from "@/constants/countryCodes";
-import { useCreateProfile } from "@/hooks/useProfileAction";
+import { useProfileAction } from "@/hooks/useProfileAction";
 import { validMonths } from "@/constants/month";
 
 const CreateProfileForm: React.FC = () => {
-  const { successful, message, handleCreateProfile } = useCreateProfile();
+  const { successful, message, handleCreateProfile } = useProfileAction();
   const initialValues = {
     username: "",
     description: "",
@@ -16,7 +16,6 @@ const CreateProfileForm: React.FC = () => {
     mobile_phone_number: "",
   };
   return (
-    // <div>
     <div>
       <div className="bg-secondary flex items-center justify-center w-[550px] h-screen flex-col max-[500px]:w-full max-[500px]:p-4">
         <Formik
@@ -222,7 +221,6 @@ const CreateProfileForm: React.FC = () => {
         </Formik>
       </div>
     </div>
-    // </div>
   );
 };
 

@@ -1,4 +1,4 @@
-import { logout } from "@/components/services/auth.services";
+import { logout } from "../components/services/auth.util";
 import {
   ReportOutlined,
   SettingsOutlined,
@@ -13,9 +13,11 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserProfileData } from "@/types/user.types";
 import { getSelfProfile } from "@/components/services/user.services";
-// import DeleteProfile from "@/components/userProfile/DeleteProfile";
+import { useProfileAction } from "@/hooks/useProfileAction";
+import DeleteProfile from "@/components/userProfile/CreateProfile";
 
 const ProfileView: React.FC = () => {
+  const { handleDeleteProfile } = useProfileAction();
   const [userProfile, setUserProfile] = useState<UserProfileData | null>();
   const navigate = useNavigate();
 
@@ -103,6 +105,11 @@ const ProfileView: React.FC = () => {
               <ExitToAppOutlined /> Lagout
             </button>
           </li>
+          <li className="mb-[1rem]">
+            <button onClick={handleDeleteProfile}>
+              <ExitToAppOutlined /> Delete
+            </button>
+          </li>
         </ul>
       </div>
       <div className="h-[550px] w-[45%] bg-white"></div>
@@ -111,7 +118,7 @@ const ProfileView: React.FC = () => {
           Skills
         </h2>
         <button>Edit Profile</button>
-        {/* <DeleteProfile /> */}
+        <DeleteProfile />
       </div>
     </div>
   );
