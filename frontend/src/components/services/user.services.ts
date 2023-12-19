@@ -1,30 +1,12 @@
-import axios from "axios";
-import authHeader from "./auth.header";
+import axios from 'axios';
+import authHeader from './auth.header';
+import { UserProfileInput } from '@/types/user.types';
 
-// const apiUrl = import.meta.env.VITE_API_USER_PROFILE;
 const selfProfileUrl = import.meta.env.VITE_API_SELF_PROFILE;
 
-// const USER_PROFILE_URL = apiUrl;
-
-export const createProfile = (
-  username: string,
-  description: string,
-  country_of_residence: string,
-  birthdate: string,
-  mobile_phone_number: string
-) => {
+export const createProfile = (createProfileInput: UserProfileInput) => {
   const headers = authHeader();
-  return axios.post(
-    selfProfileUrl,
-    {
-      username,
-      description,
-      country_of_residence,
-      birthdate,
-      mobile_phone_number,
-    },
-    { headers }
-  );
+  return axios.post(selfProfileUrl, createProfileInput, { headers });
 };
 
 export const updateProfile = (

@@ -1,40 +1,48 @@
-import { ErrorResponse, UserProfileInput } from "@/types/user.types";
+import { ErrorResponse, UserProfileInput } from '@/types/user.types';
 
-import { NavigateFunction, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { NavigateFunction, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import {
   createProfile,
   deleteProfile,
   updateProfile,
-} from "@/components/services/user.services";
+} from '@/components/services/user.services';
+import { CreateProfileFormInput } from '@/types/profile.types';
 
 export const useProfileAction = () => {
   const [successful, setSuccessful] = useState<boolean>(false);
-  const [message, setMessage] = useState<string>("");
+  const [message, setMessage] = useState<string>('');
   const navigate: NavigateFunction = useNavigate();
 
-  const handleCreateProfile = async (formValue: UserProfileInput) => {
-    console.log("handleCreateProfile", formValue);
+  const handleCreateProfile = async (formValue: CreateProfileFormInput) => {
     const {
       username,
       description,
       country_of_residence,
-      birthdate,
+      birth_day,
+      birth_month,
+      birth_year,
       mobile_phone_number,
+      mobile_phone_number_prefix,
     } = formValue;
 
-    setMessage("");
+    const fullPhoneNumber = mobile_phone_number_prefix + mobile_phone_number;
+    const birthdate = `${birth_year}-${birth_month}-${birth_day}`;
+
+    const profileToCreate: UserProfileInput = {
+      username,
+      description,
+      country_of_residence,
+      birthdate,
+      mobile_phone_number: fullPhoneNumber,
+    };
+
+    setMessage('');
     setSuccessful(true);
     try {
-      await createProfile(
-        username,
-        description,
-        country_of_residence,
-        birthdate,
-        mobile_phone_number
-      );
+      await createProfile(profileToCreate);
       setTimeout(() => {
-        navigate("/");
+        navigate('/');
       }, 1500);
     } catch (error) {
       handleProfileError(error as ErrorResponse);
@@ -50,7 +58,7 @@ export const useProfileAction = () => {
       mobile_phone_number,
     } = formValue;
 
-    setMessage("");
+    setMessage('');
     setSuccessful(true);
     try {
       await updateProfile(
@@ -61,23 +69,23 @@ export const useProfileAction = () => {
         mobile_phone_number
       );
       setTimeout(() => {
-        navigate("/editprofile");
+        navigate('/editprofile');
       }, 1500);
-      console.log("Updated Successful?");
+      console.log('Updated Successful?');
     } catch (error) {
       handleProfileError(error as ErrorResponse);
     }
   };
 
   const handleDeleteProfile = async () => {
-    setMessage("");
+    setMessage('');
     setSuccessful(true);
     try {
       await deleteProfile();
       setTimeout(() => {
-        navigate("/signup");
+        navigate('/signup');
       }, 1500);
-      console.log("Deleted Succesful!", handleDeleteProfile);
+      console.log('Deleted Succesful!', handleDeleteProfile);
     } catch (error) {
       handleProfileError(error as ErrorResponse);
     }
