@@ -18,7 +18,7 @@ import DeleteProfile from "@/components/userProfile/CreateProfile";
 
 const ProfileView: React.FC = () => {
   const { handleDeleteProfile } = useProfileAction();
-  const [userProfile, setUserProfile] = useState<UserProfileData | null>();
+  const [userProfile, setUserProfile] = useState<UserProfileData | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,7 +28,7 @@ const ProfileView: React.FC = () => {
       try {
         const response = await getSelfProfile();
         if (isMounted) {
-          setUserProfile(response.data);
+          setUserProfile(response.data.userProfile || null);
           console.log("User Profile Data:", response.data);
         }
       } catch (error) {
@@ -61,10 +61,8 @@ const ProfileView: React.FC = () => {
             className="w-[70px] h-[70px] object-cover rounded-[50%] mb-[0.4rem] border-2 border-white m-[auto]"
             src="https://scontent-hel3-1.xx.fbcdn.net/v/t1.30497-1/143086968_2856368904622192_1959732218791162458_n.png?stp=cp0_dst-png_p74x74&_nc_cat=1&ccb=1-7&_nc_sid=2b6aad&_nc_ohc=u5yxx_SBedYAX9Hl2AT&_nc_ht=scontent-hel3-1.xx&oh=00_AfCSqn2RmCb7PlerIJgFkMaPf8JmVrvQrQ3WS9Bx6-HtDg&oe=65A039B8"
           ></img>
-          <h2 className="text-[22px]">{userProfile.userProfile.username}</h2>
-          <p className="text-primaryTextColor">
-            {userProfile.userProfile.description}
-          </p>
+          <h2 className="text-[22px]">{userProfile.username}</h2>
+          <p className="text-primaryTextColor">{userProfile.description}</p>
           <span className="text-backgroundButtonColor font-semibold text-[14px]">
             3k followers
           </span>
