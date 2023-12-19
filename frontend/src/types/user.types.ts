@@ -13,7 +13,7 @@ export type UserProfileInput = {
   mobile_phone_number: string;
 };
 
-export interface UserProfileData {
+export type UserProfileData = {
   profile_id: number;
   user_id: number;
   username: string;
@@ -21,7 +21,7 @@ export interface UserProfileData {
   country_of_residence: string;
   mobile_phone_number: string;
   birthdate: string;
-}
+};
 
 export type ErrorResponse = {
   response?: {
@@ -33,6 +33,6 @@ export type ErrorResponse = {
   message?: string;
 };
 
-export interface RootLayoutProps {
+export type RootLayoutProps = {
   children: ReactNode;
-}
+};
