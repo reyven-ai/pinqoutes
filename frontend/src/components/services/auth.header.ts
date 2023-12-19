@@ -1,4 +1,4 @@
-import { getCurrentToken } from "./auth.services";
+import { getCurrentToken } from "./auth.util";
 
 export default function authHeader() {
   const token = getCurrentToken();
