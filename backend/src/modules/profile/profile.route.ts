@@ -156,7 +156,7 @@ router.get(
         return res.status(404).json({ error: "User profile not found" });
       }
 
-      res.status(200).json({ userProfile });
+      res.status(200).json(userProfile);
     } catch (error) {
       handleError(error, res);
     }
