@@ -1,5 +1,5 @@
 import React from "react";
-import { signupValidationSchema } from "../../util/auth.validation";
+import { signupValidationSchema } from "../../validations/auth.validation";
 import { useAuth } from "@/hooks/useAuth";
 import AuthForm from "./Auth.Form";
 

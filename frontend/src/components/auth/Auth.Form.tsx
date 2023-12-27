@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Formik, Field, Form, ErrorMessage } from "formik";
-import { cn } from "../../util/util";
+import { cn } from "../../types/util";
 import { AuthFormProps } from "@/types/user.types";
 import FooterAuth from "./Auth.Footer";
 
