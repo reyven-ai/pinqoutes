@@ -19,6 +19,9 @@ export default {
         inputBorder: "#868685",
         socialButtonBorder: "#e5e7eb",
       },
+      boxShadow: {
+        shadowTop: "-3px 0 10px rgba(0, 0, 0, 0.1)",
+      },
     },
   },
   plugins: [],
