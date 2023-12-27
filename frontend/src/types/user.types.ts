@@ -1,38 +1,33 @@
 import { ReactNode } from "react";
+import * as Yup from "yup";
 
-export type AuthUser = {
+export type AuthUserDataNeed = {
   email: string;
   password: string;
 };
 
-export type UserProfileInput = {
-  username: string;
-  description: string;
-  country_of_residence: string;
-  birthdate: string;
-  mobile_phone_number: string;
+export type AuthUserFormInput = {
+  email: string;
+  password: string;
 };
 
-export type UserProfileData = {
-  profile_id: number;
-  user_id: number;
-  username: string;
-  description: string;
-  country_of_residence: string;
-  mobile_phone_number: string;
-  birthdate: string;
-};
-
-export type ErrorResponse = {
-  response?: {
-    status?: number;
-    data?: {
-      message?: string;
-    };
-  };
+// type for auth form props
+export interface AuthFormProps {
+  title: string;
+  linkText: string;
+  linkTo: string;
+  labelLink: string;
+  onSubmit: (values: AuthUserFormInput) => void;
+  validationSchema: Yup.Schema<AuthUserFormInput>;
+  initialValues: AuthUserFormInput;
   message?: string;
-};
+  successful?: boolean;
+}
 
 export type RootLayoutProps = {
   children: ReactNode;
+};
+
+export type RootLayoutjProps = {
+  childeen: ReactNode;
 };
