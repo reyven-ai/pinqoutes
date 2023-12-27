@@ -1,6 +1,6 @@
 import axios from "axios";
 import authHeader from "./auth.header";
-import { UserProfileData, UserProfileDataNeed } from "@/types/user.types";
+import { UserProfileData, UserProfileDataNeed } from "@/types/profile.types";
 import { ProfileApiData } from "@/types/profile.types";
 import { countryCodes } from "@/constants/countryCodes";
 
