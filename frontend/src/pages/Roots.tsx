@@ -1,11 +1,13 @@
-import MainHeader from "@/components/header/MainHeader";
+import MainHeader from "@/components/Layout/MainHeader";
 import { RootLayoutProps } from "@/types/user.types";
 
 const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
   return (
     <div>
-      <MainHeader />
-      <main>{children}</main>
+      <main>
+        <MainHeader />
+        {children}
+      </main>
     </div>
   );
 };
