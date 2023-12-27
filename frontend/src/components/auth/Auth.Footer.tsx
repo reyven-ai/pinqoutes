@@ -1,4 +1,4 @@
-function FooterAuth() {
+const FooterAuth = () => {
   return (
     <>
       <div className="text-center">
@@ -32,5 +32,5 @@ function FooterAuth() {
       </div>
     </>
   );
-}
+};
 export default FooterAuth;
