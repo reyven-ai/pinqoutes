@@ -1,7 +1,7 @@
 import React from "react";
 import { useProfileAction } from "@/hooks/useProfileAction";
 import { ProfileFormInput } from "@/types/profile.types";
-import { profileValidationSchema } from "../../util/profile.validation";
+import { profileValidationSchema } from "../../validations/profile.validation";
 import ProfileForm from "./Profile.Form";
 
 const Register: React.FC = () => {

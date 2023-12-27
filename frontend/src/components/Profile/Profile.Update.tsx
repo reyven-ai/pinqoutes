@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useGetProfileData, useProfileAction } from "@/hooks/useProfileAction";
 import { ProfileFormInput } from "@/types/profile.types";
-import { profileValidationSchema } from "../../util/profile.validation";
+import { profileValidationSchema } from "../../validations/profile.validation";
 import Modal from "../Modal/Modal";
 import Edit from "../../assets/edit.png";
 import ProfileForm from "./Profile.Form";
