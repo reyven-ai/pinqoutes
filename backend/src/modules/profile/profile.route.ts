@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 
-import { add, getSelfProfile, remove, update } from "./profile.services";
+import { add, getUserProfile, remove, update } from "./profile.services";
 import {
   isValidUserAddress,
   isValidUserBirthday,
@@ -150,7 +150,7 @@ router.get(
   async (req: Request, res: Response) => {
     try {
       const userId = res.locals.authUser.user_id;
-      const userProfile = await getSelfProfile(userId);
+      const userProfile = await getUserProfile(userId);
 
       if (!userProfile) {
         return res.status(404).json({ error: "User profile not found" });

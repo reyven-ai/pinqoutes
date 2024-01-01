@@ -24,17 +24,17 @@ export async function add(data: UserProfileData): Promise<UserProfileData> {
 }
 
 export async function update(
-  user_id: number,
+  userId: number,
   data: UserProfileData
 ): Promise<UserProfileData | null> {
   try {
-    const userProfile = await getSelfProfile(user_id);
+    const userProfile = await getUserProfile(userId);
     if (!userProfile) {
-      throw new NotFoundError(`User profile with ID ${user_id} not found.`);
+      throw new NotFoundError(`User profile with ID ${userId} not found.`);
     }
     const userRepository = new UserDetailsRepository();
     const updatedUserProfile = await userRepository.updateUserProfile(
-      user_id,
+      userId,
       data
     );
 
@@ -45,16 +45,16 @@ export async function update(
     return updatedUserProfile;
   } catch (error) {
     console.error(error);
-    throw new Error(`Error updating user profile with ID ${user_id}.`);
+    throw new Error(`Error updating user profile with ID ${userId}.`);
   }
 }
 
-export async function getSelfProfile(
-  user_id: number
+export async function getUserProfile(
+  userId: number
 ): Promise<UserProfileData | null> {
   try {
     const userRepository = new UserDetailsRepository();
-    const getSelfUserProfile = await userRepository.getSelfUSerProfile(user_id);
+    const getSelfUserProfile = await userRepository.getSelfUSerProfile(userId);
 
     if (!getSelfUserProfile) {
       return null;
@@ -63,17 +63,15 @@ export async function getSelfProfile(
     return getSelfUserProfile;
   } catch (error) {
     console.error(error);
-    throw new NotFoundError(
-      `Error retrieving user profile with ID ${user_id}.`
-    );
+    throw new NotFoundError(`Error retrieving user profile with ID ${userId}.`);
   }
 }
 
-export async function remove(user_id: string): Promise<UserProfileData | null> {
+export async function remove(userId: string): Promise<UserProfileData | null> {
   try {
     const userRepository = new UserDetailsRepository();
 
-    const deletedProfile = await userRepository.deleteUserProfile(user_id);
+    const deletedProfile = await userRepository.deleteUserProfile(userId);
 
     if (!deletedProfile) {
       return null;
@@ -81,6 +79,6 @@ export async function remove(user_id: string): Promise<UserProfileData | null> {
     return deletedProfile;
   } catch (error) {
     console.error(error);
-    throw new NotFoundError(`Error deleting user profile with ID ${user_id}.`);
+    throw new NotFoundError(`Error deleting user profile with ID ${userId}.`);
   }
 }
