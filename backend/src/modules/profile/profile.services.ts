@@ -1,4 +1,4 @@
-import { NotFoundError } from "../../errors/errors";
+import { InternalServerError, NotFoundError } from "../../errors/errors";
 import { UserDetailsRepository } from "./profile.repository";
 
 import { UserProfileData } from "./profile.types";
@@ -30,7 +30,9 @@ export async function update(
   try {
     const userProfile = await getUserProfile(userId);
     if (!userProfile) {
-      throw new NotFoundError(`User profile with ID ${userId} not found.`);
+      throw new InternalServerError(
+        `User profile with ID ${userId} not found.`
+      );
     }
     const userRepository = new UserDetailsRepository();
     const updatedUserProfile = await userRepository.updateUserProfile(
@@ -63,7 +65,9 @@ export async function getUserProfile(
     return getSelfUserProfile;
   } catch (error) {
     console.error(error);
-    throw new NotFoundError(`Error retrieving user profile with ID ${userId}.`);
+    throw new InternalServerError(
+      `Error retrieving user profile with ID ${userId}.`
+    );
   }
 }
 
@@ -79,6 +83,8 @@ export async function remove(userId: string): Promise<UserProfileData | null> {
     return deletedProfile;
   } catch (error) {
     console.error(error);
-    throw new NotFoundError(`Error deleting user profile with ID ${userId}.`);
+    throw new InternalServerError(
+      `Error deleting user profile with ID ${userId}.`
+    );
   }
 }
