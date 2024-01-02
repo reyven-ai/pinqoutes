@@ -19,11 +19,13 @@ function ProfileUtil() {
   };
 
   const handleLogout = () => {
-    logout();
-    if (window.confirm("Log out of your account?")) {
+    const userConfirmed = window.confirm("Log out of your account?");
+    if (userConfirmed) {
+      logout();
       navigate("/login");
     }
   };
+
   return (
     <div>
       <div className="relative">
