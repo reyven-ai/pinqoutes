@@ -2,10 +2,12 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { logout } from "@/services/auth.util";
 import { useGetProfileData } from "@/hooks/useProfileAction";
-import Settings from "../../assets/settings.png";
-import Logout from "../../assets/logout.png";
-import Help from "../../assets/help.png";
-import Moon from "../../assets/moon.png";
+import {
+  Settings,
+  Help,
+  ExitToAppTwoTone,
+  Brightness2,
+} from "@material-ui/icons";
 
 function ProfileUtil() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -38,7 +40,7 @@ function ProfileUtil() {
               <li className="flex mb-[1.5rem] shadow-shadowTop rounded-lg">
                 <Link
                   className="flex items-center gap-2 bg-white w-[322px] px-2 py-4 rounded-lg"
-                  to="/profileview"
+                  to="/profile"
                 >
                   <img
                     className="w-[40px] h-[40px] rounded-[50%] ml-[0.3rem]"
@@ -48,24 +50,22 @@ function ProfileUtil() {
                   <span className="font-semibold">{userProfile?.username}</span>
                 </Link>
               </li>
-              <li className="mb-[1rem] flex items-center gap-2 ml-[0.3rem]">
-                <img className="w-[31px] h-[31px]" src={Moon} alt="" /> Display
-                and Accessibility
+              <li className="mb-[1rem] flex items-center gap-2">
+                <Brightness2 /> Display and Accessibility
               </li>
               <li className="mb-[1rem] flex items-center gap-1">
-                <img className="w-[40px] h-[40px]" src={Settings} alt="" />{" "}
+                <Settings />
                 Settings and Privacy
               </li>
               <li className="mb-[1rem] flex items-center gap-1">
-                <img className="w-[42px] h-[42px]" src={Help} alt="" /> Help and
-                Support
+                <Help /> Help and Support
               </li>
               <li>
                 <button
                   onClick={handleLogout}
-                  className="mb-[1rem] flex items-center gap-2 ml-[0.3rem]"
+                  className="mb-[1rem] flex items-center gap-2"
                 >
-                  <img className="w-[31px] h-[31px]" src={Logout} alt="" />
+                  <ExitToAppTwoTone />
                   Logout
                 </button>
               </li>

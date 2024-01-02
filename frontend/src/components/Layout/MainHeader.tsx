@@ -1,17 +1,9 @@
 import { NavLink, useLocation } from "react-router-dom";
-import Message from "../../assets/messenger.png";
 import SearchBar from "../Searchbar/SearchBar";
 import ProfileUtil from "../DropdownUtil/ProfileDropdown";
-import Home from "../../assets/home.png";
-import Youtube from "../../assets/youtube.png";
-import People from "../../assets/people.png";
-import Notification from "../../assets/notification.png";
-import fillPeople from "../../assets/fillPeople.png";
-import fillHome from "../../assets/fillHome.png";
-import fillYoutube from "../../assets/fillYoutube.png";
-import fillNotification from "../../assets/fillNotification.png";
 import MenuDropdown from "../DropdownUtil/MenuDropdown";
 import { checkAuthLoader } from "@/services/auth.util";
+import { Home, Notifications, People, YouTube, Chat } from "@material-ui/icons";
 
 function MainHeader() {
   const location = useLocation();
@@ -21,14 +13,44 @@ function MainHeader() {
     return null;
   }
 
+  const customColor = "rgb(61, 145, 253)";
+  const notActiveColor = "rgba(0, 0, 0, 0.6)";
+  const fontSize = "27px";
+
   const navLinks = [
-    { path: "/", image: Home, activeImage: fillHome },
-    { path: "/watch", image: Youtube, activeImage: fillYoutube },
-    { path: "/friend", image: People, activeImage: fillPeople },
+    {
+      path: "/",
+      icon: <Home style={{ color: notActiveColor, fontSize: fontSize }} />,
+      activeIcon: <Home style={{ color: customColor, fontSize: fontSize }} />,
+    },
+    {
+      path: "/watch",
+      icon: <YouTube style={{ color: notActiveColor, fontSize: fontSize }} />,
+      activeIcon: (
+        <YouTube style={{ color: customColor, fontSize: fontSize }} />
+      ),
+    },
+    {
+      path: "/friend",
+      icon: <People style={{ color: notActiveColor, fontSize: fontSize }} />,
+      activeIcon: (
+        <People
+          color="primary"
+          style={{ color: customColor, fontSize: fontSize }}
+        />
+      ),
+    },
     {
       path: "/notifications",
-      image: Notification,
-      activeImage: fillNotification,
+      icon: (
+        <Notifications style={{ color: notActiveColor, fontSize: fontSize }} />
+      ),
+      activeIcon: (
+        <Notifications
+          color="primary"
+          style={{ color: customColor, fontSize: fontSize }}
+        />
+      ),
     },
   ];
 
@@ -48,14 +70,10 @@ function MainHeader() {
         </div>
         <div>
           <ul className="flex items-center font-normal ml-[-2rem]">
-            {navLinks.map(({ path, image, activeImage }, index) => (
-              <li key={index} className="w-[150px]">
+            {navLinks.map(({ path, icon, activeIcon }, index) => (
+              <li key={index} className="w-[150px] text-[18px]">
                 <NavLink to={path}>
-                  <img
-                    className="w-[27px] h-[27px]"
-                    src={location.pathname === path ? activeImage : image}
-                    alt=""
-                  />
+                  {location.pathname === path ? activeIcon : icon}
                 </NavLink>
               </li>
             ))}
@@ -67,11 +85,7 @@ function MainHeader() {
               <MenuDropdown />
             </li>
             <li>
-              <img
-                className="w-[52px] h-[52px] rounded-[50%]"
-                src={Message}
-                alt=""
-              />
+              <Chat />
             </li>
             <li>
               <ProfileUtil />

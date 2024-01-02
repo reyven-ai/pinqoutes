@@ -1,7 +1,5 @@
 import { useState } from "react";
-import Settings from "../../assets/settings.png";
-import Moon from "../../assets/moon.png";
-import Menu from "../../assets/menu.png";
+import { MoreHoriz, Bookmark, Image } from "@material-ui/icons";
 
 function MenuDropdown() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -14,18 +12,18 @@ function MenuDropdown() {
     <div>
       <div className="relative">
         <div onClick={dropdownOpen} className="cursor-pointer">
-          <img className="w-[52px] h-[52px] rounded-[50%]" src={Menu} alt="" />
+          <MoreHoriz />
         </div>
         {isDropdownOpen && (
           <div className="absolute top-3 right-0 mt-8 bg-white border rounded shadow-md w-[350px] px-3 py-2">
             <h2 className="font-semibold mb-4">Collection</h2>
             <ul>
-              <li className="mb-[1rem] flex items-center gap-2 ml-[0.3rem]">
-                <img className="w-[31px] h-[31px]" src={Moon} alt="" /> Created
-                Post
+              <li className="mb-[1rem] flex items-center gap-2">
+                <Image />
+                Created Post
               </li>
               <li className="mb-[1rem] flex items-center gap-1">
-                <img className="w-[40px] h-[40px]" src={Settings} alt="" />{" "}
+                <Bookmark />
                 Saved Post
               </li>
             </ul>
