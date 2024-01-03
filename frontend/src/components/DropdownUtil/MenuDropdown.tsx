@@ -1,33 +1,40 @@
 import { useState } from "react";
 import { MoreHoriz, Bookmark, Image } from "@material-ui/icons";
+import DropDownModal from "../Modal/DropDownModal";
 
 function MenuDropdown() {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const dropdownOpen = () => {
-    setIsDropdownOpen(!isDropdownOpen);
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
   };
 
   return (
     <div>
       <div className="relative">
-        <div onClick={dropdownOpen} className="cursor-pointer">
+        <button onClick={openModal} className="cursor-pointer">
           <MoreHoriz />
-        </div>
-        {isDropdownOpen && (
-          <div className="absolute top-3 right-0 mt-8 bg-white border rounded shadow-md w-[350px] px-3 py-2">
-            <h2 className="font-semibold mb-4">Collection</h2>
-            <ul>
-              <li className="mb-[1rem] flex items-center gap-2">
-                <Image />
-                Created Post
-              </li>
-              <li className="mb-[1rem] flex items-center gap-1">
-                <Bookmark />
-                Saved Post
-              </li>
-            </ul>
-          </div>
+        </button>
+        {isModalOpen && (
+          <DropDownModal onClose={closeModal}>
+            <div className="absolute top-3 right-0 mt-8 bg-white border rounded shadow-md w-[350px] px-3 py-2">
+              <h2 className="font-semibold mb-4">Collection</h2>
+              <ul>
+                <li className="mb-[1rem] flex items-center gap-2">
+                  <Image />
+                  Created Post
+                </li>
+                <li className="mb-[1rem] flex items-center gap-1">
+                  <Bookmark />
+                  Saved Post
+                </li>
+              </ul>
+            </div>
+          </DropDownModal>
         )}
       </div>
     </div>

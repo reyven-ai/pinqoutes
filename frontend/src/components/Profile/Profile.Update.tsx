@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { useGetProfileData, useProfileAction } from "@/hooks/useProfileAction";
 import { ProfileFormInput } from "@/types/profile.types";
 import { profileValidationSchema } from "../../validations/profile.validation";
-import Modal from "../Modal/Modal";
 import Edit from "../../assets/edit.png";
 import ProfileForm from "./Profile.Form";
+import EditProfileModal from "../Modal/EditProfileModal";
 
 const EditProfile: React.FC = () => {
   const { handleEditProfile, message, successful, loading } =
@@ -37,7 +37,7 @@ const EditProfile: React.FC = () => {
         <img src={Edit} alt="" />
       </button>
       {isModalOpen && (
-        <Modal onClose={closeModal}>
+        <EditProfileModal onClose={closeModal}>
           <ProfileForm
             title="Edit"
             loading={loading}
@@ -47,7 +47,7 @@ const EditProfile: React.FC = () => {
             validationSchema={profileValidationSchema}
             initialValues={initialValues}
           />
-        </Modal>
+        </EditProfileModal>
       )}
     </>
   );

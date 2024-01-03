@@ -6,7 +6,7 @@ interface ModalProps {
   children: ReactNode;
 }
 
-const Modal: FC<ModalProps> = ({ onClose, children }) => {
+const EditProfileModal: FC<ModalProps> = ({ onClose, children }) => {
   return (
     <>
       {ReactDOM.createPortal(
@@ -26,4 +26,4 @@ const Modal: FC<ModalProps> = ({ onClose, children }) => {
   );
 };
 
-export default Modal;
+export default EditProfileModal;

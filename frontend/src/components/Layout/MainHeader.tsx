@@ -80,7 +80,7 @@ function MainHeader() {
           </ul>
         </div>
         <div>
-          <ul className="flex gap-1 items-center font-normal">
+          <ul className="flex gap-3 items-center font-normal">
             <li>
               <MenuDropdown />
             </li>
