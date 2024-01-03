@@ -1,7 +1,7 @@
 import { Route, Routes, useLocation } from "react-router-dom";
 import { ReactQueryProvider } from "./providers/ReactQueryProvider";
-import Register from "./components/Auth/Auth.Register";
-import Login from "./components/Auth/Auth.Login";
+import Login from "./components/auth/Auth.Login";
+import Register from "./components/auth/Auth.Register";
 import ProfileCreate from "./components/Profile/Profile.Create";
 import Profile from "./pages/Profile";
 import HomePage from "./pages/Home/PrivateHome";
