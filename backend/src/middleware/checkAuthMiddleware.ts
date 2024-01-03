@@ -1,7 +1,7 @@
 import { AuthResponse, TokenPayload } from "../types";
 import { Request, Response, NextFunction } from "express";
 import { NotAuthError } from "../errors/errors";
-import { validateJSONToken } from "../auth/auth.validation";
+import { validateJSONToken } from "../modules/auth/auth.validation";
 
 export function checkAuthMiddleware(
   req: Request,

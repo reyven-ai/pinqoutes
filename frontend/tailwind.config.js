@@ -17,7 +17,10 @@ export default {
         invalidCredentialBg: "rgba(22, 51, 0, 0.08)",
         backgroundButtonColor: "rgb(61, 145, 253)",
         inputBorder: "#868685",
-        socialButtonBorder: "#0e0f0c1f",
+        socialButtonBorder: "#e5e7eb",
+      },
+      boxShadow: {
+        shadowTop: "-3px 0 10px rgba(0, 0, 0, 0.1)",
       },
     },
   },
