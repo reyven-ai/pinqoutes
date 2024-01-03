@@ -1,7 +1,7 @@
 import UpdateProfileForm from "@/components/Profile/Profile.Update";
 import { useGetProfileData } from "@/hooks/useProfileAction";
 
-const ProfileView: React.FC = () => {
+const Profile: React.FC = () => {
   const { userProfile } = useGetProfileData();
 
   if (!userProfile) {
@@ -34,4 +34,4 @@ const ProfileView: React.FC = () => {
   );
 };
 
-export default ProfileView;
+export default Profile;

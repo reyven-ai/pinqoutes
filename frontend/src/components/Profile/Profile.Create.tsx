@@ -4,8 +4,9 @@ import { ProfileFormInput } from "@/types/profile.types";
 import { profileValidationSchema } from "../../validations/profile.validation";
 import ProfileForm from "./Profile.Form";
 
-const Register: React.FC = () => {
-  const { handleCreateProfile, message, successful } = useProfileAction();
+const ProfileCreate: React.FC = () => {
+  const { handleCreateProfile, message, successful, loading } =
+    useProfileAction();
   const initialValues: ProfileFormInput = {
     username: "",
     description: "",
@@ -20,6 +21,7 @@ const Register: React.FC = () => {
   return (
     <ProfileForm
       title="Would you like to create your profile?"
+      loading={loading}
       successful={successful}
       message={message}
       onSubmit={handleCreateProfile}
@@ -29,4 +31,4 @@ const Register: React.FC = () => {
   );
 };
 
-export default Register;
+export default ProfileCreate;
