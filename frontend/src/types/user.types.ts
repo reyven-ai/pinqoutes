@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import * as Yup from "yup";
 
-export type AuthUserDataNeed = {
+export type UserAuthInput = {
   email: string;
   password: string;
 };
@@ -22,6 +22,8 @@ export interface AuthFormProps {
   initialValues: AuthUserFormInput;
   message?: string;
   successful?: boolean;
+  loading?: boolean;
+  button: string;
 }
 
 export type RootLayoutProps = {

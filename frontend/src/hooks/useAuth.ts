@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AuthUserDataNeed, AuthUserFormInput } from "@/types/user.types";
+import { UserAuthInput, AuthUserFormInput } from "@/types/user.types";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import { login, register } from "@/services/auth.services";
 import { ErrorResponse } from "@/types/errors.types";
@@ -13,7 +13,7 @@ export const useAuth = () => {
   const handleRegister = async (formValue: AuthUserFormInput) => {
     const { email, password } = formValue;
 
-    const userToRegister: AuthUserDataNeed = {
+    const userToRegister: UserAuthInput = {
       email,
       password,
     };
@@ -35,7 +35,7 @@ export const useAuth = () => {
   const handleLogin = async (formValue: AuthUserFormInput) => {
     const { email, password } = formValue;
 
-    const userToRegister: AuthUserDataNeed = {
+    const userToRegister: UserAuthInput = {
       email,
       password,
     };
