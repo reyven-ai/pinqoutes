@@ -1,17 +1,17 @@
 import axios from "axios";
 import authHeader from "./auth.header";
-import { UserProfileData, UserProfileDataNeed } from "@/types/profile.types";
+import { UserProfileData, UserProfileInput } from "@/types/profile.types";
 import { ProfileApiData } from "@/types/profile.types";
 import { countryCodes } from "@/constants/countryCodes";
 
 const profileUrl = import.meta.env.VITE_API_PROFILE;
 
-export const createProfile = (createProfileInput: UserProfileDataNeed) => {
+export const createProfile = (createProfileInput: UserProfileInput) => {
   const headers = authHeader();
   return axios.post(profileUrl, createProfileInput, { headers });
 };
 
-export const updateProfile = (updateProfileInput: UserProfileDataNeed) => {
+export const updateProfile = (updateProfileInput: UserProfileInput) => {
   const headers = authHeader();
   return axios.patch(profileUrl, updateProfileInput, { headers });
 };

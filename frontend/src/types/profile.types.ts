@@ -24,6 +24,7 @@ export type ProfileApiData = {
 };
 
 export interface ProfileFormProps {
+  loading: boolean;
   title: string;
   onSubmit: (values: ProfileFormInput) => void;
   validationSchema: Yup.Schema<UserProfileTemporary>;
@@ -33,7 +34,7 @@ export interface ProfileFormProps {
 }
 
 // type for data need
-export type UserProfileDataNeed = {
+export type UserProfileInput = {
   username: string;
   description: string;
   country_of_residence: string;

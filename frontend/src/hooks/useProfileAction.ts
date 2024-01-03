@@ -1,4 +1,4 @@
-import { UserProfileData, UserProfileDataNeed } from "@/types/profile.types";
+import { UserProfileData, UserProfileInput } from "@/types/profile.types";
 
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -32,7 +32,7 @@ export const useProfileAction = () => {
     const fullPhoneNumber = mobile_phone_number_prefix + mobile_phone_number;
     const birthdate = `${birth_year}-${birth_month}-${birth_day}`;
 
-    const profileToCreate: UserProfileDataNeed = {
+    const profileToCreate: UserProfileInput = {
       username,
       description,
       country_of_residence,
@@ -69,7 +69,7 @@ export const useProfileAction = () => {
     const fullPhoneNumber = mobile_phone_number_prefix + mobile_phone_number;
     const birthdate = `${birth_year}-${birth_month}-${birth_day}`;
 
-    const profileToUpdate: UserProfileDataNeed = {
+    const profileToUpdate: UserProfileInput = {
       username,
       description,
       country_of_residence,
