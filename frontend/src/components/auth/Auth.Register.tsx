@@ -4,7 +4,7 @@ import { useAuth } from "@/hooks/useAuth";
 import AuthForm from "./Auth.Form";
 
 const Register: React.FC = () => {
-  const { handleRegister, message, successful } = useAuth();
+  const { handleRegister, message, successful, loading } = useAuth();
   const initialValues = {
     email: "",
     password: "",
@@ -16,6 +16,8 @@ const Register: React.FC = () => {
       labelLink="Login"
       linkText="Already have an account?"
       linkTo="/login"
+      button="Next"
+      loading={loading}
       successful={successful}
       message={message}
       onSubmit={handleRegister}

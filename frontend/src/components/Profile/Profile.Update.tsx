@@ -7,7 +7,8 @@ import Edit from "../../assets/edit.png";
 import ProfileForm from "./Profile.Form";
 
 const EditProfile: React.FC = () => {
-  const { handleEditProfile, message, successful } = useProfileAction();
+  const { handleEditProfile, message, successful, loading } =
+    useProfileAction();
   const { userProfile } = useGetProfileData();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -39,6 +40,7 @@ const EditProfile: React.FC = () => {
         <Modal onClose={closeModal}>
           <ProfileForm
             title="Edit"
+            loading={loading}
             successful={successful}
             message={message}
             onSubmit={handleEditProfile}

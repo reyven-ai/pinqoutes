@@ -7,25 +7,26 @@ import {
   BirthMonths,
   CountryCodes,
   CountryResidence,
-} from "./Profile.Constants";
+} from "./Profile.FormOptions";
 
 const ProfileForm: React.FC<ProfileFormProps> = ({
   title,
   message,
+  loading,
   successful,
   onSubmit,
   validationSchema,
   initialValues,
 }) => {
   return (
-    <div>
-      <div className="bg-secondary flex items-center justify-center w-[550px] h-screen flex-col max-[500px]:w-full max-[500px]:p-4">
+    <div className="flex justify-center">
+      <div className="flex items-center justify-center w-[550px] mt-[2rem] flex-col max-[500px]:w-full max-[500px]:p-4">
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={onSubmit}
         >
-          <Form className="w-[470px] mt-8 ml-16 mr-16 max-[500px]:w-full">
+          <Form className="w-[500px] mt-8 ml-16 mr-16 max-[500px]:w-full">
             {!successful && (
               <div>
                 {message && (
@@ -48,6 +49,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
                     id="username"
                     name="username"
                     placeholder="reyven-ai"
+                    disabled={loading}
                     type="text"
                     className={cn(
                       "sm:bg-blue border-[1px] border-inputBorder bg-transparent block w-full p-4 py-3.5 rounded-xl text-sm mb-[1.9rem]",
@@ -73,6 +75,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
                     name="description"
                     type="text"
                     placeholder="Software Developer"
+                    disabled={loading}
                     className={cn(
                       "sm:bg-blue border-[1px] border-inputBorder bg-transparent block w-full p-4 py-3.5 rounded-xl text-sm mb-[1.9rem]",
                       "placeholder-gray-500 text-[0.9rem] font-light"
@@ -96,6 +99,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
                     as="select"
                     id="country_of_residence"
                     name="country_of_residence"
+                    disabled={loading}
                     className={cn(
                       "sm:bg-blue border-[1px] border-inputBorder bg-transparent block w-full p-4 py-3.5 rounded-xl text-sm mb-[1.9rem]",
                       "placeholder-gray-500 text-[0.9rem] font-light"
@@ -119,6 +123,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
                   </label>
                   <div className="flex gap-2">
                     <Field
+                      disabled={loading}
                       id="birth_day"
                       name="birth_day"
                       type="number"
@@ -135,6 +140,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
                       as="select"
                       name="birth_month"
                       type="text"
+                      disabled={loading}
                       className={cn(
                         "sm:bg-blue border-[1px] border-inputBorder bg-transparent block w-full p-4 py-3.5 rounded-xl text-sm mb-[1.9rem]",
                         "placeholder-gray-500 text-[0.9rem] font-light"
@@ -147,6 +153,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
                       name="birth_year"
                       type="number"
                       placeholder="YYYY"
+                      disabled={loading}
                       className={cn(
                         "sm:bg-blue border-[1px] border-inputBorder bg-transparent block w-[80%] p-4 py-3.5 rounded-xl text-sm mb-[1.9rem]",
                         "placeholder-gray-500 text-[0.9rem] font-light"
@@ -178,6 +185,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
                       id="mobile_phone_number"
                       name="mobile_phone_number"
                       placeholder="53545033"
+                      disabled={loading}
                       type="text"
                       className={cn(
                         "sm:bg-blue border-[1px] border-inputBorder bg-transparent block w-full p-4 py-3.5 rounded-xl text-sm mb-[1.9rem]",
@@ -193,9 +201,12 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
                 </div>
                 <button
                   type="submit"
-                  className="bg-backgroundButtonColor text-white border-none cursor-pointer p-[0.8rem] w-full rounded-[30px] text-[15px] font-semibold mb-4"
+                  disabled={loading}
+                  className={`bg-backgroundButtonColor text-white border-none cursor-pointer p-[0.8rem] w-full rounded-[30px] text-[15px] font-semibold mb-4 ${
+                    loading ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
                 >
-                  Save
+                  {loading ? "Saving..." : "Save"}
                 </button>
               </div>
             )}

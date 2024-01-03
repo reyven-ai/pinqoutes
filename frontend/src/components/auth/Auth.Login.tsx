@@ -4,7 +4,7 @@ import { useAuth } from "@/hooks/useAuth";
 import AuthForm from "./Auth.Form";
 
 const Login: React.FC = () => {
-  const { handleLogin, message, successful } = useAuth();
+  const { handleLogin, message, successful, loading } = useAuth();
   const initialValues = {
     email: "",
     password: "",
@@ -16,6 +16,8 @@ const Login: React.FC = () => {
       labelLink="Signup"
       linkText="New to Pint?"
       linkTo="/signup"
+      button="Log in"
+      loading={loading}
       successful={successful}
       message={message}
       onSubmit={handleLogin}
