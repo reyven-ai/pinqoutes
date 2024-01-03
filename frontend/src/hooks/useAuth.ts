@@ -7,6 +7,7 @@ import { ErrorResponse } from "@/types/errors.types";
 export const useAuth = () => {
   const [successful, setSuccessful] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
+  const [loading, setLoading] = useState(false);
   const navigate: NavigateFunction = useNavigate();
 
   const handleRegister = async (formValue: AuthUserFormInput) => {
@@ -19,13 +20,15 @@ export const useAuth = () => {
 
     setMessage("");
     setSuccessful(true);
+    setLoading(true);
+
     try {
       await register(userToRegister);
-      setTimeout(() => {
-        navigate("/profile");
-      }, 1500);
+      navigate("/profile/create");
     } catch (error) {
       handleProfileError(error as ErrorResponse);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -39,15 +42,15 @@ export const useAuth = () => {
 
     setMessage("");
     setSuccessful(true);
+    setLoading(true);
 
     try {
       await login(userToRegister);
-      setTimeout(() => {
-        navigate("/");
-        window.location.reload();
-      }, 1500);
+      navigate("/");
     } catch (error) {
       handleProfileError(error as ErrorResponse);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -73,5 +76,6 @@ export const useAuth = () => {
     handleLogin,
     successful,
     message,
+    loading,
   };
 };

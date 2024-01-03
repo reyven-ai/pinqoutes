@@ -14,6 +14,7 @@ import { ErrorResponse } from "@/types/errors.types";
 export const useProfileAction = () => {
   const [successful, setSuccessful] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
+  const [loading, setLoading] = useState(false);
   const navigate: NavigateFunction = useNavigate();
 
   const handleCreateProfile = async (formValue: ProfileFormInput) => {
@@ -41,14 +42,15 @@ export const useProfileAction = () => {
 
     setMessage("");
     setSuccessful(true);
+    setLoading(true);
+
     try {
       await createProfile(profileToCreate);
-      setTimeout(() => {
-        navigate("/");
-        window.location.reload();
-      }, 1500);
+      navigate("/");
     } catch (error) {
       handleProfileError(error as ErrorResponse);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -77,15 +79,16 @@ export const useProfileAction = () => {
 
     setMessage("");
     setSuccessful(true);
+    setLoading(true);
+
     try {
       await updateProfile(profileToUpdate);
-      setTimeout(() => {
-        navigate("/profileview");
-        window.location.reload();
-      }, 1500);
-      console.log("Updated Successful?");
+      navigate("/profile");
+      window.location.reload();
     } catch (error) {
       handleProfileError(error as ErrorResponse);
+    } finally {
+      setLoading(false);
     }
   };
   const handleDeleteProfile = async () => {
@@ -93,10 +96,7 @@ export const useProfileAction = () => {
     setSuccessful(true);
     try {
       await deleteProfile();
-      setTimeout(() => {
-        navigate("/signup");
-      }, 1500);
-      console.log("Deleted Succesful!", handleDeleteProfile);
+      navigate("/signup");
     } catch (error) {
       handleProfileError(error as ErrorResponse);
     }
@@ -120,6 +120,7 @@ export const useProfileAction = () => {
   return {
     successful,
     message,
+    loading,
     handleCreateProfile,
     handleDeleteProfile,
     handleEditProfile,
@@ -143,18 +144,12 @@ function transformProfileDataToInput(
 
 export const useGetProfileData = () => {
   const [userProfile, setUserProfile] = useState<ProfileFormInput | null>(null);
-
   useEffect(() => {
-    let isMounted = true;
-
     const fetchData = async () => {
       try {
         const selfProfile = await getSelfProfile();
-        if (isMounted) {
-          const userProfile = transformProfileDataToInput(selfProfile);
-          setUserProfile(userProfile || null);
-          console.log("User Profile User Profile Data:", selfProfile);
-        }
+        const userProfile = transformProfileDataToInput(selfProfile);
+        setUserProfile(userProfile || null);
       } catch (error) {
         console.error("Error fetching user profile:", error);
       }
@@ -162,9 +157,7 @@ export const useGetProfileData = () => {
 
     fetchData();
 
-    return () => {
-      isMounted = false;
-    };
+    return () => {};
   }, []);
 
   return {
