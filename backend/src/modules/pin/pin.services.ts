@@ -14,6 +14,6 @@ export async function add(data: UserPinData): Promise<UserPinData> {
     return createdUserPin;
   } catch (error) {
     console.error(error);
-    throw new Error("Error creating user pin.");
+    throw new Error("Error uploading user pin.");
   }
 }
