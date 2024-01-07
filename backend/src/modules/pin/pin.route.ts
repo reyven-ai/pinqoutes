@@ -1,26 +1,16 @@
 import { Router, Request, Response } from "express";
 import { v4 as uuidv4 } from "uuid";
-
 import { checkAuthMiddleware } from "../../middleware/checkAuthMiddleware";
 import { AuthResponse } from "../../types";
 import { handleError } from "../../errors/errors";
 import { add } from "./pin.services";
-import {
-  getStorage,
-  ref,
-  getDownloadURL,
-  uploadBytesResumable,
-} from "firebase/storage";
-import { initializeApp } from "firebase/app";
-import { firebaseConfig } from "../../firebase.config";
+import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+import { storage } from "../../firebase.config";
 import multer from "multer";
 import { fileValidationMiddleware } from "./pin.validation";
 
 const router = Router();
 
-initializeApp(firebaseConfig);
-
-const storage = getStorage();
 const upload = multer({ storage: multer.memoryStorage() });
 router.post(
   "/",
