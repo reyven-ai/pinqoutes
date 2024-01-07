@@ -1,14 +1,14 @@
 import { initializeApp } from "firebase/app";
 import { getStorage } from "firebase/storage";
 
-export const firebaseConfig = {
-  apiKey: "AIzaSyCcCYdzoD62BU9YDArWCUbcPGuZGqWj8QA",
-  authDomain: "pintech-uploading-files.firebaseapp.com",
-  projectId: "pintech-uploading-files",
-  storageBucket: "pintech-uploading-files.appspot.com",
-  messagingSenderId: "729378984581",
-  appId: "1:729378984581:web:30e13638df5372aca60fec",
-  measurementId: "G-G6CDHEWK9S",
+const firebaseConfig = {
+  apiKey: process.env.VITE_FIREBASE_API_KEY,
+  authDomain: process.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: "pintech-9e1b0.appspot.com",
+  messagingSenderId: process.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.VITE_FIREBASE_APP_ID,
+  measurementId: process.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
 const app = initializeApp(firebaseConfig);
