@@ -15,7 +15,7 @@ import { AuthResponse } from "../../types";
 const router = Router();
 
 router.post(
-  "/profile",
+  "/",
   checkAuthMiddleware,
   async (req: Request, res: AuthResponse) => {
     try {
@@ -69,7 +69,7 @@ router.post(
 
       res.status(201).json({
         message: "User profile created successfully.",
-        userDetails: createdUser,
+        profileDetails: createdUser,
       });
     } catch (error) {
       handleError(error, res);
@@ -78,7 +78,7 @@ router.post(
 );
 
 router.patch(
-  "/profile",
+  "/",
   checkAuthMiddleware,
   async (req: Request, res: AuthResponse) => {
     try {
@@ -136,7 +136,7 @@ router.patch(
 
       res.status(200).json({
         message: "User profile updated successfully.",
-        userDetails: updatedUser,
+        profileDetails: updatedUser,
       });
     } catch (error) {
       handleError(error, res);
@@ -144,42 +144,34 @@ router.patch(
   }
 );
 
-router.get(
-  "/profile",
-  checkAuthMiddleware,
-  async (req: Request, res: Response) => {
-    try {
-      const userId = res.locals.authUser.user_id;
-      const userProfile = await getUserProfile(userId);
+router.get("/", checkAuthMiddleware, async (req: Request, res: Response) => {
+  try {
+    const userId = res.locals.authUser.user_id;
+    const userProfile = await getUserProfile(userId);
 
-      if (!userProfile) {
-        return res.status(404).json({ error: "User profile not found" });
-      }
-
-      res.status(200).json(userProfile);
-    } catch (error) {
-      handleError(error, res);
+    if (!userProfile) {
+      return res.status(404).json({ error: "User profile not found" });
     }
+
+    res.status(200).json(userProfile);
+  } catch (error) {
+    handleError(error, res);
   }
-);
+});
 
-router.delete(
-  "/profile",
-  checkAuthMiddleware,
-  async (req: Request, res: Response) => {
-    try {
-      const userId = res.locals.authUser.user_id;
-      const deletedProfile = await remove(userId);
+router.delete("/", checkAuthMiddleware, async (req: Request, res: Response) => {
+  try {
+    const userId = res.locals.authUser.user_id;
+    const deletedProfile = await remove(userId);
 
-      if (!deletedProfile) {
-        return res.status(404).json({ error: "User profile not found" });
-      }
-
-      res.status(200).json({ message: "User profile deleted successfully" });
-    } catch (error) {
-      handleError(error, res);
+    if (!deletedProfile) {
+      return res.status(404).json({ error: "User profile not found" });
     }
+
+    res.status(200).json({ message: "User profile deleted successfully" });
+  } catch (error) {
+    handleError(error, res);
   }
-);
+});
 
 export default router;
