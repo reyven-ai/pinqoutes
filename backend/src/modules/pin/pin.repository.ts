@@ -30,5 +30,4 @@ class UserPinRepository {
     }
   }
 }
-
 export { UserPinRepository };
