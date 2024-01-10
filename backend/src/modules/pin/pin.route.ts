@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import { checkAuthMiddleware } from "../../middleware/checkAuthMiddleware";
 import { AuthResponse } from "../../types";
 import { handleError } from "../../errors/errors";
-import { add } from "./pin.services";
+import { add, getPinDetails } from "./pin.services";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../firebase.config";
 import multer from "multer";
@@ -63,4 +63,19 @@ router.post(
     }
   }
 );
+
+router.get("/:id", checkAuthMiddleware, async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id;
+    const pinDetails = await getPinDetails(id);
+
+    if (!pinDetails) {
+      return res.status(404).json({ error: "User pins details not found" });
+    }
+
+    res.status(200).json(pinDetails);
+  } catch (error) {
+    handleError(error, res);
+  }
+});
 export default router;

@@ -3,6 +3,7 @@ import { json } from "body-parser";
 import authRoutes from "./modules/auth/auth.route";
 import profileRoutes from "./modules/profile/profile.route";
 import pinRoutes from "./modules/pin/pin.route";
+import usersRoute from "./modules/users/users.route";
 
 import cors = require("cors");
 
@@ -16,6 +17,7 @@ app.use(cors());
 app.use("/auth", authRoutes);
 app.use("/profile", profileRoutes);
 app.use("/pins", pinRoutes);
+app.use("/users", usersRoute);
 app.use(
   (err: Error, req: express.Request, res: Response, next: NextFunction) => {
     res.status(500).json({ message: err.message });
