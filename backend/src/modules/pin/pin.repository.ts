@@ -30,7 +30,7 @@ class UserPinRepository {
     }
   }
 
-  async getUserPins(userId: number): Promise<UserPinData[]> {
+  async getUserPins(userId: string): Promise<UserPinData[]> {
     try {
       const query = "SELECT * FROM pins WHERE user_id = $1";
       const result = await pool.query(query, [userId]);

@@ -18,7 +18,7 @@ export async function add(data: UserPinData): Promise<UserPinData> {
   }
 }
 
-export async function getUserPins(userId: number): Promise<UserPinData[]> {
+export async function getUserPins(userId: string): Promise<UserPinData[]> {
   try {
     const pinRepository = new UserPinRepository();
     const userPins = await pinRepository.getUserPins(userId);
