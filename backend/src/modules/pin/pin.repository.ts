@@ -29,33 +29,5 @@ class UserPinRepository {
       throw new Error("Error uploading pin");
     }
   }
-
-  async getUserPins(userId: string): Promise<UserPinData[]> {
-    try {
-      const query = "SELECT * FROM pins WHERE user_id = $1";
-      const result = await pool.query(query, [userId]);
-
-      return result.rows as UserPinData[];
-    } catch (error) {
-      console.error("Error retrieving user pins:", (error as Error).message);
-      throw new Error("Error retrieving user pins");
-    }
-  }
-
-  async getPinDetails(id: string): Promise<UserPinData | null> {
-    try {
-      const query = "SELECT * FROM pins WHERE id = $1";
-      const result = await pool.query(query, [id]);
-
-      if (result.rows.length > 0) {
-        return result.rows[0] as UserPinData;
-      } else {
-        return null;
-      }
-    } catch (error) {
-      console.error("Error retrieving user profile:", (error as Error).message);
-      throw new Error("Error retrieving user profile");
-    }
-  }
 }
 export { UserPinRepository };
