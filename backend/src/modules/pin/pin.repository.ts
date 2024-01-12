@@ -29,6 +29,7 @@ class UserPinRepository {
       throw new Error("Error uploading pin");
     }
   }
+
   async getUserPins(userId: string): Promise<UserPinData[]> {
     try {
       const query = "SELECT * FROM pins WHERE user_id = $1";
@@ -56,5 +57,46 @@ class UserPinRepository {
       throw new Error("Error retrieving user profile");
     }
   }
+
+  async updatePinDetails(
+    id: string,
+    newData: UserPinData
+  ): Promise<UserPinData | null> {
+    try {
+      const query = `UPDATE pins SET user_Id = $1, description = $2, image_url = $3, created_at = $4 WHERE id= $5 RETURNING *`;
+      const result = await pool.query(query, [
+        newData.user_id,
+        newData.description,
+        newData.image_url,
+        newData.created_at,
+        id,
+      ]);
+      if (result.rows.length > 0) {
+        return result.rows[0];
+      } else {
+        throw new Error("Error updating user pin: User pin not returned");
+      }
+    } catch (error) {
+      console.error("Error:", (error as Error).message);
+      throw new Error("Error updating pin");
+    }
+  }
+
+  async deleteUserPin(id: string): Promise<UserPinData | null> {
+    try {
+      const query = "DELETE FROM pins WHERE id = $1 RETURNING *";
+      const result = await pool.query(query, [id]);
+
+      if (result.rows.length > 0) {
+        return result.rows[0];
+      } else {
+        return null;
+      }
+    } catch (error) {
+      console.error("Error:", (error as Error).message);
+      throw new Error("Error deleting pin");
+    }
+  }
 }
+
 export { UserPinRepository };
