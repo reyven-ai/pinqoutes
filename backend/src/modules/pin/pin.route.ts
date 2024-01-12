@@ -130,12 +130,11 @@ router.patch(
         await deleteObject(previousImageRef);
       }
 
-      const dateTime = new Date();
       const updateData = {
         user_id,
         description: description || existingPin.description,
         image_url: imageUrl,
-        created_at: dateTime,
+        updated_at: new Date(),
       };
 
       const updatedPin = await updatePin(id, updateData);

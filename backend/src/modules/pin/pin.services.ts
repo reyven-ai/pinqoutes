@@ -1,6 +1,7 @@
+import e from "express";
 import { InternalServerError } from "../../errors/errors";
 import { UserPinRepository } from "./pin.repository";
-import { UserPinData } from "./pin.types";
+import { UpdateUserPinData, UserPinData } from "./pin.types";
 
 export async function add(data: UserPinData): Promise<UserPinData> {
   try {
@@ -49,8 +50,8 @@ export async function getPinDetails(id: string): Promise<UserPinData | null> {
 
 export async function updatePin(
   id: string,
-  data: UserPinData
-): Promise<UserPinData | null> {
+  data: UpdateUserPinData
+): Promise<UpdateUserPinData | null> {
   try {
     const userPinDetails = await getPinDetails(id);
     if (!userPinDetails) {

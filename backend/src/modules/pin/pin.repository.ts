@@ -1,4 +1,4 @@
-import { UserPinData } from "./pin.types";
+import { UpdateUserPinData, UserPinData } from "./pin.types";
 import pool from "../../database/db";
 
 class UserPinRepository {
@@ -60,15 +60,15 @@ class UserPinRepository {
 
   async updatePinDetails(
     id: string,
-    newData: UserPinData
-  ): Promise<UserPinData | null> {
+    newData: UpdateUserPinData
+  ): Promise<UpdateUserPinData | null> {
     try {
-      const query = `UPDATE pins SET user_Id = $1, description = $2, image_url = $3, created_at = $4 WHERE id= $5 RETURNING *`;
+      const query = `UPDATE pins SET user_Id = $1, description = $2, image_url = $3, updated_at = $4 WHERE id= $5 RETURNING *`;
       const result = await pool.query(query, [
         newData.user_id,
         newData.description,
         newData.image_url,
-        newData.created_at,
+        newData.updated_at,
         id,
       ]);
       if (result.rows.length > 0) {
