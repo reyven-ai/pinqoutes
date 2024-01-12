@@ -123,8 +123,6 @@ router.patch(
         );
 
         imageUrl = await getDownloadURL(snapshot.ref);
-
-        previousImageUrl = existingPin.image_url;
       }
 
       if (previousImageUrl && previousImageUrl !== imageUrl) {
