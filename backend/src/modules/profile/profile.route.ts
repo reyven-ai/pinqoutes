@@ -1,6 +1,11 @@
 import { Router, Request, Response } from "express";
 
-import { add, getUserProfile, remove, update } from "./profile.services";
+import {
+  createProfile,
+  getProfileDetails,
+  deleteProfile,
+  updateProfile,
+} from "./profile.services";
 import {
   isValidUserAddress,
   isValidUserBirthday,
@@ -65,7 +70,7 @@ router.post(
         birthdate,
       };
 
-      const createdUser = await add(data);
+      const createdUser = await createProfile(data);
 
       res.status(201).json({
         message: "User profile created successfully.",
@@ -128,7 +133,7 @@ router.patch(
         birthdate,
       };
 
-      const updatedUser = await update(user_id, data);
+      const updatedUser = await updateProfile(user_id, data);
 
       if (!updatedUser) {
         return res.status(404).json({ message: "User profile not found" });
@@ -147,7 +152,7 @@ router.patch(
 router.get("/", checkAuthMiddleware, async (req: Request, res: Response) => {
   try {
     const userId = res.locals.authUser.user_id;
-    const userProfile = await getUserProfile(userId);
+    const userProfile = await getProfileDetails(userId);
 
     if (!userProfile) {
       return res.status(404).json({ error: "User profile not found" });
@@ -162,7 +167,7 @@ router.get("/", checkAuthMiddleware, async (req: Request, res: Response) => {
 router.delete("/", checkAuthMiddleware, async (req: Request, res: Response) => {
   try {
     const userId = res.locals.authUser.user_id;
-    const deletedProfile = await remove(userId);
+    const deletedProfile = await deleteProfile(userId);
 
     if (!deletedProfile) {
       return res.status(404).json({ error: "User profile not found" });

@@ -1,4 +1,8 @@
-import { UserProfileData } from "./profile.types";
+import {
+  CreateProfileInput,
+  ProfileData,
+  UpdateProfileInput,
+} from "./profile.types";
 import pool from "../../database/db";
 
 class UserDetailsRepository {
@@ -9,7 +13,7 @@ class UserDetailsRepository {
     country_of_residence: string,
     mobile_phone_number: string,
     birthdate: string
-  ): Promise<UserProfileData> {
+  ): Promise<CreateProfileInput> {
     try {
       const query =
         "INSERT INTO user_profiles (user_id, username, description, country_of_residence, mobile_phone_number, birthdate) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *"; // Return all columns
@@ -36,8 +40,8 @@ class UserDetailsRepository {
 
   async updateUserProfile(
     user_id: number,
-    newData: UserProfileData
-  ): Promise<UserProfileData | null> {
+    newData: UpdateProfileInput
+  ): Promise<UpdateProfileInput | null> {
     try {
       const query = `UPDATE user_profiles SET username = $1, description = $2, country_of_residence = $3, mobile_phone_number = $4, birthdate = $5 WHERE user_id= $6 RETURNING *`;
       const result = await pool.query(query, [
@@ -62,13 +66,13 @@ class UserDetailsRepository {
     }
   }
 
-  async getSelfUSerProfile(user_id: number): Promise<UserProfileData | null> {
+  async getSelfUSerProfile(user_id: number): Promise<ProfileData | null> {
     try {
       const query = "SELECT * FROM user_profiles WHERE user_id = $1";
       const result = await pool.query(query, [user_id]);
 
       if (result.rows.length > 0) {
-        return result.rows[0] as UserProfileData;
+        return result.rows[0] as ProfileData;
       } else {
         return null;
       }
@@ -78,13 +82,13 @@ class UserDetailsRepository {
     }
   }
 
-  async deleteUserProfile(user_id: string): Promise<UserProfileData | null> {
+  async deleteUserProfile(user_id: string): Promise<ProfileData | null> {
     try {
       const query = "DELETE FROM user_profiles WHERE user_id = $1 RETURNING *";
       const result = await pool.query(query, [user_id]);
 
       if (result.rows.length > 0) {
-        return result.rows[0] as UserProfileData;
+        return result.rows[0] as ProfileData;
       } else {
         return null;
       }
