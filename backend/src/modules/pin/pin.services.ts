@@ -1,12 +1,11 @@
-import e from "express";
 import { InternalServerError } from "../../errors/errors";
 import { UserPinRepository } from "./pin.repository";
-import { UpdateUserPinData, UserPinData } from "./pin.types";
+import { CreatePinInput, PinData, UpdatePinInput } from "./pin.types";
 
-export async function add(data: UserPinData): Promise<UserPinData> {
+export async function createPin(data: CreatePinInput): Promise<CreatePinInput> {
   try {
     const pinRepository = new UserPinRepository();
-    const createdUserPin: UserPinData = await pinRepository.createUserPin(
+    const createdUserPin: CreatePinInput = await pinRepository.createUserPin(
       data.user_id,
       data.description,
       data.image_url,
@@ -20,7 +19,7 @@ export async function add(data: UserPinData): Promise<UserPinData> {
   }
 }
 
-export async function getUserPins(userId: string): Promise<UserPinData[]> {
+export async function getUserPins(userId: string): Promise<PinData[]> {
   try {
     const pinRepository = new UserPinRepository();
     const userPins = await pinRepository.getUserPins(userId);
@@ -32,7 +31,7 @@ export async function getUserPins(userId: string): Promise<UserPinData[]> {
   }
 }
 
-export async function getPinDetails(id: string): Promise<UserPinData | null> {
+export async function getPinDetails(id: string): Promise<PinData | null> {
   try {
     const pinRepository = new UserPinRepository();
     const pinDetails = await pinRepository.getPinDetails(id);
@@ -50,8 +49,8 @@ export async function getPinDetails(id: string): Promise<UserPinData | null> {
 
 export async function updatePin(
   id: string,
-  data: UpdateUserPinData
-): Promise<UpdateUserPinData | null> {
+  data: UpdatePinInput
+): Promise<UpdatePinInput | null> {
   try {
     const userPinDetails = await getPinDetails(id);
     if (!userPinDetails) {
@@ -71,7 +70,7 @@ export async function updatePin(
   }
 }
 
-export async function deletePin(id: string): Promise<UserPinData | null> {
+export async function deletePin(id: string): Promise<PinData | null> {
   try {
     const pinRepository = new UserPinRepository();
     const deleteUserPin = await pinRepository.deleteUserPin(id);

@@ -1,4 +1,4 @@
-import { UpdateUserPinData, UserPinData } from "./pin.types";
+import { CreatePinInput, PinData, UpdatePinInput } from "./pin.types";
 import pool from "../../database/db";
 
 class UserPinRepository {
@@ -7,7 +7,7 @@ class UserPinRepository {
     description: string,
     image_url: string,
     created_at: Date
-  ): Promise<UserPinData> {
+  ): Promise<CreatePinInput> {
     try {
       const query =
         "INSERT INTO pins (user_id, description, image_url, created_at) VALUES ($1, $2, $3, $4) RETURNING *";
@@ -30,25 +30,25 @@ class UserPinRepository {
     }
   }
 
-  async getUserPins(userId: string): Promise<UserPinData[]> {
+  async getUserPins(userId: string): Promise<PinData[]> {
     try {
       const query = "SELECT * FROM pins WHERE user_id = $1";
       const result = await pool.query(query, [userId]);
 
-      return result.rows as UserPinData[];
+      return result.rows as PinData[];
     } catch (error) {
       console.error("Error retrieving user pins:", (error as Error).message);
       throw new Error("Error retrieving user pins");
     }
   }
 
-  async getPinDetails(id: string): Promise<UserPinData | null> {
+  async getPinDetails(id: string): Promise<PinData | null> {
     try {
       const query = "SELECT * FROM pins WHERE id = $1";
       const result = await pool.query(query, [id]);
 
       if (result.rows.length > 0) {
-        return result.rows[0] as UserPinData;
+        return result.rows[0] as PinData;
       } else {
         return null;
       }
@@ -60,8 +60,8 @@ class UserPinRepository {
 
   async updatePinDetails(
     id: string,
-    newData: UpdateUserPinData
-  ): Promise<UpdateUserPinData | null> {
+    newData: UpdatePinInput
+  ): Promise<UpdatePinInput | null> {
     try {
       const query = `UPDATE pins SET user_Id = $1, description = $2, image_url = $3, updated_at = $4 WHERE id= $5 RETURNING *`;
       const result = await pool.query(query, [
@@ -82,7 +82,7 @@ class UserPinRepository {
     }
   }
 
-  async deleteUserPin(id: string): Promise<UserPinData | null> {
+  async deleteUserPin(id: string): Promise<PinData | null> {
     try {
       const query = "DELETE FROM pins WHERE id = $1 RETURNING *";
       const result = await pool.query(query, [id]);

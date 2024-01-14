@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import { checkAuthMiddleware } from "../../middleware/checkAuthMiddleware";
 import { AuthResponse } from "../../types";
 import { handleError } from "../../errors/errors";
-import { add, deletePin, getPinDetails, updatePin } from "./pin.services";
+import { createPin, deletePin, getPinDetails, updatePin } from "./pin.services";
 import {
   ref,
   getDownloadURL,
@@ -58,7 +58,7 @@ router.post(
         created_at: dateTime,
       };
 
-      const createdPin = await add(data);
+      const createdPin = await createPin(data);
       res.status(201).json({
         message: "Pin uploaded successfully.",
         contentDetails: createdPin,
