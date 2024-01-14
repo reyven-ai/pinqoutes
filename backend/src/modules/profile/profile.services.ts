@@ -1,12 +1,18 @@
-import { InternalServerError, NotFoundError } from "../../errors/errors";
+import { InternalServerError } from "../../errors/errors";
 import { UserDetailsRepository } from "./profile.repository";
 
-import { UserProfileData } from "./profile.types";
+import {
+  CreateProfileInput,
+  ProfileData,
+  UpdateProfileInput,
+} from "./profile.types";
 
-export async function add(data: UserProfileData): Promise<UserProfileData> {
+export async function createProfile(
+  data: CreateProfileInput
+): Promise<CreateProfileInput> {
   try {
     const userRepository = new UserDetailsRepository();
-    const createdUserProfile: UserProfileData =
+    const createdUserProfile: CreateProfileInput =
       await userRepository.createUserProfile(
         data.user_id,
         data.username,
@@ -23,12 +29,12 @@ export async function add(data: UserProfileData): Promise<UserProfileData> {
   }
 }
 
-export async function update(
+export async function updateProfile(
   userId: number,
-  data: UserProfileData
-): Promise<UserProfileData | null> {
+  data: UpdateProfileInput
+): Promise<UpdateProfileInput | null> {
   try {
-    const userProfile = await getUserProfile(userId);
+    const userProfile = await getProfileDetails(userId);
     if (!userProfile) {
       throw new InternalServerError(
         `User profile with ID ${userId} not found.`
@@ -51,9 +57,9 @@ export async function update(
   }
 }
 
-export async function getUserProfile(
+export async function getProfileDetails(
   userId: number
-): Promise<UserProfileData | null> {
+): Promise<ProfileData | null> {
   try {
     const userRepository = new UserDetailsRepository();
     const getSelfUserProfile = await userRepository.getSelfUSerProfile(userId);
@@ -71,7 +77,9 @@ export async function getUserProfile(
   }
 }
 
-export async function remove(userId: string): Promise<UserProfileData | null> {
+export async function deleteProfile(
+  userId: string
+): Promise<ProfileData | null> {
   try {
     const userRepository = new UserDetailsRepository();
 

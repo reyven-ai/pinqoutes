@@ -4,8 +4,13 @@ import { v4 as uuidv4 } from "uuid";
 import { checkAuthMiddleware } from "../../middleware/checkAuthMiddleware";
 import { AuthResponse } from "../../types";
 import { handleError } from "../../errors/errors";
-import { add, getPinDetails } from "./pin.services";
-import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+import { createPin, deletePin, getPinDetails, updatePin } from "./pin.services";
+import {
+  ref,
+  getDownloadURL,
+  uploadBytesResumable,
+  deleteObject,
+} from "firebase/storage";
 import { storage } from "../../firebase.config";
 import multer from "multer";
 import { fileValidationMiddleware } from "./pin.validation";
@@ -53,7 +58,7 @@ router.post(
         created_at: dateTime,
       };
 
-      const createdPin = await add(data);
+      const createdPin = await createPin(data);
       res.status(201).json({
         message: "Pin uploaded successfully.",
         contentDetails: createdPin,
@@ -78,4 +83,102 @@ router.get("/:id", checkAuthMiddleware, async (req: Request, res: Response) => {
     handleError(error, res);
   }
 });
+
+router.patch(
+  "/:id",
+  checkAuthMiddleware,
+  upload.single("filename"),
+  fileValidationMiddleware,
+  async (req: Request, res: Response) => {
+    try {
+      const user_id = res.locals.authUser.user_id;
+      const id = req.params.id;
+      const { description } = req.body;
+
+      const existingPin = await getPinDetails(id);
+      if (!existingPin) {
+        return res.status(404).json({ error: "Pin not found" });
+      }
+
+      if (existingPin.user_id !== user_id) {
+        return res
+          .status(403)
+          .json({ error: "Unauthorized - you do not own this pin" });
+      }
+
+      let imageUrl = existingPin.image_url;
+      let previousImageUrl = existingPin.image_url;
+
+      if (req.file) {
+        const fileID = uuidv4();
+        const storageRef = ref(storage, `files/${fileID}`);
+        const metaData = {
+          contentType: req.file.mimetype,
+        };
+
+        const snapshot = await uploadBytesResumable(
+          storageRef,
+          req.file.buffer,
+          metaData
+        );
+
+        imageUrl = await getDownloadURL(snapshot.ref);
+      }
+
+      if (previousImageUrl && previousImageUrl !== imageUrl) {
+        const previousImageRef = ref(storage, previousImageUrl);
+        await deleteObject(previousImageRef);
+      }
+
+      const updateData = {
+        user_id,
+        description: description || existingPin.description,
+        image_url: imageUrl,
+        updated_at: new Date(),
+      };
+
+      const updatedPin = await updatePin(id, updateData);
+
+      res.status(200).json({
+        message: "Pin updated successfully.",
+        contentDetails: updatedPin,
+      });
+    } catch (error) {
+      handleError(error, res);
+    }
+  }
+);
+
+router.delete(
+  "/:id",
+  checkAuthMiddleware,
+  async (req: Request, res: Response) => {
+    try {
+      const user_id = res.locals.authUser.user_id;
+      const id = req.params.id;
+
+      const existingPin = await getPinDetails(id);
+      if (!existingPin) {
+        return res.status(404).json({ error: "Pin not found" });
+      }
+
+      if (existingPin.user_id !== user_id) {
+        return res
+          .status(403)
+          .json({ error: "Unauthorized - you do not own this pin" });
+      }
+
+      const pinImageRef = ref(storage, existingPin.image_url);
+      await deleteObject(pinImageRef);
+
+      await deletePin(id);
+
+      res.status(204).json({
+        message: "Pin deleted succesfully",
+      });
+    } catch (error) {
+      handleError(error, res);
+    }
+  }
+);
 export default router;
