@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import { cn } from "../../types/util";
 import { AuthFormProps } from "@/types/user.types";
 import FooterAuth from "./Auth.Footer";
+import { VisibilityOffOutlined, VisibilityOutlined } from "@material-ui/icons";
+
+const fontSize = "20px";
 
 const AuthForm: React.FC<AuthFormProps> = ({
   title,
@@ -18,6 +21,8 @@ const AuthForm: React.FC<AuthFormProps> = ({
   loading,
   button,
 }) => {
+  const [showPassword, setShowPassword] = useState(false);
+
   return (
     <div className="flex justify-center">
       <div>
@@ -64,7 +69,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
                       <Field
                         id="email"
                         name="email"
-                        type="email"
+                        // type="email"
                         disabled={loading}
                         className={cn(
                           "sm:bg-blue border-[1px] border-inputBorder bg-transparent block w-full p-4 py-3.5 rounded-xl text-sm mb-[1.9rem]",
@@ -78,7 +83,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
                       />
                     </div>
 
-                    <div>
+                    <div className="relative">
                       <label
                         htmlFor="password"
                         className="text-primaryTextColor block mb-[3px] text-[15px] font-light"
@@ -89,7 +94,8 @@ const AuthForm: React.FC<AuthFormProps> = ({
                       <Field
                         id="password"
                         name="password"
-                        type="password"
+                        // required
+                        type={showPassword ? "text" : "password"}
                         disabled={loading}
                         className={cn(
                           "sm:bg-blue border-[1px] border-inputBorder bg-transparent block w-full p-4 py-3.5 rounded-xl text-sm mb-[1.9rem]",
@@ -101,6 +107,19 @@ const AuthForm: React.FC<AuthFormProps> = ({
                         component="div"
                         className="text-rose-600 mt-[-20px] text-[15px] font-light mb-5 items-center"
                       />
+                      <button
+                        className="cursor-pointer bg-transparent border-none text-gray-700 font-normal absolute left-[92%] top-2/3 transform -translate-y-1/2"
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        {showPassword ? (
+                          <VisibilityOffOutlined
+                            style={{ fontSize: fontSize }}
+                          />
+                        ) : (
+                          <VisibilityOutlined style={{ fontSize: fontSize }} />
+                        )}
+                      </button>
                     </div>
                     <button
                       type="submit"
