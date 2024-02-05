@@ -30,6 +30,18 @@ class UserPinRepository {
     }
   }
 
+  async getAllPins(): Promise<PinData[]> {
+    try {
+      const query = "SELECT * FROM pins";
+      const result = await pool.query(query);
+
+      return result.rows as PinData[];
+    } catch (error) {
+      console.error("Error retrieving all pins:", (error as Error).message);
+      throw new Error("Error retrieving all pins");
+    }
+  }
+
   async getUserPins(userId: string): Promise<PinData[]> {
     try {
       const query = "SELECT * FROM pins WHERE user_id = $1";

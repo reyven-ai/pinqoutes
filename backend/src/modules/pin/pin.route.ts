@@ -4,7 +4,13 @@ import { v4 as uuidv4 } from "uuid";
 import { checkAuthMiddleware } from "../../middleware/checkAuthMiddleware";
 import { AuthResponse } from "../../types";
 import { handleError } from "../../errors/errors";
-import { createPin, deletePin, getPinDetails, updatePin } from "./pin.services";
+import {
+  createPin,
+  deletePin,
+  getAllPins,
+  getPinDetails,
+  updatePin,
+} from "./pin.services";
 import {
   ref,
   getDownloadURL,
@@ -79,6 +85,15 @@ router.get("/:id", checkAuthMiddleware, async (req: Request, res: Response) => {
     }
 
     res.status(200).json(pinDetails);
+  } catch (error) {
+    handleError(error, res);
+  }
+});
+
+router.get("/", checkAuthMiddleware, async (req: Request, res: Response) => {
+  try {
+    const pins = await getAllPins();
+    res.status(200).json(pins);
   } catch (error) {
     handleError(error, res);
   }

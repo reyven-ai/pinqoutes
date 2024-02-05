@@ -31,6 +31,18 @@ export async function getUserPins(userId: string): Promise<PinData[]> {
   }
 }
 
+export async function getAllPins(): Promise<PinData[]> {
+  try {
+    const pinRepository = new UserPinRepository();
+    const allPins = await pinRepository.getAllPins();
+
+    return allPins || [];
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error fetching all pins.");
+  }
+}
+
 export async function getPinDetails(id: string): Promise<PinData | null> {
   try {
     const pinRepository = new UserPinRepository();

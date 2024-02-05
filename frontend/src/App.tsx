@@ -1,18 +1,22 @@
 import { Route, Routes, useLocation } from "react-router-dom";
 import { ReactQueryProvider } from "./providers/ReactQueryProvider";
+import { Toaster } from "react-hot-toast";
 import Login from "./components/auth/Auth.Login";
 import Register from "./components/auth/Auth.Register";
 import ProfileCreate from "./components/Profile/Profile.Create";
-import Profile from "./pages/Profile";
-import HomePage from "./pages/Home/PrivateHome";
+import Profile from "./pages/Profile/Profile";
 import PrivateRoutes from "./privateRoute/PrivateRoute";
 import RootLayout from "./pages/Roots";
 import AuthHeader from "./components/Layout/AuthHeader";
 import MainHeader from "./components/Layout/MainHeader";
+import PinCreate from "./components/pin/Pin.Create";
+import PinDetails from "./components/pin/Pin.Details";
+import PinUpdate from "./components/pin/Pin.Update";
+import PrivateHomePage from "./pages/Home/PrivateHome";
+import People from "./pages/People";
 
 function App() {
   const location = useLocation();
-
   const getHeaderComponent = () => {
     if (
       location.pathname.includes("/signup") ||
@@ -24,6 +28,7 @@ function App() {
       return <MainHeader />;
     }
   };
+
   return (
     <>
       <ReactQueryProvider>
@@ -35,12 +40,20 @@ function App() {
           </Routes>
           <Routes>
             <Route element={<PrivateRoutes />}>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/profile" element={<Profile />} />
+              <Route path="/" element={<PrivateHomePage />} />
+              <Route path="/people" element={<People />} />
+              <Route path="/profile/:userId" element={<Profile />} />
+              {/* /* <Route path="/profile/:profileId" element={<ProfileDetails />} /> */
+              /* <Route path="/users/:userId/pins" element={<OtherUsersPins />} /> */}
               <Route path="/profile/create" element={<ProfileCreate />} />
+              {/* <Route path="/pins" element={<UserPinsList />} /> */}
+              <Route path="/pins/:id" element={<PinDetails />} />
+              <Route path="/pin/create" element={<PinCreate />} />
+              <Route path="/pin/edit" element={<PinUpdate />} />
             </Route>
           </Routes>
         </RootLayout>
+        <Toaster position="top-right" />
       </ReactQueryProvider>
     </>
   );
