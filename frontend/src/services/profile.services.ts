@@ -15,15 +15,15 @@ export const updateProfile = (updateProfileInput: UserProfileInput) => {
   const headers = authHeader();
   return axios.patch(profileUrl, updateProfileInput, { headers });
 };
-
-export const getSelfProfile: () => Promise<UserProfileData> = async () => {
+export const getSelfProfile = async (
+  userId: number
+): Promise<UserProfileData> => {
   const headers = authHeader();
 
-  const response = await axios.get(profileUrl, { headers });
+  const response = await axios.get(`${profileUrl}${userId}`, { headers });
   const userProfileData = transformProfileApiDataToUserProfileData(
     response.data
   );
-
   console.log("getSelfProfile result:", userProfileData);
 
   return userProfileData;
