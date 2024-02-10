@@ -2,7 +2,7 @@ import { usePinDetails } from "@/hooks/usePinAction";
 import { Link, useParams } from "react-router-dom";
 import { Share } from "@material-ui/icons";
 import MenuDropdown from "../DropdownUtil/Edit.Delelete.Button";
-import SaveButton from "./Pin.SaveButton";
+import SavePinButton from "./Pin.SaveButton";
 
 const PinDetails: React.FC = () => {
   const { id } = useParams();
@@ -29,11 +29,7 @@ const PinDetails: React.FC = () => {
                   <MenuDropdown />
                 </li>
               </ul>
-              <SaveButton pin={pinDetails} />
-              {/* <button className="bg-backgroundButtonColor px-8 py-2 text-white rounded-[20px]">
-              {/* <button className="bg-backgroundButtonColor px-8 py-2 text-white rounded-[20px]">
-                Save
-              </button> */}
+              <SavePinButton />
             </div>
             <div className="px-8 py-5">
               <Link to={`${pinDetails.link}`}>{pinDetails.link}</Link>

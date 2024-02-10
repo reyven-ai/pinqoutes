@@ -1,8 +1,8 @@
 import React from "react";
-import PinForm from "./Pin.Form";
 import { PinFormInput } from "@/types/pin.types";
 import { usePinAction } from "@/hooks/usePinAction";
 import { pinValidationSchema } from "@/validations/pin.validation";
+import PinForm from "./Pin.Form";
 
 const PinCreate: React.FC = () => {
   const { handleCreatePin, message, successful, loading } = usePinAction();

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import PinForm from "./Pin.Form";
 import { PinFormInput } from "@/types/pin.types";
 import { usePinAction, usePinDetails } from "@/hooks/usePinAction";
 import { pinValidationSchema } from "@/validations/pin.validation";
 import EditProfileModal from "../Modal/EditProfileModal";
+import PinForm from "./Pin.Form";
 
 const PinUpdate: React.FC = () => {
   const { id } = useParams();
@@ -48,6 +48,7 @@ const PinUpdate: React.FC = () => {
               onSubmit={(values) => submitUpdatePin(values)}
               validationSchema={pinValidationSchema}
               initialValues={initialValues}
+              isNewPin={true}
             />
           </EditProfileModal>
         )}

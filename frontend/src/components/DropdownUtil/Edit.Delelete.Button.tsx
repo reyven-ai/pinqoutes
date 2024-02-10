@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { MoreHoriz } from "@material-ui/icons";
-import PinUpdate from "../pin/Pin.Update";
+import PinUpdate from "../Pin/Pin.Update";
 import { usePinAction } from "@/hooks/usePinAction";
 import { useParams } from "react-router-dom";
 import PinMenuModal from "../Modal/PinMenuModal";

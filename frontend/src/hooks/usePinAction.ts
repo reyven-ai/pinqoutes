@@ -57,6 +57,7 @@ export const usePinAction = () => {
     try {
       await updatePin(id, pinToUpdate);
       navigate(`/pins/${id}`);
+      console.log("Pin updated successfully");
     } catch (error) {
       handlePinError(error as ErrorResponse);
     } finally {

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import SaveButton from "../pin/Pin.SaveButton";
 import { Pin } from "@/types/pin.types";
+import SavePinButton from "../Pin/Pin.SaveButton";
 
 const Column: React.FC<{ pins: Array<Pin> }> = ({ pins }) => {
   return (
@@ -24,7 +24,7 @@ const Column: React.FC<{ pins: Array<Pin> }> = ({ pins }) => {
             <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity ">
               {pin.created_by && (
                 <div className="flex items-end justify-end py-2 px-2">
-                  <SaveButton pin={pin} />
+                  <SavePinButton />
                 </div>
               )}
             </div>

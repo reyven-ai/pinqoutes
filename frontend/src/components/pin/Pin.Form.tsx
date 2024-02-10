@@ -1,8 +1,8 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { MyDropzone } from "./Pin.dropzone";
 import { cn } from "@/types/util";
 import { PinFormProps } from "@/types/pin.types";
+import { MyDropzone } from "./Pin.Dropzone";
 
 const PinForm: React.FC<PinFormProps> = ({
   title,
@@ -12,6 +12,7 @@ const PinForm: React.FC<PinFormProps> = ({
   onSubmit,
   validationSchema,
   initialValues,
+  isNewPin,
 }) => {
   return (
     <div className="flex justify-center flex-col w-full h-[100%]">
@@ -44,7 +45,7 @@ const PinForm: React.FC<PinFormProps> = ({
                       component={MyDropzone}
                     />
                     <ErrorMessage
-                      name="image"
+                      name="image_url"
                       component="div"
                       className="error"
                     />
@@ -53,7 +54,7 @@ const PinForm: React.FC<PinFormProps> = ({
                     <div>
                       <label
                         className={`text-primaryTextColor block mb-[5px] text-[15px] font-light ${
-                          !dirty ? "opacity-50 cursor-auto" : ""
+                          !dirty && !isNewPin ? "opacity-50 cursor-auto" : ""
                         }`}
                         htmlFor="description"
                       >
@@ -66,7 +67,7 @@ const PinForm: React.FC<PinFormProps> = ({
                         type="text"
                         id="title"
                         name="title"
-                        disabled={!dirty}
+                        disabled={!dirty && !isNewPin}
                       />
                       <ErrorMessage
                         name="title"
@@ -78,7 +79,7 @@ const PinForm: React.FC<PinFormProps> = ({
                       <label
                         htmlFor="description"
                         className={`text-primaryTextColor block mb-[5px] text-[15px] font-light ${
-                          !dirty ? "opacity-50 cursor-auto" : ""
+                          !dirty && !isNewPin ? "opacity-50 cursor-auto" : ""
                         }`}
                       >
                         Description
@@ -94,7 +95,7 @@ const PinForm: React.FC<PinFormProps> = ({
                         )}
                         id="description"
                         name="description"
-                        disabled={!dirty}
+                        disabled={!dirty && !isNewPin}
                       />
                       <ErrorMessage
                         name="description"
@@ -105,7 +106,7 @@ const PinForm: React.FC<PinFormProps> = ({
                     <div>
                       <label
                         className={`text-primaryTextColor block mb-[5px] text-[15px] font-light ${
-                          !dirty ? "opacity-50 cursor-auto" : ""
+                          !dirty && !isNewPin ? "opacity-50 cursor-auto" : ""
                         }`}
                         htmlFor="description"
                       >
@@ -118,7 +119,7 @@ const PinForm: React.FC<PinFormProps> = ({
                         type="text"
                         id="link"
                         name="link"
-                        disabled={!dirty}
+                        disabled={!dirty && !isNewPin}
                       />
                       <ErrorMessage
                         name="link"
@@ -130,11 +131,7 @@ const PinForm: React.FC<PinFormProps> = ({
                       <button
                         type="submit"
                         disabled={!dirty}
-                        className={`bg-backgroundButtonColor text-white border-none cursor-pointer p-[0.8rem] w-full rounded-[30px] text-[15px] font-semibold mb-4 ${
-                          // loading
-                          //   ? "opacity-50 cursor-not-allowed"
-                          "disabled:opacity-50 cursor-auto"
-                        }`}
+                        className={`bg-backgroundButtonColor text-white border-none cursor-pointer p-[0.8rem] w-full rounded-[30px] text-[15px] font-semibold mb-4 ${"disabled:opacity-50 cursor-auto"}`}
                       >
                         {loading ? "Saving..." : "Save"}
                       </button>

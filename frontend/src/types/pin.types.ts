@@ -1,3 +1,4 @@
+import { FormikConfig } from "formik";
 import * as Yup from "yup";
 
 export type ListPinsData = {
@@ -44,7 +45,7 @@ export type PinFormInput = {
   image_url: string;
 };
 
-export interface PinFormProps {
+export interface PinFormProps extends FormikConfig<PinFormInput> {
   loading: boolean;
   title: string;
   onSubmit: (values: PinFormInput) => void;
@@ -52,9 +53,20 @@ export interface PinFormProps {
   initialValues: PinFormInput;
   message?: string;
   successful?: boolean;
+  isNewPin?: boolean;
 }
 
 export interface Pin {
+  id: string;
+  title: string;
+  description: string;
+  image_url: string;
+  created_by: string;
+  // Add other properties if needed
+}
+
+export interface SavedDetails {
+  pin_id: string;
   id: string;
   title: string;
   description: string;

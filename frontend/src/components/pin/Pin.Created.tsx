@@ -1,5 +1,5 @@
 import { formatDate, useUsersPins } from "@/hooks/useUsersPins";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 interface Pin {
   id: string;
@@ -9,7 +9,8 @@ interface Pin {
 }
 
 const PinProfile = () => {
-  const { usersPins } = useUsersPins();
+  const { userId } = useParams();
+  const { usersPins } = useUsersPins(userId || "");
 
   const sortedPins = usersPins
     ? [...usersPins].sort((a, b) => b.created_at.localeCompare(a.created_at))
