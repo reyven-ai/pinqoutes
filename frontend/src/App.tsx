@@ -9,9 +9,9 @@ import PrivateRoutes from "./privateRoute/PrivateRoute";
 import RootLayout from "./pages/Roots";
 import AuthHeader from "./components/Layout/AuthHeader";
 import MainHeader from "./components/Layout/MainHeader";
-import PinCreate from "./components/pin/Pin.Create";
-import PinDetails from "./components/pin/Pin.Details";
-import PinUpdate from "./components/pin/Pin.Update";
+import PinCreate from "./components/Pin/Pin.Create";
+import PinDetails from "./components/Pin/Pin.Details";
+import PinUpdate from "./components/Pin/Pin.Update";
 import PrivateHomePage from "./pages/Home/PrivateHome";
 import People from "./pages/People";
 
@@ -43,10 +43,7 @@ function App() {
               <Route path="/" element={<PrivateHomePage />} />
               <Route path="/people" element={<People />} />
               <Route path="/profile/:userId" element={<Profile />} />
-              {/* /* <Route path="/profile/:profileId" element={<ProfileDetails />} /> */
-              /* <Route path="/users/:userId/pins" element={<OtherUsersPins />} /> */}
               <Route path="/profile/create" element={<ProfileCreate />} />
-              {/* <Route path="/pins" element={<UserPinsList />} /> */}
               <Route path="/pins/:id" element={<PinDetails />} />
               <Route path="/pin/create" element={<PinCreate />} />
               <Route path="/pin/edit" element={<PinUpdate />} />

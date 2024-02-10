@@ -11,9 +11,18 @@ export const register = async (authUserdata: UserAuthInput) => {
 };
 
 export const login = async (authUserdata: UserAuthInput) => {
-  const response = await axios.post(apiUrl + "login", authUserdata);
-  if (response.data.token) {
-    localStorage.setItem("token", response.data.token);
+  try {
+    const response = await axios.post(apiUrl + "login", authUserdata);
+    const { token, user_id } = response.data;
+
+    if (token) {
+      localStorage.setItem("token", token);
+      localStorage.setItem("user_id", user_id);
+    }
+
+    return { token, user_id };
+  } catch (error) {
+    console.error("Error logging in:", error);
+    throw error;
   }
-  return response.data;
 };

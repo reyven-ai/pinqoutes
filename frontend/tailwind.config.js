@@ -13,6 +13,7 @@ export default {
         secondary: "#fefefe",
         header: "#333;",
         textError: "#ea0303",
+        NavlabelName: "rgba(0, 0, 0, 0.6)",
         backgroundErrorIcon: "rgb(168, 32, 13)",
         invalidCredentialBg: "rgba(22, 51, 0, 0.08)",
         backgroundButtonColor: "rgb(61, 145, 253)",

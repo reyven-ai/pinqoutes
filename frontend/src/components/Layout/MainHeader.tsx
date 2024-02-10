@@ -1,14 +1,13 @@
-import { Link, NavLink, useLocation, useParams } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import SearchBar from "../Searchbar/SearchBar";
 import ProfileUtil from "../DropdownUtil/ProfileDropdown";
 
 import { checkAuthLoader } from "@/services/auth.util";
 import { Home, Notifications, People, YouTube } from "@material-ui/icons";
-import { useGetProfileData } from "@/hooks/useProfileAction";
 
-function MainHeader() {
-  const { userId } = useParams();
-  const { userProfile } = useGetProfileData(Number(userId));
+const MainHeader = () => {
+  // const { userId } = useParams();
+
   const location = useLocation();
   const isAuthenticated = checkAuthLoader();
 
@@ -66,12 +65,7 @@ function MainHeader() {
       <header className="flex bg-white justify-between items-center px-[1%] py-[0.3rem] shadow-md fixed w-full top-0 z-10 ">
         <div className="flex items-center gap-3">
           <h1 className="text-[22px] mr-1 font-semibold text-blacks">
-            <NavLink to="/">
-              Pin
-              {/* <span className="text-[#3D91FD] font-normal text-[22px]"> */}
-              Tech
-              {/* </span> */}
-            </NavLink>
+            <NavLink to="/">PinTech</NavLink>
           </h1>
           <div>
             <Link
@@ -90,7 +84,7 @@ function MainHeader() {
                   <div className="flex flex-col items-center">
                     {location.pathname === path ? activeIcon : icon}
                     <span
-                      className={`text-xs text-labelName`}
+                      className={`text-xs text-NavlabelName`}
                       style={{
                         color: location.pathname === path ? "#3D91FD" : "",
                       }}
@@ -105,23 +99,14 @@ function MainHeader() {
         </div>
         <div>
           <div className="flex gap-1 items-center font-normal">
-            {/* <li>
-              <MenuDropdown />
-            </li> */}
-            {/* <li> */}
-            {/* <Chat /> */}
             <SearchBar />
-            {/* </li> */}
             <div>
-              <ProfileUtil
-                username={userProfile?.username ?? ""}
-                userId={userProfile?.user_id ?? 0}
-              />
+              <ProfileUtil />
             </div>
           </div>
         </div>
       </header>
     </>
   );
-}
+};
 export default MainHeader;

@@ -1,15 +1,11 @@
-import {
-  // GetProfileDetails,
-  UserProfileData,
-  UserProfileInput,
-} from "@/types/profile.types";
+import { UserProfileData, UserProfileInput } from "@/types/profile.types";
 
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {
   createProfile,
   deleteProfile,
-  // getProfileDetails,
+  getProfileProps,
   getSelfProfile,
   updateProfile,
 } from "@/services/profile.services";
@@ -149,28 +145,33 @@ function transformProfileDataToInput(
   };
 }
 
-// export const useGetProfileDetails = (profileId: number) => {
-//   const [profileDetails, setprofileDetails] =
-//     useState<UserProfileData | null>(null);
+export const useGetProfileProps = () => {
+  const [userProfileProps, setUserProfileProps] =
+    useState<UserProfileData | null>(null);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const userId = localStorage.getItem("user_id");
+        if (userId) {
+          const usersPinsList = await getProfileProps();
+          setUserProfileProps(usersPinsList);
+        } else {
+          console.log("User is not logged in.");
+        }
+      } catch (error) {
+        console.error("Error fetching user pins:", error);
+      }
+    };
 
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       try {
-//         const pinDetailsData = await getProfileDetails(profileId);
-//         setprofileDetails(pinDetailsData);
-//       } catch (error) {
-//         console.error("Error fetching pin details:", error);
-//       }
-//     };
+    fetchData();
 
-//     fetchData();
-//     return () => {};
-//   }, [profileId]);
+    return () => {};
+  }, []);
 
-//   return {
-//     profileDetails,
-//   };
-// };
+  return {
+    userProfileProps,
+  };
+};
 
 export const useGetProfileData = (userId: number) => {
   const [userProfile, setUserProfile] = useState<UserProfileData | null>(null);

@@ -15,6 +15,17 @@ export const updateProfile = (updateProfileInput: UserProfileInput) => {
   const headers = authHeader();
   return axios.patch(profileUrl, updateProfileInput, { headers });
 };
+
+export const getProfileProps = async (): Promise<UserProfileData> => {
+  const userId = localStorage.getItem("user_id");
+  const headers = authHeader();
+  if (!userId) {
+    throw new Error("User ID not found in local storage");
+  }
+  const response = await axios.get(`${profileUrl}${userId}`, { headers });
+  return response.data;
+};
+
 export const getSelfProfile = async (
   userId: number
 ): Promise<UserProfileData> => {

@@ -1,14 +1,16 @@
 import { useState } from "react";
 import { useGetProfileData } from "@/hooks/useProfileAction";
 import UpdateProfileForm from "@/components/Profile/Profile.Update";
-import PinProfile from "@/components/pin/Pin.Created";
-import SaveList from "@/components/pin/Pin.SaveList";
+import PinProfile from "@/components/Pin/Pin.Created";
+import SaveList from "@/components/Pin/Pin.SaveList";
 import { useParams } from "react-router-dom";
+import { getCurrentUserId } from "@/services/auth.util";
 
 const Profile = () => {
   const { userId } = useParams();
   const { userProfile } = useGetProfileData(Number(userId));
   const [activeTab, setActiveTab] = useState("created");
+  const loggedInUserId = getCurrentUserId();
 
   if (!userProfile) {
     return <div>Profile not found</div>;
@@ -19,7 +21,7 @@ const Profile = () => {
   };
 
   return (
-    <div className=" w-[full] ml-[auto] mt-[1rem] mb-[1rem]pt-[2rem] justify-center gap-[1rem] mt-20">
+    <div className=" w-[full] ml-[auto] mb-[1rem]pt-[2rem] justify-center gap-[1rem] mt-20">
       <div className="h-[150px] w-[60%] m-[auto]">
         <div className="h-[200px] bg-[#e4e6eb] rounded-[8px]"></div>
         <div className=" mt-[-2.5rem] mb-[2rem] relative flex items-center">
@@ -35,7 +37,7 @@ const Profile = () => {
                 {userProfile.country_of_residence}
               </p>
             </div>
-            <UpdateProfileForm />
+            {userId === loggedInUserId && <UpdateProfileForm />}
           </div>
         </div>
       </div>

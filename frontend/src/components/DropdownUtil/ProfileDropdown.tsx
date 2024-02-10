@@ -3,19 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { logout } from "@/services/auth.util";
 import { Settings, Help, ExitToApp, Brightness2 } from "@material-ui/icons";
 import DropDownModal from "../Modal/DropDownModal";
+import { useGetProfileProps } from "@/hooks/useProfileAction";
 
-interface OtherComponentProps {
-  username: string;
-  userId: number;
-}
-
-const ProfileUtil: React.FC<OtherComponentProps> = ({ username, userId }) => {
+const ProfileUtil = () => {
+  const { userProfileProps } = useGetProfileProps();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
-
-  // if (!userProfile) {
-  //   return <div>Profile not found</div>;
-  // }
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -49,7 +42,7 @@ const ProfileUtil: React.FC<OtherComponentProps> = ({ username, userId }) => {
                 <li className="flex mb-[1.5rem] shadow-shadowTop rounded-lg">
                   <Link
                     className="flex items-center gap-2 bg-white w-[322px] px-2 py-4 rounded-lg"
-                    to={`/profile/${userId}`}
+                    to={`/profile/${userProfileProps?.user_id}`}
                   >
                     <img
                       className="w-[40px] h-[40px] rounded-[50%] ml-[0.3rem]"
@@ -57,7 +50,9 @@ const ProfileUtil: React.FC<OtherComponentProps> = ({ username, userId }) => {
                       alt=""
                     />
                     <div>
-                      <h2 className="font-semibold mb-[-5px]">{username}</h2>
+                      <h2 className="font-semibold mb-[-5px]">
+                        {userProfileProps?.username}
+                      </h2>
                       <span className="text-[13px] font-semibold text-[#6D6D6D]">
                         3k followers
                       </span>
