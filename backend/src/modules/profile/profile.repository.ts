@@ -66,7 +66,7 @@ class UserDetailsRepository {
     }
   }
 
-  async getSelfUSerProfile(user_id: number): Promise<ProfileData | null> {
+  async getSelfUserProfile(user_id: number): Promise<ProfileData | null> {
     try {
       const query = "SELECT * FROM user_profiles WHERE user_id = $1";
       const result = await pool.query(query, [user_id]);

@@ -62,7 +62,7 @@ export async function getProfileDetails(
 ): Promise<ProfileData | null> {
   try {
     const userRepository = new UserDetailsRepository();
-    const getSelfUserProfile = await userRepository.getSelfUSerProfile(userId);
+    const getSelfUserProfile = await userRepository.getSelfUserProfile(userId);
 
     if (!getSelfUserProfile) {
       return null;

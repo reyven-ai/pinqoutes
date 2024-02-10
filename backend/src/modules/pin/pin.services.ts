@@ -7,9 +7,12 @@ export async function createPin(data: CreatePinInput): Promise<CreatePinInput> {
     const pinRepository = new UserPinRepository();
     const createdUserPin: CreatePinInput = await pinRepository.createUserPin(
       data.user_id,
+      data.title,
       data.description,
       data.image_url,
-      data.created_at
+      data.link,
+      data.created_at,
+      data.created_by
     );
 
     return createdUserPin;

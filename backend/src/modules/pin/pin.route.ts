@@ -20,6 +20,7 @@ import {
 import { storage } from "../../firebase.config";
 import multer from "multer";
 import { fileValidationMiddleware } from "./pin.validation";
+import { UserDetailsRepository } from "../profile/profile.repository";
 
 const router = Router();
 
@@ -32,7 +33,7 @@ router.post(
   async (req: Request, res: AuthResponse) => {
     try {
       const user_id = res.locals.authUser.user_id;
-      const { description } = req.body;
+      const { title, description, link } = req.body;
       const fileID = uuidv4();
       const storageRef = ref(storage, `files/${fileID}`);
 
@@ -54,14 +55,23 @@ router.post(
 
       const downloadURL = await getDownloadURL(snapshot.ref);
 
-      console.log(">>>> request user_id", user_id);
+      // Fetch the username from the profile table
+      const profileRepository = new UserDetailsRepository();
+      const profile = await profileRepository.getSelfUserProfile(user_id);
+
+      if (!profile) {
+        return res.status(404).json({ error: "Profile not found" });
+      }
 
       const dateTime = new Date();
       const data = {
         user_id,
+        title,
         description,
         image_url: downloadURL,
+        link,
         created_at: dateTime,
+        created_by: profile.username,
       };
 
       const createdPin = await createPin(data);
@@ -108,7 +118,7 @@ router.patch(
     try {
       const user_id = res.locals.authUser.user_id;
       const id = req.params.id;
-      const { description } = req.body;
+      const { title, description, link, created_by } = req.body;
 
       const existingPin = await getPinDetails(id);
       if (!existingPin) {
@@ -147,9 +157,12 @@ router.patch(
 
       const updateData = {
         user_id,
+        title: title,
         description: description || existingPin.description,
         image_url: imageUrl,
+        link: link || existingPin.link,
         updated_at: new Date(),
+        created_by: created_by || existingPin.created_by,
       };
 
       const updatedPin = await updatePin(id, updateData);

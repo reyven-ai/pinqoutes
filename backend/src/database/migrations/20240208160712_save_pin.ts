@@ -1,19 +1,18 @@
 import type { Knex } from "knex";
 
 export async function up(knex: Knex): Promise<void> {
-  return knex.schema.createTable("pins", function (table) {
+  return knex.schema.createTable("saved_pins", function (table) {
     table.increments("id").primary();
     table.integer("user_id").unsigned().references("user_id").inTable("users");
-    table.text("description");
-    table.string("image_url");
+    table.integer("pin_id").unsigned().references("id").inTable("pins");
     table.string("title");
-    table.string("link");
-    table.string("created_by").references("username").inTable("user_profiles");
+    table.string("description");
+    table.string("image_url");
+    table.string("created_by");
     table.timestamp("created_at").defaultTo(knex.fn.now());
-    table.timestamp("updated_at").defaultTo(knex.fn.now());
   });
 }
 
 export async function down(knex: Knex): Promise<void> {
-  return knex.schema.dropTable("pins");
+  return knex.schema.dropTable("saved_pins");
 }
