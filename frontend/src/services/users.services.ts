@@ -1,6 +1,6 @@
 import axios from "axios";
 import authHeader from "./auth.header";
-import { ListPinsData } from "@/types/pin.types";
+import { ListPinsData, SavedDetails } from "@/types/pin.types";
 
 const usersPinsUrl = import.meta.env.VITE_API_USERS;
 
@@ -10,8 +10,7 @@ export const getAllUsers = async () => {
   return response.data;
 };
 
-export const getUserPins = async (): Promise<ListPinsData> => {
-  const userId = localStorage.getItem("user_id");
+export const getUserPins = async (userId: string): Promise<ListPinsData> => {
   const headers = authHeader();
 
   if (!userId) {
@@ -22,5 +21,46 @@ export const getUserPins = async (): Promise<ListPinsData> => {
     headers,
   });
 
+  return response.data;
+};
+
+export const saveUserPin = async (
+  userId: string,
+  pinId: string
+): Promise<void> => {
+  const headers = authHeader();
+
+  if (!userId || !pinId) {
+    throw new Error("User ID or Pin ID is missing");
+  }
+
+  await axios.post(`${usersPinsUrl}${userId}/savePin`, { pinId }, { headers });
+};
+
+export const removeUserPin = async (
+  userId: string,
+  pinId: string
+): Promise<void> => {
+  const headers = authHeader();
+
+  if (!userId || !pinId) {
+    throw new Error("User ID or Pin ID is missing");
+  }
+
+  await axios.delete(`${usersPinsUrl}${userId}/savedPins/${pinId}`, {
+    headers,
+  });
+};
+
+export const getSavedPins = async (userId: string): Promise<SavedDetails> => {
+  const headers = authHeader();
+
+  if (!userId) {
+    throw new Error("User ID is missing");
+  }
+
+  const response = await axios.get(`${usersPinsUrl}${userId}/savedPins`, {
+    headers,
+  });
   return response.data;
 };

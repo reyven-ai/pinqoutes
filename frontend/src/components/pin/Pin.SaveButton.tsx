@@ -1,29 +1,40 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { addToSave, removeFromSave } from "@/store/actions/pin";
+import { useSaveUserPin, useRemoveUserPin } from "@/hooks/useUsersPins";
+import { useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { getCurrentUserId } from "@/services/auth.util";
 
-import { Pin, RootState } from "@/types/pin.types";
+const SavePinButton = () => {
+  const { savePin } = useSaveUserPin();
+  const { removePin } = useRemoveUserPin();
+  const { id } = useParams();
+  const [isPinInSaves, setIsPinInSaves] = useState(false);
+  const loggedInUserId = getCurrentUserId();
 
-const SaveButton: React.FC<{ pin: Pin }> = ({ pin }) => {
-  const dispatch = useDispatch();
-  const saves = useSelector((state: RootState) => state.saves);
+  useEffect(() => {
+    const savedState = localStorage.getItem("savedState");
+    if (savedState) {
+      setIsPinInSaves(JSON.parse(savedState));
+    }
+  }, []);
 
-  const isPinInSaves = saves.some((savePin) => savePin.id === pin.id);
-
-  const handleToggleFavorites = () => {
-    if (isPinInSaves) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      dispatch(removeFromSave(pin.id) as any);
+  const handleSavePin = async () => {
+    if (loggedInUserId && id) {
+      if (isPinInSaves) {
+        await removePin(loggedInUserId, id);
+      } else {
+        await savePin(loggedInUserId, id);
+      }
+      setIsPinInSaves(!isPinInSaves);
+      localStorage.setItem("savedState", JSON.stringify(!isPinInSaves));
     } else {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      dispatch(addToSave(pin) as any);
+      console.error("User ID or Pin ID is missing");
     }
   };
 
   return (
     <div>
       <button
-        onClick={handleToggleFavorites}
+        onClick={handleSavePin}
         className="bg-backgroundButtonColor px-6 py-2 text-white rounded-[20px]"
       >
         {isPinInSaves ? "Saved" : "Save"}
@@ -32,4 +43,4 @@ const SaveButton: React.FC<{ pin: Pin }> = ({ pin }) => {
   );
 };
 
-export default SaveButton;
+export default SavePinButton;

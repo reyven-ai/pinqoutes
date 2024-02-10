@@ -1,18 +1,24 @@
 import { getAllPins } from "@/services/pin.services";
-import { getAllUsers, getUserPins } from "@/services/users.services";
-import { ListPinsData } from "@/types/pin.types";
+import {
+  getAllUsers,
+  getSavedPins,
+  getUserPins,
+  removeUserPin,
+  saveUserPin,
+} from "@/services/users.services";
+import { ListPinsData, SavedDetails } from "@/types/pin.types";
 import { ProfileApiData } from "@/types/profile.types";
 import { useEffect, useState } from "react";
 
-export const useUsersPins = () => {
+export const useUsersPins = (userId: string) => {
   const [usersPins, setUsersPins] = useState<ListPinsData | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const userId = localStorage.getItem("user_id");
+        // const userId = localStorage.getItem("user_id");
         if (userId) {
-          const usersPinsList = await getUserPins();
+          const usersPinsList = await getUserPins(userId);
           setUsersPins(usersPinsList);
         } else {
           console.log("User is not logged in.");
@@ -25,7 +31,7 @@ export const useUsersPins = () => {
     fetchData();
 
     return () => {};
-  }, []);
+  }, [userId]);
 
   return {
     usersPins: Array.isArray(usersPins) ? usersPins : [],
@@ -72,6 +78,55 @@ export const useGetAllPins = () => {
 
   return {
     allPins: Array.isArray(allPins) ? allPins : [],
+  };
+};
+
+export const useSaveUserPin = () => {
+  const savePin = async (userId: string, pinId: string) => {
+    try {
+      await saveUserPin(userId, pinId);
+      console.log("Pin saved successfully");
+    } catch (error) {
+      console.error("Error saving pin:", error);
+    }
+  };
+
+  return {
+    savePin,
+  };
+};
+
+export const useRemoveUserPin = () => {
+  const removePin = async (userId: string, pinId: string) => {
+    try {
+      await removeUserPin(userId, pinId);
+      console.log("Pin removed successfully");
+    } catch (error) {
+      console.error("Error removing pin:", error);
+    }
+  };
+
+  return {
+    removePin,
+  };
+};
+
+export const useGetSavedPins = () => {
+  const [savedPins, setSavedPins] = useState<SavedDetails | null>(null);
+
+  const fetchSavedPins = async (userId: string) => {
+    try {
+      const pins = await getSavedPins(userId);
+      setSavedPins(pins);
+      console.log("Pins fetched successfully");
+    } catch (error) {
+      console.error("Error fetching pins:", error);
+    }
+  };
+
+  return {
+    savedPins: Array.isArray(savedPins) ? savedPins : [],
+    fetchSavedPins,
   };
 };
 
