@@ -1,18 +1,16 @@
 import { PinData } from "../pin/pin.types";
 import { UserSavePinRepository } from "./users.save.repository";
-import { SavedData } from "./users.save.types";
+import { SavePinInput, SavedPinData } from "./users.save.types";
 
-export async function savePin(data: SavedData): Promise<SavedData | null> {
+export async function savePin(
+  data: SavePinInput
+): Promise<SavedPinData | null> {
   try {
     const pinRepository = new UserSavePinRepository();
     const savedPin = await pinRepository.saveUserPin(
       data.userId,
       data.pinId,
-      data.title,
-      data.description,
-      data.image_url,
-      data.created_at,
-      data.created_by
+      data.created_at
     );
 
     if (!savedPin) {

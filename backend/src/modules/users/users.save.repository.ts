@@ -1,29 +1,17 @@
 import pool from "../../database/db";
 import { PinData } from "../pin/pin.types";
-import { SavedData } from "./users.save.types";
+import { SavedPinData } from "./users.save.types";
 
 class UserSavePinRepository {
   async saveUserPin(
     userId: string,
     pinId: string,
-    title: string,
-    description: string,
-    image_url: string,
-    created_at: Date,
-    created_by: string
-  ): Promise<SavedData | null> {
+    created_at: Date
+  ): Promise<SavedPinData | null> {
     try {
       const query =
-        "INSERT INTO saved_pins (user_id, pin_id, title, description, image_url, created_by, created_at) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *";
-      const result = await pool.query(query, [
-        userId,
-        pinId,
-        title,
-        description,
-        image_url,
-        created_by,
-        created_at,
-      ]);
+        "INSERT INTO saved_pins (user_id, pin_id, created_at) VALUES ($1, $2, $3) RETURNING *";
+      const result = await pool.query(query, [userId, pinId, created_at]);
 
       if (result.rows.length > 0) {
         return result.rows[0];
@@ -48,7 +36,12 @@ class UserSavePinRepository {
 
   async getSavedPins(userId: string): Promise<PinData[]> {
     try {
-      const query = "SELECT * FROM saved_pins WHERE user_id = $1";
+      const query = `
+        SELECT saved_pins.*, pins.title, pins.description, pins.image_url, pins.created_by
+        FROM saved_pins
+        JOIN pins ON saved_pins.pin_id = pins.id
+        WHERE saved_pins.user_id = $1
+      `;
       const result = await pool.query(query, [userId]);
 
       if (result.rows.length > 0) {

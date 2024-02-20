@@ -1,9 +1,11 @@
-export interface SavedData {
+export type SavePinInput = {
   userId: string;
   pinId: string;
-  title: string;
-  description: string;
-  image_url: string;
   created_at: Date;
-  created_by: string;
-}
+};
+
+export type SavedPinData = {
+  userId: string;
+  pinId: string;
+  created_at: Date;
+};

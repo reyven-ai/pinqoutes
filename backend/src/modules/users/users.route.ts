@@ -32,7 +32,7 @@ router.post(
   async (req: Request, res: Response) => {
     try {
       const { pinId } = req.body;
-      const userId = req.params.userId;
+      const userId = res.locals.authUser.user_id;
 
       const pinRepository = new UserPinRepository();
       const pin = await pinRepository.getPinDetails(pinId);
@@ -44,11 +44,7 @@ router.post(
       const data = {
         userId,
         pinId,
-        title: pin.title,
-        description: pin.description,
-        image_url: pin.image_url,
         created_at: new Date(),
-        created_by: pin.created_by,
       };
 
       const savedPin = await savePin(data);
@@ -69,8 +65,8 @@ router.delete(
   checkAuthMiddleware,
   async (req: Request, res: Response) => {
     try {
-      const userId = req.params.userId;
-      const pinId = req.params.pinId; // Extract pinId from the request params
+      const userId = res.locals.authUser.user_id;
+      const pinId = req.params.pinId;
 
       await removePin(userId, pinId);
 
