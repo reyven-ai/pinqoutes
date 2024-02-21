@@ -1,5 +1,7 @@
-import { Link, useLocation } from "react-router-dom"; // Assuming you are using react-router for navigation
+import { Link, useLocation } from "react-router-dom";
 import { Close } from "@material-ui/icons";
+import Logo from "../../assets/Pintech.png";
+import Logos from "../../assets/Logos.png";
 
 function AuthHeader() {
   const location = useLocation();
@@ -20,8 +22,14 @@ function AuthHeader() {
   };
   return (
     <>
-      <header className="flex justify-between px-[16%] py-[2%] border">
-        <div className="text-3xl font-semibold">Pintech</div>
+      <header className="flex justify-between items-center border xs:px-[5%] md:px-[8%] lg:px-[16%] lg:py-[2rem] xs:py-[1rem]">
+        <div className="text-3xl font-semibold">
+          <img
+            className="w-[125px] h-[auto] lg:block xs:hidden"
+            src={Logo}
+          ></img>
+          <img className="w-[40px] h-[auto] lg:hidden" src={Logos}></img>
+        </div>
         <div>{getHeaderComponent()}</div>
       </header>
     </>

@@ -1,6 +1,6 @@
 export const logout = () => {
   localStorage.removeItem("token");
-  localStorage.removeItem("user_id"); // Corrected key name
+  localStorage.removeItem("user_id");
 };
 
 export const getCurrentToken = () => {

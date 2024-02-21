@@ -41,6 +41,7 @@ const Login: React.FC = () => {
         title="Welcome back!"
         labelLink="Signup"
         linkText="New to Pint?"
+        footerText="Or log in with"
         linkTo="/signup"
         button="Log in"
         loading={loading}
