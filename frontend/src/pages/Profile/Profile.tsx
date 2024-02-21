@@ -24,21 +24,30 @@ const Profile = () => {
     <div className=" w-[full] ml-[auto] mb-[1rem]pt-[2rem] justify-center gap-[1rem] mt-20">
       <div className="h-[150px] w-[60%] m-[auto]">
         <div className="h-[200px] bg-[#e4e6eb] rounded-[8px]"></div>
-        <div className=" mt-[-2.5rem] mb-[2rem] relative flex items-center">
-          <img
-            className="w-[140px] h-[140px] object-cover rounded-[50%] border-2 border-whit ml-[2rem]"
-            src="https://s.pinimg.com/images/user/default_140.png"
-          ></img>
-          <div className="flex justify-between gap-2 ml-2 mt-3">
-            <div>
-              <h2 className="text-[22px] mb-[-3px]">{userProfile.username}</h2>
-              <p className="mb-[-2px]">{userProfile.description}</p>
-              <p className="text-[14px] font-semibold text-[#6D6D6D]">
-                {userProfile.country_of_residence}
-              </p>
+        <div className="flex justify-between items-start">
+          <div className=" mt-[-2.5rem] mb-[2rem] relative flex items-center">
+            <img
+              className="w-[140px] h-[140px] object-cover rounded-[50%] border-2 border-whit ml-[2rem]"
+              src="https://s.pinimg.com/images/user/default_140.png"
+            ></img>
+            <div className="flex justify-between gap-2 ml-2 mt-3">
+              <div>
+                <h2 className="text-[22px] mb-[-3px]">
+                  {userProfile.username}
+                </h2>
+                <p className="mb-[-2px]">{userProfile.description}</p>
+                <p className="text-[14px] font-semibold text-[#6D6D6D]">
+                  {userProfile.country_of_residence}
+                </p>
+              </div>
+              {userId === loggedInUserId && <UpdateProfileForm />}
             </div>
-            {userId === loggedInUserId && <UpdateProfileForm />}
           </div>
+          {userId !== loggedInUserId && (
+            <button className="bg-backgroundButtonColor text-white px-7 py-2 rounded-[20px] mr-[2rem] mt-[0.7rem]">
+              Follow
+            </button>
+          )}
         </div>
       </div>
       <div className="w-[83%] mx-[auto] mt-[11%]">

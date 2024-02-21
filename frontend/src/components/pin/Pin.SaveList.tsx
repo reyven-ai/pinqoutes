@@ -1,7 +1,7 @@
 import { useGetSavedPins } from "@/hooks/useUsersPins";
 import { SavedDetails } from "@/types/pin.types";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const SaveList = () => {
   const { savedPins, fetchSavedPins } = useGetSavedPins();
@@ -12,7 +12,19 @@ const SaveList = () => {
   }, [userId, fetchSavedPins]);
 
   if (!savedPins || savedPins.length === 0) {
-    return <p className="placeholder text-center mt-20">Got no save yet!</p>;
+    return (
+      <div className="text-center">
+        <p className="placeholder mt-20 mb-[1.5rem]">
+          You haven't saved any Pins yet
+        </p>
+        <Link
+          className="px-5 py-3 bg-[#e4e6eb] rounded-[24px] font-semibold"
+          to="/"
+        >
+          Find ideas
+        </Link>
+      </div>
+    );
   }
 
   return (

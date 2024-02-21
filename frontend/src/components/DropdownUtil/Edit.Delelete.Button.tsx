@@ -40,6 +40,7 @@ function MenuDropdown() {
         {isModalOpen && (
           <PinMenuModal onClose={closeModal}>
             <div className="absolute right-0 mt-8 bg-white border rounded shadow-md w-[200px] px-3 py-2">
+              {/* {id === loggedInUserId && ( */}
               <ul>
                 <li className="mb-[5px]">
                   <button>
@@ -52,6 +53,7 @@ function MenuDropdown() {
                   </button>
                 </li>
               </ul>
+              {/* )} */}
             </div>
           </PinMenuModal>
         )}

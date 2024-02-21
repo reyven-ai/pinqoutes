@@ -11,11 +11,11 @@ const SavePinButton = () => {
   const loggedInUserId = getCurrentUserId();
 
   useEffect(() => {
-    const savedState = localStorage.getItem("savedState");
+    const savedState = localStorage.getItem(`savedState-${id}`);
     if (savedState) {
       setIsPinInSaves(JSON.parse(savedState));
     }
-  }, []);
+  }, [id]);
 
   const handleSavePin = async () => {
     if (loggedInUserId && id) {
@@ -25,7 +25,7 @@ const SavePinButton = () => {
         await savePin(loggedInUserId, id);
       }
       setIsPinInSaves(!isPinInSaves);
-      localStorage.setItem("savedState", JSON.stringify(!isPinInSaves));
+      localStorage.setItem(`savedState-${id}`, JSON.stringify(!isPinInSaves));
     } else {
       console.error("User ID or Pin ID is missing");
     }
@@ -35,7 +35,7 @@ const SavePinButton = () => {
     <div>
       <button
         onClick={handleSavePin}
-        className="bg-backgroundButtonColor px-6 py-2 text-white rounded-[20px]"
+        className="bg-backgroundButtonColor px-5 py-3 text-white rounded-[24px]"
       >
         {isPinInSaves ? "Saved" : "Save"}
       </button>

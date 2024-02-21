@@ -8,6 +8,23 @@ export default {
   ],
   theme: {
     extend: {
+      animation: {
+        "slide-in-right": "slide-in-right 0.5s forwards",
+      },
+      keyframes: {
+        "slide-in-right": {
+          "0%": { transform: "translateX(100%)" },
+          "100%": { transform: "translateX(0)" },
+        },
+      },
+      screens: {
+        xs: "200px",
+        sm: "640px",
+        md: "768px",
+        lg: "1024px",
+        xl: "1280px",
+        "2xl": "1480px",
+      },
       colors: {
         primaryTextColor: "rgb(69, 71, 69)",
         secondary: "#fefefe",

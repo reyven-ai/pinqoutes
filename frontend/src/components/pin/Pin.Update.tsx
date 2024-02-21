@@ -49,6 +49,7 @@ const PinUpdate: React.FC = () => {
               validationSchema={pinValidationSchema}
               initialValues={initialValues}
               isNewPin={true}
+              onClose={closeModal}
             />
           </EditProfileModal>
         )}

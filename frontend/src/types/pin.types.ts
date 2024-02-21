@@ -54,6 +54,7 @@ export interface PinFormProps extends FormikConfig<PinFormInput> {
   message?: string;
   successful?: boolean;
   isNewPin?: boolean;
+  onClose: () => void;
 }
 
 export interface Pin {
@@ -62,7 +63,6 @@ export interface Pin {
   description: string;
   image_url: string;
   created_by: string;
-  // Add other properties if needed
 }
 
 export interface SavedDetails {
@@ -72,24 +72,4 @@ export interface SavedDetails {
   description: string;
   image_url: string;
   created_by: string;
-  // Add other properties if needed
-}
-
-export interface Pin {
-  id: string;
-  // Add other properties of Meal if needed
-}
-
-export interface State {
-  saves: Pin[];
-}
-
-export interface Action {
-  type: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  payload?: any;
-}
-
-export interface RootState {
-  saves: Pin[];
 }

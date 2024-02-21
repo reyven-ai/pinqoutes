@@ -17,6 +17,7 @@ export interface AuthFormProps {
   linkText: string;
   linkTo: string;
   labelLink: string;
+  footerText?: string;
   onSubmit: (values: AuthUserFormInput) => void;
   validationSchema: Yup.Schema<AuthUserFormInput>;
   initialValues: AuthUserFormInput;
