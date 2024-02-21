@@ -5,7 +5,7 @@ import {
 } from "./profile.types";
 import pool from "../../database/db";
 
-class UserDetailsRepository {
+class ProfileRepository {
   async createUserProfile(
     user_id: number,
     username: string,
@@ -99,4 +99,4 @@ class UserDetailsRepository {
   }
 }
 
-export { UserDetailsRepository };
+export { ProfileRepository };

@@ -20,7 +20,7 @@ import {
 import { storage } from "../../firebase.config";
 import multer from "multer";
 import { fileValidationMiddleware } from "./pin.validation";
-import { UserDetailsRepository } from "../profile/profile.repository";
+import { ProfileRepository } from "../profile/profile.repository";
 
 const router = Router();
 
@@ -55,8 +55,7 @@ router.post(
 
       const downloadURL = await getDownloadURL(snapshot.ref);
 
-      // Fetch the username from the profile table
-      const profileRepository = new UserDetailsRepository();
+      const profileRepository = new ProfileRepository();
       const profile = await profileRepository.getSelfUserProfile(user_id);
 
       if (!profile) {
