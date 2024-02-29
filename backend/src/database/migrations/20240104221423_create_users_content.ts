@@ -6,9 +6,6 @@ export async function up(knex: Knex): Promise<void> {
     table.integer("user_id").unsigned().references("user_id").inTable("users");
     table.text("description");
     table.string("image_url");
-    table.string("title");
-    table.string("link");
-    table.string("created_by").references("username").inTable("user_profiles");
     table.timestamp("created_at").defaultTo(knex.fn.now());
     table.timestamp("updated_at").defaultTo(knex.fn.now());
   });

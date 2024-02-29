@@ -8,4 +8,10 @@ export async function up(knex: Knex): Promise<void> {
   });
 }
 
-export async function down(knex: Knex): Promise<void> {}
+export async function down(knex: Knex): Promise<void> {
+  return knex.schema.table("pins", function (table) {
+    table.dropColumn("title");
+    table.dropColumn("link");
+    table.dropColumn("created_by");
+  });
+}
