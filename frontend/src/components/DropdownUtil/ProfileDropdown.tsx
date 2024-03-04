@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { logout } from "@/services/auth.util";
-import { Settings, Help, ExitToApp, Brightness2 } from "@material-ui/icons";
+import { Settings, Help, Brightness2 } from "@material-ui/icons";
 import DropDownModal from "../Modal/DropDownModal";
 import { useGetProfileProps } from "@/hooks/useProfileAction";
+import Logout from "../../assets/logout.png";
 
 const ProfileUtil = () => {
   const { userProfileProps } = useGetProfileProps();
@@ -30,7 +31,7 @@ const ProfileUtil = () => {
       <div className="relative">
         <button onClick={openModal} className="cursor-pointer">
           <img
-            className="w-[40px] h-[40px] rounded-[50%] ml-[0.3rem]"
+            className="w-[45px] h-[45px] mt-1.5 rounded-[50%] ml-[0.3rem]"
             src="https://s.pinimg.com/images/user/default_140.png"
             alt=""
           />
@@ -45,7 +46,7 @@ const ProfileUtil = () => {
                     to={`/profile/${userProfileProps?.user_id}`}
                   >
                     <img
-                      className="w-[40px] h-[40px] rounded-[50%] ml-[0.3rem]"
+                      className="w-[45px] h-[45px] rounded-[50%] ml-[0.3rem]"
                       src="https://s.pinimg.com/images/user/default_140.png"
                       alt=""
                     />
@@ -80,9 +81,9 @@ const ProfileUtil = () => {
                 <li>
                   <button
                     onClick={handleLogout}
-                    className="mb-[1rem] flex items-center gap-1"
+                    className="mb-[1rem] flex items-center gap-2.5"
                   >
-                    <ExitToApp />
+                    <img className="w-[34px]" src={Logout} alt="" />
                     Logout
                   </button>
                 </li>
