@@ -7,6 +7,11 @@ export async function savePin(
 ): Promise<SavedPinData | null> {
   try {
     const pinRepository = new UserSavePinRepository();
+    const pinExists = await pinRepository.checkPinExists(data.pinId);
+    if (!pinExists) {
+      throw new Error("Pin does not exist");
+    }
+
     const savedPin = await pinRepository.saveUserPin(
       data.userId,
       data.pinId,

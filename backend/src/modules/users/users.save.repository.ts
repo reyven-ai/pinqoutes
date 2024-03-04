@@ -54,6 +54,19 @@ class UserSavePinRepository {
       throw new Error("Error fetching saved pins");
     }
   }
+
+  async checkPinExists(pinId: string): Promise<boolean> {
+    try {
+      const query = "SELECT COUNT(*) FROM pins WHERE id = $1";
+      const result = await pool.query(query, [pinId]);
+
+      // If the count is greater than 0, it means the pin exists
+      return result.rows[0].count > 0;
+    } catch (error) {
+      console.error("Error:", (error as Error).message);
+      throw new Error("Error checking if pin exists");
+    }
+  }
 }
 
 export { UserSavePinRepository };
