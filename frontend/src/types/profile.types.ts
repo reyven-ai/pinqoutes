@@ -27,7 +27,7 @@ export interface ProfileFormProps {
   loading: boolean;
   title: string;
   onSubmit: (values: ProfileFormInput) => void;
-  validationSchema: Yup.Schema<UserProfileTemporary>;
+  validationSchema: Yup.Schema;
   initialValues: ProfileFormInput;
   message?: string;
   successful?: boolean;
@@ -46,7 +46,6 @@ export type UserProfileTemporary = {
   username: string;
   description: string;
   country_of_residence: string;
-  // birthdate: string;
   mobile_phone_number: string;
 };
 

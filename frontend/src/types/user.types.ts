@@ -24,6 +24,7 @@ export interface AuthFormProps {
   message?: string;
   successful?: boolean;
   loading?: boolean;
+  isNewUser?: boolean;
   button: string;
 }
 

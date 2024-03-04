@@ -59,8 +59,10 @@ export interface PinFormProps extends FormikConfig<PinFormInput> {
 
 export interface Pin {
   id: string;
+  user_id: string;
   title: string;
   description: string;
+  link: string;
   image_url: string;
   created_by: string;
 }
