@@ -17,7 +17,7 @@ const EditProfileModal: FC<ModalProps> = ({ onClose, children }) => {
         document.getElementById("overlays") as Element
       )}
       {ReactDOM.createPortal(
-        <div className="fixed top-0 right-0 h-full w-50 md:w-40rem bg-gray-100 p-4 shadow-md z-30 animate-left">
+        <div className="fixed top-0 right-0 h-full w-50 md:w-40rem bg-gray-100 p-4 shadow-md z-30 animate-left animate-slide-in-right">
           {children}
         </div>,
         document.getElementById("overlays") as Element

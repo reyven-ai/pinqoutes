@@ -4,7 +4,13 @@ import { v4 as uuidv4 } from "uuid";
 import { checkAuthMiddleware } from "../../middleware/checkAuthMiddleware";
 import { AuthResponse } from "../../types";
 import { handleError } from "../../errors/errors";
-import { createPin, deletePin, getPinDetails, updatePin } from "./pin.services";
+import {
+  createPin,
+  deletePin,
+  getAllPins,
+  getPinDetails,
+  updatePin,
+} from "./pin.services";
 import {
   ref,
   getDownloadURL,
@@ -14,6 +20,7 @@ import {
 import { storage } from "../../firebase.config";
 import multer from "multer";
 import { fileValidationMiddleware } from "./pin.validation";
+import { ProfileRepository } from "../profile/profile.repository";
 
 const router = Router();
 
@@ -26,7 +33,7 @@ router.post(
   async (req: Request, res: AuthResponse) => {
     try {
       const user_id = res.locals.authUser.user_id;
-      const { description } = req.body;
+      const { title, description, link } = req.body;
       const fileID = uuidv4();
       const storageRef = ref(storage, `files/${fileID}`);
 
@@ -48,14 +55,22 @@ router.post(
 
       const downloadURL = await getDownloadURL(snapshot.ref);
 
-      console.log(">>>> request user_id", user_id);
+      const profileRepository = new ProfileRepository();
+      const profile = await profileRepository.getSelfUserProfile(user_id);
+
+      if (!profile) {
+        return res.status(404).json({ error: "Profile not found" });
+      }
 
       const dateTime = new Date();
       const data = {
         user_id,
+        title,
         description,
         image_url: downloadURL,
+        link,
         created_at: dateTime,
+        created_by: profile.username,
       };
 
       const createdPin = await createPin(data);
@@ -84,6 +99,15 @@ router.get("/:id", checkAuthMiddleware, async (req: Request, res: Response) => {
   }
 });
 
+router.get("/", checkAuthMiddleware, async (req: Request, res: Response) => {
+  try {
+    const pins = await getAllPins();
+    res.status(200).json(pins);
+  } catch (error) {
+    handleError(error, res);
+  }
+});
+
 router.patch(
   "/:id",
   checkAuthMiddleware,
@@ -93,7 +117,7 @@ router.patch(
     try {
       const user_id = res.locals.authUser.user_id;
       const id = req.params.id;
-      const { description } = req.body;
+      const { title, description, link, created_by } = req.body;
 
       const existingPin = await getPinDetails(id);
       if (!existingPin) {
@@ -132,9 +156,12 @@ router.patch(
 
       const updateData = {
         user_id,
+        title: title,
         description: description || existingPin.description,
         image_url: imageUrl,
+        link: link || existingPin.link,
         updated_at: new Date(),
+        created_by: created_by || existingPin.created_by,
       };
 
       const updatedPin = await updatePin(id, updateData);

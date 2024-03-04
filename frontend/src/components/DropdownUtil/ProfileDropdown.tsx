@@ -1,17 +1,13 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { logout } from "@/services/auth.util";
-import { useGetProfileData } from "@/hooks/useProfileAction";
-import {
-  Settings,
-  Help,
-  ExitToAppTwoTone,
-  Brightness2,
-} from "@material-ui/icons";
+import { Settings, Help, Brightness2 } from "@material-ui/icons";
 import DropDownModal from "../Modal/DropDownModal";
+import { useGetProfileProps } from "@/hooks/useProfileAction";
+import Logout from "../../assets/logout.png";
 
-function ProfileUtil() {
-  const { userProfile } = useGetProfileData();
+const ProfileUtil = () => {
+  const { userProfileProps } = useGetProfileProps();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -35,47 +31,59 @@ function ProfileUtil() {
       <div className="relative">
         <button onClick={openModal} className="cursor-pointer">
           <img
-            className="w-[40px] h-[40px] rounded-[50%] ml-[0.3rem]"
-            src="https://scontent-hel3-1.xx.fbcdn.net/v/t1.30497-1/143086968_2856368904622192_1959732218791162458_n.png?_nc_cat=1&ccb=1-7&_nc_sid=db1b99&_nc_ohc=CO5dz350V7MAX9kFeXv&_nc_ht=scontent-hel3-1.xx&oh=00_AfBMSaHIoB2c8ytJCJcebW_60u-ewU04TnejVhzFEX8xlA&oe=65AC1738"
+            className="w-[45px] h-[45px] mt-1.5 rounded-[50%] ml-[0.3rem]"
+            src="https://s.pinimg.com/images/user/default_140.png"
             alt=""
           />
         </button>
         {isModalOpen && (
           <DropDownModal onClose={closeModal}>
-            <div className="absolute top-3 right-0 mt-8 bg-white border rounded shadow-md w-[350px] px-4 py-4">
+            <div className="absolute top-6 right-0 mt-8 bg-white border rounded shadow-md w-[350px] px-4 py-4">
               <ul>
                 <li className="flex mb-[1.5rem] shadow-shadowTop rounded-lg">
                   <Link
                     className="flex items-center gap-2 bg-white w-[322px] px-2 py-4 rounded-lg"
-                    to="/profile"
+                    to={`/profile/${userProfileProps?.user_id}`}
                   >
                     <img
-                      className="w-[40px] h-[40px] rounded-[50%] ml-[0.3rem]"
-                      src="https://scontent-hel3-1.xx.fbcdn.net/v/t1.30497-1/143086968_2856368904622192_1959732218791162458_n.png?_nc_cat=1&ccb=1-7&_nc_sid=db1b99&_nc_ohc=CO5dz350V7MAX9kFeXv&_nc_ht=scontent-hel3-1.xx&oh=00_AfBMSaHIoB2c8ytJCJcebW_60u-ewU04TnejVhzFEX8xlA&oe=65AC1738"
+                      className="w-[45px] h-[45px] rounded-[50%] ml-[0.3rem]"
+                      src="https://s.pinimg.com/images/user/default_140.png"
                       alt=""
                     />
-                    <span className="font-semibold">
-                      {userProfile?.username}
-                    </span>
+                    <div>
+                      <h2 className="font-semibold mb-[-5px]">
+                        {userProfileProps?.username}
+                      </h2>
+                      <span className="text-[13px] font-semibold text-[#6D6D6D]">
+                        3k followers
+                      </span>
+                    </div>
                   </Link>
                 </li>
-                <li className="mb-[1rem] flex items-center gap-1">
-                  <Brightness2 style={{ transform: "rotate(-180deg)" }} />
+                <li className="mb-[1rem] flex items-center gap-2.5">
+                  <span className="bg-[#e4e6eb] rounded-[50%]">
+                    <Brightness2 className="rotate-180 mx-1.5 my-1.5" />
+                  </span>
                   Display and Accessibility
                 </li>
-                <li className="mb-[1rem] flex items-center gap-1">
-                  <Settings />
+                <li className="mb-[1rem] flex items-center gap-2.5">
+                  <span className="bg-[#e4e6eb] rounded-[50%]">
+                    <Settings className="mx-1.5 my-1.5" />
+                  </span>
                   Settings and Privacy
                 </li>
-                <li className="mb-[1rem] flex items-center gap-1">
-                  <Help /> Help and Support
+                <li className="mb-[1rem] flex items-center gap-2.5">
+                  <span className="bg-[#e4e6eb] rounded-[50%]">
+                    <Help className="mx-1.5 my-1.5" />
+                  </span>
+                  Help and Support
                 </li>
                 <li>
                   <button
                     onClick={handleLogout}
-                    className="mb-[1rem] flex items-center gap-1"
+                    className="mb-[1rem] flex items-center gap-2.5"
                   >
-                    <ExitToAppTwoTone />
+                    <img className="w-[34px]" src={Logout} alt="" />
                     Logout
                   </button>
                 </li>
@@ -86,6 +94,6 @@ function ProfileUtil() {
       </div>
     </div>
   );
-}
+};
 
 export default ProfileUtil;

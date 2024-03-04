@@ -1,11 +1,18 @@
-import { NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import SearchBar from "../Searchbar/SearchBar";
 import ProfileUtil from "../DropdownUtil/ProfileDropdown";
-import MenuDropdown from "../DropdownUtil/MenuDropdown";
-import { checkAuthLoader } from "@/services/auth.util";
-import { Home, Notifications, People, YouTube, Chat } from "@material-ui/icons";
+import Logos from "../../assets/Logos.png";
 
-function MainHeader() {
+import { checkAuthLoader } from "@/services/auth.util";
+import {
+  Home,
+  MoreHoriz,
+  Notifications,
+  People,
+  YouTube,
+} from "@material-ui/icons";
+
+const MainHeader = () => {
   const location = useLocation();
   const isAuthenticated = checkAuthLoader();
 
@@ -20,18 +27,21 @@ function MainHeader() {
   const navLinks = [
     {
       path: "/",
+      name: "Home",
       icon: <Home style={{ color: notActiveColor, fontSize: fontSize }} />,
       activeIcon: <Home style={{ color: customColor, fontSize: fontSize }} />,
     },
     {
       path: "/watch",
+      name: "Watch",
       icon: <YouTube style={{ color: notActiveColor, fontSize: fontSize }} />,
       activeIcon: (
         <YouTube style={{ color: customColor, fontSize: fontSize }} />
       ),
     },
     {
-      path: "/friend",
+      path: "/people",
+      name: "People",
       icon: <People style={{ color: notActiveColor, fontSize: fontSize }} />,
       activeIcon: (
         <People
@@ -42,6 +52,7 @@ function MainHeader() {
     },
     {
       path: "/notifications",
+      name: "Notifications",
       icon: (
         <Notifications style={{ color: notActiveColor, fontSize: fontSize }} />
       ),
@@ -56,44 +67,58 @@ function MainHeader() {
 
   return (
     <>
-      <header className="flex bg-white justify-between items-center px-[0.5%] py-[0.3rem] shadow-md">
+      <header className="flex bg-white justify-between items-center px-[1%] py-[0.5rem] fixed w-full top-0 z-10 ">
         <div className="flex items-center gap-3">
-          <h1 className="text-[22px] mr-1 font-semibold text-blacks">
+          <h1 className="text-[22px] mr-1 font-semibold">
             <NavLink to="/">
-              p
-              <span className="text-[#3D91FD] font-normal text-[22px]">
-                Tech
-              </span>
+              <img className="w-[40px] h-[auto]" src={Logos}></img>
             </NavLink>
           </h1>
-          <SearchBar />
+          <div>
+            <Link
+              className="bg-[#e4e6eb] font-semibold text-black px-6 py-2.5 rounded-[20px]"
+              to="/pin/create"
+            >
+              Create Pin
+            </Link>
+          </div>
+          <div>
+            <button className="cursor-pointer mr-7 text-black rounded-[50%] bg-[#e4e6eb]">
+              <MoreHoriz className="mx-2.5 my-2.5" />
+            </button>
+          </div>
         </div>
         <div>
-          <ul className="flex items-center font-normal ml-[-2rem]">
-            {navLinks.map(({ path, icon, activeIcon }, index) => (
+          <ul className="flex items-center font-normal w-[100%]">
+            {navLinks.map(({ path, icon, activeIcon, name }, index) => (
               <li key={index} className="w-[150px] text-[18px]">
                 <NavLink to={path}>
-                  {location.pathname === path ? activeIcon : icon}
+                  <div className="flex flex-col items-center">
+                    {location.pathname === path ? activeIcon : icon}
+                    <span
+                      className={`text-xs text-NavlabelName`}
+                      style={{
+                        color: location.pathname === path ? "#3D91FD" : "",
+                      }}
+                    >
+                      {name}
+                    </span>
+                  </div>
                 </NavLink>
               </li>
             ))}
           </ul>
         </div>
         <div>
-          <ul className="flex gap-3 items-center font-normal">
-            <li>
-              <MenuDropdown />
-            </li>
-            <li>
-              <Chat />
-            </li>
-            <li>
+          <div className="flex gap-3 items-center font-normal">
+            <SearchBar />
+            <div>
               <ProfileUtil />
-            </li>
-          </ul>
+            </div>
+          </div>
         </div>
       </header>
     </>
   );
-}
+};
 export default MainHeader;

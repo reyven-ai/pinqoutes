@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon src/app.ts",
     "start-migrate": "npm run migrate && npm start",
@@ -16,6 +17,7 @@
     "@types/jsonwebtoken": "^9.0.4",
     "@types/multer": "^1.4.11",
     "@types/pg": "^8.10.7",
+    "@types/uuid": "^9.0.8",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",

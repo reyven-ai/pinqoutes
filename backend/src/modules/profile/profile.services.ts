@@ -1,5 +1,5 @@
 import { InternalServerError } from "../../errors/errors";
-import { UserDetailsRepository } from "./profile.repository";
+import { ProfileRepository } from "./profile.repository";
 
 import {
   CreateProfileInput,
@@ -11,7 +11,7 @@ export async function createProfile(
   data: CreateProfileInput
 ): Promise<CreateProfileInput> {
   try {
-    const userRepository = new UserDetailsRepository();
+    const userRepository = new ProfileRepository();
     const createdUserProfile: CreateProfileInput =
       await userRepository.createUserProfile(
         data.user_id,
@@ -40,7 +40,7 @@ export async function updateProfile(
         `User profile with ID ${userId} not found.`
       );
     }
-    const userRepository = new UserDetailsRepository();
+    const userRepository = new ProfileRepository();
     const updatedUserProfile = await userRepository.updateUserProfile(
       userId,
       data
@@ -61,14 +61,14 @@ export async function getProfileDetails(
   userId: number
 ): Promise<ProfileData | null> {
   try {
-    const userRepository = new UserDetailsRepository();
-    const getSelfUserProfile = await userRepository.getSelfUSerProfile(userId);
+    const userRepository = new ProfileRepository();
+    const userProfile = await userRepository.getSelfUserProfile(userId);
 
-    if (!getSelfUserProfile) {
+    if (!userProfile) {
       return null;
     }
 
-    return getSelfUserProfile;
+    return userProfile;
   } catch (error) {
     console.error(error);
     throw new InternalServerError(
@@ -81,7 +81,7 @@ export async function deleteProfile(
   userId: string
 ): Promise<ProfileData | null> {
   try {
-    const userRepository = new UserDetailsRepository();
+    const userRepository = new ProfileRepository();
 
     const deletedProfile = await userRepository.deleteUserProfile(userId);
 

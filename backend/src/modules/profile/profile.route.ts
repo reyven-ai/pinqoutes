@@ -63,7 +63,7 @@ router.post(
 
       const data = {
         user_id,
-        username,
+        username: username || "Anonymous",
         description,
         country_of_residence,
         mobile_phone_number,
@@ -132,6 +132,7 @@ router.patch(
         mobile_phone_number,
         birthdate,
       };
+      console.log("<<<<", username);
 
       const updatedUser = await updateProfile(user_id, data);
 
@@ -149,20 +150,24 @@ router.patch(
   }
 );
 
-router.get("/", checkAuthMiddleware, async (req: Request, res: Response) => {
-  try {
-    const userId = res.locals.authUser.user_id;
-    const userProfile = await getProfileDetails(userId);
+router.get(
+  "/:userId",
+  checkAuthMiddleware,
+  async (req: Request, res: Response) => {
+    try {
+      const userId = Number(req.params.userId);
+      const userProfile = await getProfileDetails(userId);
 
-    if (!userProfile) {
-      return res.status(404).json({ error: "User profile not found" });
+      if (!userProfile) {
+        return res.status(404).json({ error: "User profile not found" });
+      }
+
+      res.status(200).json(userProfile);
+    } catch (error) {
+      handleError(error, res);
     }
-
-    res.status(200).json(userProfile);
-  } catch (error) {
-    handleError(error, res);
   }
-});
+);
 
 router.delete("/", checkAuthMiddleware, async (req: Request, res: Response) => {
   try {

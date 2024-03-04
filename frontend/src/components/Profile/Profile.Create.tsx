@@ -19,15 +19,17 @@ const ProfileCreate: React.FC = () => {
   };
 
   return (
-    <ProfileForm
-      title="Would you like to create your profile?"
-      loading={loading}
-      successful={successful}
-      message={message}
-      onSubmit={handleCreateProfile}
-      validationSchema={profileValidationSchema}
-      initialValues={initialValues}
-    />
+    <div className="animate-slide-in-right">
+      <ProfileForm
+        title="Would you like to create your profile?"
+        loading={loading}
+        successful={successful}
+        message={message}
+        onSubmit={handleCreateProfile}
+        validationSchema={profileValidationSchema}
+        initialValues={initialValues}
+      />
+    </div>
   );
 };
 

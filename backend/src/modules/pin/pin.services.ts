@@ -7,9 +7,12 @@ export async function createPin(data: CreatePinInput): Promise<CreatePinInput> {
     const pinRepository = new UserPinRepository();
     const createdUserPin: CreatePinInput = await pinRepository.createUserPin(
       data.user_id,
+      data.title,
       data.description,
       data.image_url,
-      data.created_at
+      data.link,
+      data.created_at,
+      data.created_by
     );
 
     return createdUserPin;
@@ -28,6 +31,18 @@ export async function getUserPins(userId: string): Promise<PinData[]> {
   } catch (error) {
     console.error(error);
     throw new Error("Error fetching user pins.");
+  }
+}
+
+export async function getAllPins(): Promise<PinData[]> {
+  try {
+    const pinRepository = new UserPinRepository();
+    const allPins = await pinRepository.getAllPins();
+
+    return allPins || [];
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error fetching all pins.");
   }
 }
 

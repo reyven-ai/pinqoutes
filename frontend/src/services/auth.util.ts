@@ -1,6 +1,6 @@
 export const logout = () => {
-  const removedToken = localStorage.removeItem("token");
-  return removedToken;
+  localStorage.removeItem("token");
+  localStorage.removeItem("user_id");
 };
 
 export const getCurrentToken = () => {
@@ -13,7 +13,19 @@ export const getCurrentToken = () => {
   return token;
 };
 
+export const getCurrentUserId = () => {
+  const userId = localStorage.getItem("user_id");
+
+  if (!userId) {
+    return null;
+  }
+
+  return userId;
+};
+
 export function checkAuthLoader() {
   const token = getCurrentToken();
-  return token;
+  const userId = getCurrentUserId();
+
+  return { token, userId };
 }

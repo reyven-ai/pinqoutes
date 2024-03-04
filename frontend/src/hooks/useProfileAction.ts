@@ -1,10 +1,11 @@
 import { UserProfileData, UserProfileInput } from "@/types/profile.types";
 
-import { NavigateFunction, useNavigate } from "react-router-dom";
+import { NavigateFunction, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {
   createProfile,
   deleteProfile,
+  getProfileProps,
   getSelfProfile,
   updateProfile,
 } from "@/services/profile.services";
@@ -16,24 +17,40 @@ export const useProfileAction = () => {
   const [message, setMessage] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const navigate: NavigateFunction = useNavigate();
+  const { userId } = useParams();
 
   const handleCreateProfile = async (formValue: ProfileFormInput) => {
     const {
-      username,
-      description,
-      country_of_residence,
-      birth_day,
-      birth_month,
-      birth_year,
-      mobile_phone_number,
-      mobile_phone_number_prefix,
+      username = "",
+      description = "",
+      country_of_residence = "",
+      birth_day = "",
+      birth_month = "",
+      birth_year = "",
+      mobile_phone_number = "",
+      mobile_phone_number_prefix = "",
     } = formValue;
 
+    const defaultUsername = username.trim() || "Anonymous";
+
+    let birthdate = "";
+
     const fullPhoneNumber = mobile_phone_number_prefix + mobile_phone_number;
-    const birthdate = `${birth_year}-${birth_month}-${birth_day}`;
+    if (
+      birth_year !== "--" &&
+      birth_month !== "--" &&
+      birth_day !== "--" &&
+      birth_year &&
+      birth_month &&
+      birth_day
+    ) {
+      birthdate = `${birth_year}-${birth_month}-${birth_day}`;
+    } else {
+      birthdate = "";
+    }
 
     const profileToCreate: UserProfileInput = {
-      username,
+      username: defaultUsername,
       description,
       country_of_residence,
       birthdate,
@@ -66,8 +83,21 @@ export const useProfileAction = () => {
       mobile_phone_number_prefix,
     } = formValue;
 
+    let birthdate = "";
+
     const fullPhoneNumber = mobile_phone_number_prefix + mobile_phone_number;
-    const birthdate = `${birth_year}-${birth_month}-${birth_day}`;
+    if (
+      birth_year !== "--" &&
+      birth_month !== "--" &&
+      birth_day !== "--" &&
+      birth_year &&
+      birth_month &&
+      birth_day
+    ) {
+      birthdate = `${birth_year}-${birth_month}-${birth_day}`;
+    } else {
+      birthdate = "";
+    }
 
     const profileToUpdate: UserProfileInput = {
       username,
@@ -83,7 +113,7 @@ export const useProfileAction = () => {
 
     try {
       await updateProfile(profileToUpdate);
-      navigate("/profile");
+      navigate(`/profile/${userId}`);
       window.location.reload();
     } catch (error) {
       handleProfileError(error as ErrorResponse);
@@ -129,8 +159,10 @@ export const useProfileAction = () => {
 
 function transformProfileDataToInput(
   userProfileData: UserProfileData
-): ProfileFormInput {
+): UserProfileData {
   return {
+    profile_id: userProfileData.profile_id,
+    user_id: userProfileData.user_id,
     username: userProfileData.username,
     description: userProfileData.description,
     country_of_residence: userProfileData.country_of_residence,
@@ -142,12 +174,40 @@ function transformProfileDataToInput(
   };
 }
 
-export const useGetProfileData = () => {
-  const [userProfile, setUserProfile] = useState<ProfileFormInput | null>(null);
+export const useGetProfileProps = () => {
+  const [userProfileProps, setUserProfileProps] =
+    useState<UserProfileData | null>(null);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const selfProfile = await getSelfProfile();
+        const userId = localStorage.getItem("user_id");
+        if (userId) {
+          const usersPinsList = await getProfileProps();
+          setUserProfileProps(usersPinsList);
+        } else {
+          console.log("User is not logged in.");
+        }
+      } catch (error) {
+        console.error("Error fetching user pins:", error);
+      }
+    };
+
+    fetchData();
+
+    return () => {};
+  }, []);
+
+  return {
+    userProfileProps,
+  };
+};
+
+export const useGetProfileData = (userId: number) => {
+  const [userProfile, setUserProfile] = useState<UserProfileData | null>(null);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const selfProfile = await getSelfProfile(userId);
         const userProfile = transformProfileDataToInput(selfProfile);
         setUserProfile(userProfile || null);
       } catch (error) {
@@ -158,7 +218,7 @@ export const useGetProfileData = () => {
     fetchData();
 
     return () => {};
-  }, []);
+  }, [userId]);
 
   return {
     userProfile,

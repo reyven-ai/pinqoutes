@@ -12,9 +12,10 @@ const Register: React.FC = () => {
 
   return (
     <AuthForm
-      title="Create your Pintech account"
+      title="Create your PinTech account"
       labelLink="Login"
       linkText="Already have an account?"
+      footerText="Or sign up with"
       linkTo="/login"
       button="Next"
       loading={loading}

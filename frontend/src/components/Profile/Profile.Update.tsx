@@ -5,11 +5,13 @@ import { profileValidationSchema } from "../../validations/profile.validation";
 import Edit from "../../assets/edit.png";
 import ProfileForm from "./Profile.Form";
 import EditProfileModal from "../Modal/EditProfileModal";
+import { useParams } from "react-router-dom";
 
 const EditProfile: React.FC = () => {
   const { handleEditProfile, message, successful, loading } =
     useProfileAction();
-  const { userProfile } = useGetProfileData();
+  const { userId } = useParams();
+  const { userProfile } = useGetProfileData(Number(userId));
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => {

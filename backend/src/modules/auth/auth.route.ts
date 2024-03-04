@@ -80,7 +80,7 @@ router.post("/login", async (req, res) => {
     email: user.email,
   });
   console.log("<<< loginUser", user);
-  res.json({ token: authToken });
+  res.json({ token: authToken, user_id: user.user_id });
   console.log("<<<Validate:", authToken);
 });
 
