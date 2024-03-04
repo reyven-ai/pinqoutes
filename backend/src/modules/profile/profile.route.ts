@@ -63,7 +63,7 @@ router.post(
 
       const data = {
         user_id,
-        username,
+        username: username || "Anonymous",
         description,
         country_of_residence,
         mobile_phone_number,
@@ -132,6 +132,7 @@ router.patch(
         mobile_phone_number,
         birthdate,
       };
+      console.log("<<<<", username);
 
       const updatedUser = await updateProfile(user_id, data);
 
