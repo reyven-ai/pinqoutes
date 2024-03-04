@@ -1,13 +1,18 @@
 import { Link, NavLink, useLocation } from "react-router-dom";
 import SearchBar from "../Searchbar/SearchBar";
 import ProfileUtil from "../DropdownUtil/ProfileDropdown";
+import Logos from "../../assets/Logos.png";
 
 import { checkAuthLoader } from "@/services/auth.util";
-import { Home, Notifications, People, YouTube } from "@material-ui/icons";
+import {
+  Home,
+  MoreHoriz,
+  Notifications,
+  People,
+  YouTube,
+} from "@material-ui/icons";
 
 const MainHeader = () => {
-  // const { userId } = useParams();
-
   const location = useLocation();
   const isAuthenticated = checkAuthLoader();
 
@@ -62,18 +67,25 @@ const MainHeader = () => {
 
   return (
     <>
-      <header className="flex bg-white justify-between items-center px-[1%] py-[0.3rem] shadow-md fixed w-full top-0 z-10 ">
+      <header className="flex bg-white justify-between items-center px-[1%] py-[0.5rem] fixed w-full top-0 z-10 ">
         <div className="flex items-center gap-3">
-          <h1 className="text-[22px] mr-1 font-semibold text-blacks">
-            <NavLink to="/">PinTech</NavLink>
+          <h1 className="text-[22px] mr-1 font-semibold">
+            <NavLink to="/">
+              <img className="w-[40px] h-[auto]" src={Logos}></img>
+            </NavLink>
           </h1>
           <div>
             <Link
-              className="bg-backgroundButtonColor text-white px-7 py-2 rounded-[20px]"
+              className="bg-[#e4e6eb] font-semibold text-black px-6 py-2.5 rounded-[20px]"
               to="/pin/create"
             >
               Create Pin
             </Link>
+          </div>
+          <div>
+            <button className="cursor-pointer mr-7 text-black rounded-[50%] bg-[#e4e6eb]">
+              <MoreHoriz className="mx-2.5 my-2.5" />
+            </button>
           </div>
         </div>
         <div>
@@ -98,7 +110,7 @@ const MainHeader = () => {
           </ul>
         </div>
         <div>
-          <div className="flex gap-1 items-center font-normal">
+          <div className="flex gap-3 items-center font-normal">
             <SearchBar />
             <div>
               <ProfileUtil />

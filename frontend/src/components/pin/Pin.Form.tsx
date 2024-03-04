@@ -3,7 +3,9 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import { cn } from "@/types/util";
 import { PinFormProps } from "@/types/pin.types";
 import { MyDropzone } from "./Pin.Dropzone";
-import { Close } from "@material-ui/icons";
+import { Close, ErrorOutline } from "@material-ui/icons";
+
+const fontSize = "20px";
 
 const PinForm: React.FC<PinFormProps> = ({
   title,
@@ -20,8 +22,8 @@ const PinForm: React.FC<PinFormProps> = ({
       <div className="flex justify-between border-b border-inputBorder px-6 pb-[25px] items-center">
         <h2 className="text-[20px] font-semibold text-left">{title}</h2>
         {isNewPin && (
-          <button onClick={closeModal}>
-            <Close />
+          <button onClick={closeModal} className="bg-[#e4e6eb] rounded-[50%]">
+            <Close className="font-bold mx-2 my-2" />
           </button>
         )}
       </div>
@@ -70,11 +72,14 @@ const PinForm: React.FC<PinFormProps> = ({
                         name="title"
                         disabled={!dirty && !isNewPin}
                       />
-                      <ErrorMessage
-                        name="title"
-                        component="div"
-                        className="error"
-                      />
+                      <ErrorMessage name="title">
+                        {(msg) => (
+                          <div className="text-rose-600 mt-[-20px] text-[15px] font-light mb-5 items-center flex gap-[8px]">
+                            <ErrorOutline style={{ fontSize: fontSize }} />
+                            {msg}
+                          </div>
+                        )}
+                      </ErrorMessage>
                     </div>
                     <div className="mb-4">
                       <label
@@ -98,11 +103,14 @@ const PinForm: React.FC<PinFormProps> = ({
                         name="description"
                         disabled={!dirty && !isNewPin}
                       />
-                      <ErrorMessage
-                        name="description"
-                        component="div"
-                        className="error"
-                      />
+                      <ErrorMessage name="description">
+                        {(msg) => (
+                          <div className="text-rose-600 mt-[-20px] text-[15px] font-light mb-5 items-center flex gap-[8px]">
+                            <ErrorOutline style={{ fontSize: fontSize }} />
+                            {msg}
+                          </div>
+                        )}
+                      </ErrorMessage>
                     </div>
                     <div>
                       <label
@@ -122,11 +130,14 @@ const PinForm: React.FC<PinFormProps> = ({
                         name="link"
                         disabled={!dirty && !isNewPin}
                       />
-                      <ErrorMessage
-                        name="link"
-                        component="div"
-                        className="error"
-                      />
+                      <ErrorMessage name="link">
+                        {(msg) => (
+                          <div className="text-rose-600 mt-[-20px] text-[15px] font-light mb-5 items-center flex gap-[8px]">
+                            <ErrorOutline style={{ fontSize: fontSize }} />
+                            {msg}
+                          </div>
+                        )}
+                      </ErrorMessage>
                     </div>
                     <div>
                       <button

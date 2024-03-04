@@ -1,6 +1,6 @@
 import { UserProfileData, UserProfileInput } from "@/types/profile.types";
 
-import { NavigateFunction, useNavigate } from "react-router-dom";
+import { NavigateFunction, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {
   createProfile,
@@ -17,24 +17,40 @@ export const useProfileAction = () => {
   const [message, setMessage] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const navigate: NavigateFunction = useNavigate();
+  const { userId } = useParams();
 
   const handleCreateProfile = async (formValue: ProfileFormInput) => {
     const {
-      username,
-      description,
-      country_of_residence,
-      birth_day,
-      birth_month,
-      birth_year,
-      mobile_phone_number,
-      mobile_phone_number_prefix,
+      username = "",
+      description = "",
+      country_of_residence = "",
+      birth_day = "",
+      birth_month = "",
+      birth_year = "",
+      mobile_phone_number = "",
+      mobile_phone_number_prefix = "",
     } = formValue;
 
+    const defaultUsername = username.trim() || "Anonymous";
+
+    let birthdate = "";
+
     const fullPhoneNumber = mobile_phone_number_prefix + mobile_phone_number;
-    const birthdate = `${birth_year}-${birth_month}-${birth_day}`;
+    if (
+      birth_year !== "--" &&
+      birth_month !== "--" &&
+      birth_day !== "--" &&
+      birth_year &&
+      birth_month &&
+      birth_day
+    ) {
+      birthdate = `${birth_year}-${birth_month}-${birth_day}`;
+    } else {
+      birthdate = "";
+    }
 
     const profileToCreate: UserProfileInput = {
-      username,
+      username: defaultUsername,
       description,
       country_of_residence,
       birthdate,
@@ -67,8 +83,21 @@ export const useProfileAction = () => {
       mobile_phone_number_prefix,
     } = formValue;
 
+    let birthdate = "";
+
     const fullPhoneNumber = mobile_phone_number_prefix + mobile_phone_number;
-    const birthdate = `${birth_year}-${birth_month}-${birth_day}`;
+    if (
+      birth_year !== "--" &&
+      birth_month !== "--" &&
+      birth_day !== "--" &&
+      birth_year &&
+      birth_month &&
+      birth_day
+    ) {
+      birthdate = `${birth_year}-${birth_month}-${birth_day}`;
+    } else {
+      birthdate = "";
+    }
 
     const profileToUpdate: UserProfileInput = {
       username,
@@ -84,7 +113,7 @@ export const useProfileAction = () => {
 
     try {
       await updateProfile(profileToUpdate);
-      navigate("/profile");
+      navigate(`/profile/${userId}`);
       window.location.reload();
     } catch (error) {
       handleProfileError(error as ErrorResponse);

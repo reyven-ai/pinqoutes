@@ -12,16 +12,12 @@ const Profile = () => {
   const [activeTab, setActiveTab] = useState("created");
   const loggedInUserId = getCurrentUserId();
 
-  if (!userProfile) {
-    return <div>Profile not found</div>;
-  }
-
   const handleTabChange = (tab: string) => {
     setActiveTab(tab);
   };
 
   return (
-    <div className=" w-[full] ml-[auto] mb-[1rem]pt-[2rem] justify-center gap-[1rem] mt-20">
+    <div className=" w-[full] ml-[auto] mb-[1rem] justify-center gap-[1rem] mt-[5.8rem]">
       <div className="h-[150px] w-[60%] m-[auto]">
         <div className="h-[200px] bg-[#e4e6eb] rounded-[8px]"></div>
         <div className="flex justify-between items-start">
@@ -33,11 +29,11 @@ const Profile = () => {
             <div className="flex justify-between gap-2 ml-2 mt-3">
               <div>
                 <h2 className="text-[22px] mb-[-3px]">
-                  {userProfile.username}
+                  {userProfile?.username}
                 </h2>
-                <p className="mb-[-2px]">{userProfile.description}</p>
+                <p className="mb-[-2px]">{userProfile?.description}</p>
                 <p className="text-[14px] font-semibold text-[#6D6D6D]">
-                  {userProfile.country_of_residence}
+                  {userProfile?.country_of_residence}
                 </p>
               </div>
               {userId === loggedInUserId && <UpdateProfileForm />}

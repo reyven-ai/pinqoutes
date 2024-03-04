@@ -74,7 +74,7 @@ export const useGetAllPins = () => {
 
     fetchData();
     return () => {};
-  }, [allPins]);
+  }, []);
 
   return {
     allPins: Array.isArray(allPins) ? allPins : [],

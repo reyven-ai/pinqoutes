@@ -1,10 +1,29 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Close } from "@material-ui/icons";
 import Logo from "../../assets/Pintech.png";
 import Logos from "../../assets/Logos.png";
+import { useProfileAction } from "@/hooks/useProfileAction";
 
 function AuthHeader() {
   const location = useLocation();
+  const { handleCreateProfile } = useProfileAction();
+  const navigate = useNavigate();
+
+  const defaultFormValues = {
+    username: "Anonymous",
+    description: "",
+    country_of_residence: "",
+    birth_day: "",
+    birth_month: "",
+    birth_year: "",
+    mobile_phone_number: "",
+    mobile_phone_number_prefix: "",
+  };
+
+  const handleSkipForNowClick = () => {
+    handleCreateProfile(defaultFormValues);
+    navigate("/");
+  };
 
   const getHeaderComponent = () => {
     if (
@@ -17,7 +36,11 @@ function AuthHeader() {
         </Link>
       );
     } else {
-      return <Link to="/">Skip for now</Link>;
+      return (
+        <Link onClick={handleSkipForNowClick} to="/">
+          Skip for now
+        </Link>
+      );
     }
   };
   return (

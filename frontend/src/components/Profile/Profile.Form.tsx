@@ -8,6 +8,9 @@ import {
   CountryCodes,
   CountryResidence,
 } from "./Profile.FormOptions";
+import { ErrorOutline } from "@material-ui/icons";
+
+const fontSize = "20px";
 
 const ProfileForm: React.FC<ProfileFormProps> = ({
   title,
@@ -20,14 +23,14 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
 }) => {
   return (
     <div className="flex justify-center">
-      <div className="flex items-center justify-center w-[550px] mt-[2rem] flex-col max-[500px]:w-full max-[500px]:p-4">
+      <div className="flex items-center justify-center lg:w-[550px] xs:w-full lg:mt-[2rem] xs:mt-[1.5rem] flex-col xs:m-3">
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={onSubmit}
         >
           {({ dirty }) => (
-            <Form className="w-[500px] mt-8 ml-16 mr-16 max-[500px]:w-full">
+            <Form className="lg:w-[500px] xs:w-[full] lg:mt-8 xs:mt-2">
               {!successful && (
                 <div>
                   {message && (
@@ -57,11 +60,14 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
                         "placeholder-gray-500 text-[0.9rem] font-light"
                       )}
                     />
-                    <ErrorMessage
-                      name="username"
-                      component="div"
-                      className="text-rose-600 mt-[-20px] text-[15px] font-light mb-5 items-center"
-                    />
+                    <ErrorMessage name="username">
+                      {(msg) => (
+                        <div className="text-rose-600 mt-[-20px] text-[15px] font-light mb-5 items-center flex gap-[8px]">
+                          <ErrorOutline style={{ fontSize: fontSize }} />
+                          {msg}
+                        </div>
+                      )}
+                    </ErrorMessage>
                   </div>
                   <div>
                     <label
@@ -82,11 +88,14 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
                         "placeholder-gray-500 text-[0.9rem] font-light"
                       )}
                     />
-                    <ErrorMessage
-                      name="description"
-                      component="div"
-                      className="text-rose-600 mt-[-20px] text-[15px] font-light mb-5 items-center"
-                    />
+                    <ErrorMessage name="description">
+                      {(msg) => (
+                        <div className="text-rose-600 mt-[-20px] text-[15px] font-light mb-5 items-center flex gap-[8px]">
+                          <ErrorOutline style={{ fontSize: fontSize }} />
+                          {msg}
+                        </div>
+                      )}
+                    </ErrorMessage>
                   </div>
                   <div>
                     <label
@@ -176,8 +185,8 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
                         name="mobile_phone_number_prefix"
                         id="mobile_phone_number_prefix"
                         className={cn(
-                          "sm:bg-blue border-[1px] border-inputBorder bg-transparent block w-[50%] p-4 py-3.5 rounded-xl text-sm mb-[1.9rem]",
-                          "placeholder-gray-500 text-[0.9rem] font-light"
+                          "sm:bg-blue border-[1px] border-inputBorder bg-transparent block w-[50%] lg:p-4 xs:p-2 py-3.5 rounded-xl text-sm mb-[1.9rem]",
+                          "placeholder-gray-500 font-light"
                         )}
                       >
                         <CountryCodes />
@@ -194,11 +203,14 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
                         )}
                       />
                     </div>
-                    <ErrorMessage
-                      name="mobile_phone_number"
-                      component="div"
-                      className="text-rose-600 mt-[-20px] text-[15px] font-light mb-5 items-center"
-                    />
+                    <ErrorMessage name="mobile_phone_number">
+                      {(msg) => (
+                        <div className="text-rose-600 mt-[-20px] text-[15px] font-light mb-5 items-center flex gap-[8px]">
+                          <ErrorOutline style={{ fontSize: fontSize }} />
+                          {msg}
+                        </div>
+                      )}
+                    </ErrorMessage>
                   </div>
                   <button
                     type="submit"

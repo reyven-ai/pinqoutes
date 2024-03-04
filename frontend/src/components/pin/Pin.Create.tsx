@@ -21,6 +21,7 @@ const PinCreate: React.FC = () => {
           loading={loading}
           successful={successful}
           message={message}
+          onClose={close}
           onSubmit={handleCreatePin}
           validationSchema={pinValidationSchema}
           initialValues={initialValues}
