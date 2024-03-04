@@ -9,12 +9,18 @@ const PinDetails: React.FC = () => {
   const { pinDetails } = usePinDetails(id || "");
 
   return (
-    <div className="w-[100%] mt-20">
-      <Link to="/" className="absolute left-10 top-[12%]">
-        <ArrowBackSharp className="font-bold text-[26px]" />
+    <div className="w-[100%] mt-[5.8rem]">
+      <Link
+        to="/"
+        className="absolute left-10 top-[12%] bg-[#e4e6eb] rounded-[50%]"
+      >
+        <ArrowBackSharp
+          style={{ fontWeight: "bold", fontSize: "22px" }}
+          className="font-bold text-[26px] mx-2.5 my-2.5"
+        />
       </Link>
       {pinDetails ? (
-        <div className="flex w-[60%] bg-white m-[auto] justify-center rounded-[25px] shadow-shadowTop">
+        <div className="lg:flex lg:w-[60%] bg-white m-[auto] justify-center rounded-[25px] shadow-shadowTop">
           <div className="w-[100%] h-[auto] ">
             <img
               className="rounded-l-[25px] shadow-shadowTop object-cover"
@@ -32,12 +38,23 @@ const PinDetails: React.FC = () => {
                   <MenuDropdown />
                 </li>
               </ul>
-              <SavePinButton />
+              <SavePinButton id={pinDetails.id} />
             </div>
             <div className="px-8 py-5">
-              <Link className="underline" to={`${pinDetails.link}`}>
-                {pinDetails.link}
-              </Link>
+              {pinDetails.link && (
+                <Link
+                  className="underline"
+                  to={
+                    pinDetails.link.startsWith("http")
+                      ? pinDetails.link
+                      : `http://${pinDetails.link}`
+                  }
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {pinDetails.link}
+                </Link>
+              )}
               <h2 className="text-[26px] font-semibold leading-[2rem] my-[1.5rem]">
                 {pinDetails.title}
               </h2>
@@ -71,7 +88,7 @@ const PinDetails: React.FC = () => {
           </div>
         </div>
       ) : (
-        <p>Loading pin details...</p>
+        <p className="text-center">Loading...</p>
       )}
     </div>
   );

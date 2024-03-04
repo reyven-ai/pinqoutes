@@ -1,12 +1,10 @@
 import { useSaveUserPin, useRemoveUserPin } from "@/hooks/useUsersPins";
-import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getCurrentUserId } from "@/services/auth.util";
 
-const SavePinButton = () => {
+const SavePinButton: React.FC<{ id: string }> = ({ id }) => {
   const { savePin } = useSaveUserPin();
   const { removePin } = useRemoveUserPin();
-  const { id } = useParams();
   const [isPinInSaves, setIsPinInSaves] = useState(false);
   const loggedInUserId = getCurrentUserId();
 
