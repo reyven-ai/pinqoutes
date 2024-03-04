@@ -47,6 +47,7 @@ const Login: React.FC = () => {
         loading={loading}
         successful={successful}
         message={message}
+        isNewUser={true}
         onSubmit={handleLogin}
         validationSchema={loginValidationSchema}
         initialValues={initialValues}
