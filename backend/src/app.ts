@@ -4,7 +4,6 @@ import authRoutes from "./modules/auth/auth.route";
 import profileRoutes from "./modules/profile/profile.route";
 import pinRoutes from "./modules/pin/pin.route";
 import usersRoute from "./modules/users/users.route";
-
 import cors = require("cors");
 
 const PORT = 3000;
