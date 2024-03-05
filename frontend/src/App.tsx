@@ -9,11 +9,12 @@ import PrivateRoutes from "./privateRoute/PrivateRoute";
 import RootLayout from "./pages/Roots";
 import AuthHeader from "./components/Layout/AuthHeader";
 import MainHeader from "./components/Layout/MainHeader";
-import PinCreate from "./components/Pin/Pin.Create";
-import PinDetails from "./components/Pin/Pin.Details";
-import PinUpdate from "./components/Pin/Pin.Update";
+
 import PrivateHomePage from "./pages/Home/PrivateHome";
 import People from "./pages/People";
+import PinDetails from "./components/pin/Pin.Details";
+import PinCreate from "./components/pin/Pin.Create";
+import PinUpdate from "./components/pin/Pin.Update";
 
 function App() {
   const location = useLocation();

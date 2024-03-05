@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useGetProfileData } from "@/hooks/useProfileAction";
 import UpdateProfileForm from "@/components/Profile/Profile.Update";
-import PinProfile from "@/components/Pin/Pin.Created";
-import SaveList from "@/components/Pin/Pin.SaveList";
+import PinProfile from "@/components/pin/Pin.Created";
+import SaveList from "@/components/pin/Pin.SaveList";
 import { useParams } from "react-router-dom";
 import { getCurrentUserId } from "@/services/auth.util";
 

@@ -2,8 +2,8 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { cn } from "@/types/util";
 import { PinFormProps } from "@/types/pin.types";
-import { MyDropzone } from "./Pin.Dropzone";
 import { Close, ErrorOutline } from "@material-ui/icons";
+import { MyDropzone } from "./Pin.Dropzone";
 
 const fontSize = "20px";
 

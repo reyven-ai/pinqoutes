@@ -4,7 +4,7 @@ import { useGetAllPins } from "@/hooks/useUsersPins";
 const GetAllUsers: React.FC = () => {
   const { allPins } = useGetAllPins();
 
-  const columns = 1;
+  const columns = 6;
   const pinsPerColumn = Math.ceil(allPins.length / columns);
 
   const sortedPins = allPins

@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 import { Pin } from "@/types/pin.types";
-import SavePinButton from "../Pin/Pin.SaveButton";
+
 import Skeleton from "react-loading-skeleton";
 import { useEffect, useState } from "react";
 import { FavoriteBorderOutlined, MoreHoriz, Share } from "@material-ui/icons";
+import SavePinButton from "../pin/Pin.SaveButton";
 
 const Column: React.FC<{ pins: Array<Pin> }> = ({ pins }) => {
   const [isLoaded, setIsLoaded] = useState(false);
