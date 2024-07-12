@@ -6,23 +6,27 @@ class UserPinRepository {
     userId: number,
     title: string,
     description: string,
-    image_url: string,
+    file_url: string,
+    file_type: string,
     link: string,
-    created_at: Date,
-    created_by: string
+    profile_picture_url: string,
+    created_by: string,
+    created_at: Date
   ): Promise<CreatePinInput> {
     try {
       const query =
-        "INSERT INTO pins (user_id, title, description, image_url, link, created_at, created_by) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *";
+        "INSERT INTO pins (user_id, title, description, file_url, file_type, link, created_at, created_by, profile_picture_url) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *";
 
       const result = await pool.query(query, [
         userId,
         title,
         description,
-        image_url,
+        file_url,
+        file_type,
         link,
         created_at,
         created_by,
+        profile_picture_url,
       ]);
 
       if (result.rows.length > 0) {
@@ -81,14 +85,16 @@ class UserPinRepository {
     newData: UpdatePinInput
   ): Promise<UpdatePinInput | null> {
     try {
-      const query = `UPDATE pins SET user_Id = $1, title = $2, description = $3, image_url = $4, link = $5, created_by = $6, updated_at = $7 WHERE id= $8 RETURNING *`;
+      const query = `UPDATE pins SET user_Id = $1, title = $2, description = $3, file_url = $4, file_type = $5 link = $6, created_by = $7, profile_picture_url = $8, updated_at = $9 WHERE id= $10 RETURNING *`;
       const result = await pool.query(query, [
         newData.user_id,
         newData.title,
         newData.description,
-        newData.image_url,
+        newData.file_url,
+        newData.file_type,
         newData.link,
         newData.created_by,
+        newData.profile_picture_url,
         newData.updated_at,
         id,
       ]);

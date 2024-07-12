@@ -12,7 +12,7 @@ const Register: React.FC = () => {
 
   return (
     <AuthForm
-      title="Create your PinTech account"
+      title="Create your Pinqoutes account"
       labelLink="Login"
       linkText="Already have an account?"
       footerText="Or sign up with"

@@ -15,6 +15,7 @@ export async function createProfile(
     const createdUserProfile: CreateProfileInput =
       await userRepository.createUserProfile(
         data.user_id,
+        data.profile_picture_url,
         data.username,
         data.description,
         data.country_of_residence,
@@ -74,6 +75,17 @@ export async function getProfileDetails(
     throw new InternalServerError(
       `Error retrieving user profile with ID ${userId}.`
     );
+  }
+}
+
+export async function getAllUserProfiles(): Promise<ProfileData[]> {
+  try {
+    const userRepository = new ProfileRepository();
+    const allProfiles = await userRepository.getAllUserProfiles();
+    return allProfiles;
+  } catch (error) {
+    console.error(error);
+    throw new InternalServerError("Error retrieving all user profiles.");
   }
 }
 

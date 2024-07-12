@@ -1,121 +1,131 @@
-import { Link, NavLink, useLocation } from "react-router-dom";
-import SearchBar from "../Searchbar/SearchBar";
-import ProfileUtil from "../DropdownUtil/ProfileDropdown";
-import Logos from "../../assets/Logos.png";
-
-import { checkAuthLoader } from "@/services/auth.util";
+import { NavLink, useParams } from "react-router-dom";
 import {
-  Home,
-  MoreHoriz,
-  Notifications,
-  People,
-  YouTube,
-} from "@material-ui/icons";
+  useGetProfileData,
+  useGetProfileProps,
+} from "@/hooks/useProfileAction";
+import { checkAuthLoader } from "@/services/auth.util";
+import logos from "../../assets/Logos.png";
+import home from "../../assets/home.svg";
+import activeHome from "../../assets/activeHome.svg";
+import reels from "../../assets/reels.svg";
+import activeReels from "../../assets/activeReels.svg";
+import people from "../../assets/people.svg";
+import activePeople from "../../assets/activePeople.svg";
+import heart from "../../assets/heart.svg";
+import activeHeart from "../../assets/activeHeart.svg";
+import create from "../../assets/create.svg";
+import activeCreate from "../../assets/activeCreate.svg";
+import profile from "../../assets/profile.svg";
+import Logout from "../DropdownUtil/Logout";
+import search from "../../assets/search.svg";
+import activeSearch from "../../assets/activeSearch.svg";
 
 const MainHeader = () => {
-  const location = useLocation();
+  const { userProfileProps } = useGetProfileProps();
   const isAuthenticated = checkAuthLoader();
 
   if (!isAuthenticated) {
     return null;
   }
 
-  const customColor = "rgb(61, 145, 253)";
-  const notActiveColor = "rgba(0, 0, 0, 0.6)";
-  const fontSize = "27px";
-
   const navLinks = [
     {
       path: "/",
       name: "Home",
-      icon: <Home style={{ color: notActiveColor, fontSize: fontSize }} />,
-      activeIcon: <Home style={{ color: customColor, fontSize: fontSize }} />,
+      img: home,
+      activeLink: activeHome,
     },
     {
-      path: "/watch",
-      name: "Watch",
-      icon: <YouTube style={{ color: notActiveColor, fontSize: fontSize }} />,
-      activeIcon: (
-        <YouTube style={{ color: customColor, fontSize: fontSize }} />
-      ),
+      path: "/search",
+      name: "Search",
+      img: search,
+      activeLink: activeSearch,
+    },
+    {
+      path: "/reels",
+      name: "Reels",
+      img: reels,
+      activeLink: activeReels,
     },
     {
       path: "/people",
       name: "People",
-      icon: <People style={{ color: notActiveColor, fontSize: fontSize }} />,
-      activeIcon: (
-        <People
-          color="primary"
-          style={{ color: customColor, fontSize: fontSize }}
-        />
-      ),
+      img: people,
+      activeLink: activePeople,
     },
     {
       path: "/notifications",
       name: "Notifications",
-      icon: (
-        <Notifications style={{ color: notActiveColor, fontSize: fontSize }} />
-      ),
-      activeIcon: (
-        <Notifications
-          color="primary"
-          style={{ color: customColor, fontSize: fontSize }}
-        />
-      ),
+      img: heart,
+      activeLink: activeHeart,
+    },
+    {
+      path: "/pin/create",
+      name: "Create",
+      img: create,
+      activeLink: activeCreate,
+    },
+    {
+      path: `/profile/${userProfileProps?.user_id}`,
+      name: "Profile",
+      img: [
+        userProfileProps?.profile_picture_url
+          ? userProfileProps?.profile_picture_url
+          : profile,
+      ],
     },
   ];
 
   return (
     <>
-      <header className="flex bg-white justify-between items-center px-[1%] py-[0.5rem] fixed w-full top-0 z-10 ">
-        <div className="flex items-center gap-3">
-          <h1 className="text-[22px] mr-1 font-semibold">
-            <NavLink to="/">
-              <img className="w-[40px] h-[auto]" src={Logos}></img>
-            </NavLink>
-          </h1>
-          <div>
-            <Link
-              className="bg-[#e4e6eb] font-semibold text-black px-6 py-2.5 rounded-[20px]"
-              to="/pin/create"
-            >
-              Create Pin
-            </Link>
+      <header className="flex flex-col h-[100vh] bg-[#fff] w-[250px] fixed justify-between px-[0.1rem] py-[1rem] top-0 z-10 ">
+        <div>
+          <div className="flex items-center justify-between gap-3 px-[1.7rem] mb-[3rem]">
+            <h1 className="text-[22px] mr-3 mt-[1.8rem] font-semibold">
+              <NavLink to="/" className="flex items-center gap-[10px]">
+                {/* <img className="w-[30px] h-[auto]" src={logos}></img> */}
+                Pinqoutes
+              </NavLink>
+            </h1>
           </div>
           <div>
-            <button className="cursor-pointer mr-7 text-black rounded-[50%] bg-[#e4e6eb]">
-              <MoreHoriz className="mx-2.5 my-2.5" />
-            </button>
+            <ul className="flex flex-col gap-[1.7rem] font-normal w-[100%] px-[1.3rem]">
+              {navLinks.map(({ path, img, name, activeLink }, index) => (
+                <li key={index}>
+                  <NavLink
+                    to={path}
+                    className={({ isActive }) =>
+                      isActive ? "font-bold" : undefined
+                    }
+                  >
+                    {({ isActive }) => (
+                      <div className="flex items-center gap-[10px]">
+                        <img
+                          className={`${
+                            index === 6
+                              ? "w-[24px] h-[24px] rounded-[50%] ml-[3px] mr-[3px]"
+                              : ""
+                          }`}
+                          src={isActive && activeLink ? activeLink : img}
+                          alt={name}
+                        />
+                        {name}
+                      </div>
+                    )}
+                  </NavLink>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
         <div>
-          <ul className="flex items-center font-normal w-[100%]">
-            {navLinks.map(({ path, icon, activeIcon, name }, index) => (
-              <li key={index} className="w-[150px] text-[18px]">
-                <NavLink to={path}>
-                  <div className="flex flex-col items-center">
-                    {location.pathname === path ? activeIcon : icon}
-                    <span
-                      className={`text-xs text-NavlabelName`}
-                      style={{
-                        color: location.pathname === path ? "#3D91FD" : "",
-                      }}
-                    >
-                      {name}
-                    </span>
-                  </div>
-                </NavLink>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div>
-          <div className="flex gap-3 items-center font-normal">
+          <Logout />
+          {/* <div className="flex gap-3 items-center font-normal">
             <SearchBar />
             <div>
               <ProfileUtil />
             </div>
-          </div>
+          </div> */}
         </div>
       </header>
     </>

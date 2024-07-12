@@ -8,6 +8,7 @@ import pool from "../../database/db";
 class ProfileRepository {
   async createUserProfile(
     user_id: number,
+    profile_picture_url: string,
     username: string,
     description: string,
     country_of_residence: string,
@@ -16,10 +17,11 @@ class ProfileRepository {
   ): Promise<CreateProfileInput> {
     try {
       const query =
-        "INSERT INTO user_profiles (user_id, username, description, country_of_residence, mobile_phone_number, birthdate) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *"; // Return all columns
+        "INSERT INTO user_profiles (user_id, profile_picture_url, username, description, country_of_residence, mobile_phone_number, birthdate) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *"; // Return all columns
 
       const result = await pool.query(query, [
         user_id,
+        profile_picture_url,
         username,
         description,
         country_of_residence,
@@ -43,8 +45,9 @@ class ProfileRepository {
     newData: UpdateProfileInput
   ): Promise<UpdateProfileInput | null> {
     try {
-      const query = `UPDATE user_profiles SET username = $1, description = $2, country_of_residence = $3, mobile_phone_number = $4, birthdate = $5 WHERE user_id= $6 RETURNING *`;
+      const query = `UPDATE user_profiles SET profile_picture_url = $1, username = $2, description = $3, country_of_residence = $4, mobile_phone_number = $5, birthdate = $6 WHERE user_id= $7 RETURNING *`;
       const result = await pool.query(query, [
+        newData.profile_picture_url,
         newData.username,
         newData.description,
         newData.country_of_residence,
@@ -79,6 +82,18 @@ class ProfileRepository {
     } catch (error) {
       console.error("Error retrieving user profile:", (error as Error).message);
       throw new Error("Error retrieving user profile");
+    }
+  }
+
+  async getAllUserProfiles(): Promise<ProfileData[]> {
+    try {
+      const query = "SELECT * FROM user_profiles";
+      const result = await pool.query(query);
+
+      return result.rows as ProfileData[];
+    } catch (error) {
+      console.error("Error retrieving all user profiles:", error);
+      throw new Error("Error retrieving all user profiles");
     }
   }
 

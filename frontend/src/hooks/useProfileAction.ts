@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import {
   createProfile,
   deleteProfile,
+  getAllUserProfiles,
   getProfileProps,
   getSelfProfile,
   updateProfile,
@@ -21,6 +22,7 @@ export const useProfileAction = () => {
 
   const handleCreateProfile = async (formValue: ProfileFormInput) => {
     const {
+      profile_picture_url = "",
       username = "",
       description = "",
       country_of_residence = "",
@@ -50,6 +52,7 @@ export const useProfileAction = () => {
     }
 
     const profileToCreate: UserProfileInput = {
+      profile_picture_url,
       username: defaultUsername,
       description,
       country_of_residence,
@@ -73,6 +76,7 @@ export const useProfileAction = () => {
 
   const handleEditProfile = async (formValue: ProfileFormInput) => {
     const {
+      profile_picture_url,
       username,
       description,
       country_of_residence,
@@ -100,6 +104,7 @@ export const useProfileAction = () => {
     }
 
     const profileToUpdate: UserProfileInput = {
+      profile_picture_url,
       username,
       description,
       country_of_residence,
@@ -161,8 +166,9 @@ function transformProfileDataToInput(
   userProfileData: UserProfileData
 ): UserProfileData {
   return {
-    profile_id: userProfileData.profile_id,
-    user_id: userProfileData.user_id,
+    profile_picture_url: userProfileData.profile_picture_url,
+    profileId: userProfileData.profileId,
+    userId: userProfileData.userId,
     username: userProfileData.username,
     description: userProfileData.description,
     country_of_residence: userProfileData.country_of_residence,
@@ -222,5 +228,35 @@ export const useGetProfileData = (userId: number) => {
 
   return {
     userProfile,
+  };
+};
+
+export const useGetAlUserProfiles = () => {
+  const [allUserProfiles, setAllUserProfiles] = useState<
+    UserProfileData[] | null
+  >(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchAllUserProfiles = async () => {
+      try {
+        const profiles = await getAllUserProfiles();
+        setAllUserProfiles(profiles);
+      } catch (error) {
+        setError("Error fetching all user profiles");
+        console.error("Error fetching all user profiles:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAllUserProfiles();
+  }, []);
+
+  return {
+    allUserProfiles,
+    loading,
+    error,
   };
 };

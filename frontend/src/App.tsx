@@ -4,16 +4,20 @@ import { Toaster } from "react-hot-toast";
 import Login from "./components/auth/Auth.Login";
 import Register from "./components/auth/Auth.Register";
 import ProfileCreate from "./components/Profile/Profile.Create";
-import Profile from "./pages/Profile/Profile";
+import Profile from "./pages/Profile";
 import PrivateRoutes from "./privateRoute/PrivateRoute";
 import RootLayout from "./pages/Roots";
 import AuthHeader from "./components/Layout/AuthHeader";
 import MainHeader from "./components/Layout/MainHeader";
-import PinCreate from "./components/Pin/Pin.Create";
-import PinDetails from "./components/Pin/Pin.Details";
-import PinUpdate from "./components/Pin/Pin.Update";
+
 import PrivateHomePage from "./pages/Home/PrivateHome";
 import People from "./pages/People";
+import PinDetails from "./components/pin/Pin.Details";
+import PinCreate from "./components/pin/Pin.Create";
+import PinUpdate from "./components/pin/Pin.Update";
+import SearchPage from "./pages/Search";
+import Reels from "./pages/Reels";
+import Notifications from "./pages/Notifications";
 
 function App() {
   const location = useLocation();
@@ -41,7 +45,10 @@ function App() {
           <Routes>
             <Route element={<PrivateRoutes />}>
               <Route path="/" element={<PrivateHomePage />} />
+              <Route path="/search" element={<SearchPage />} />
+              <Route path="/reels" element={<Reels />} />
               <Route path="/people" element={<People />} />
+              <Route path="/notifications" element={<Notifications />} />
               <Route path="/profile/:userId" element={<Profile />} />
               <Route path="/profile/create" element={<ProfileCreate />} />
               <Route path="/pins/:id" element={<PinDetails />} />

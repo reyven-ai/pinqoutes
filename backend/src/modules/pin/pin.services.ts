@@ -9,10 +9,12 @@ export async function createPin(data: CreatePinInput): Promise<CreatePinInput> {
       data.user_id,
       data.title,
       data.description,
-      data.image_url,
+      data.file_url,
+      data.file_type,
       data.link,
-      data.created_at,
-      data.created_by
+      data.profile_picture_url,
+      data.created_by,
+      data.created_at
     );
 
     return createdUserPin;

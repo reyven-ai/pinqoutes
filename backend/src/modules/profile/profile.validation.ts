@@ -1,5 +1,9 @@
 import { countryCodes } from "../../constants/countryCodes.constants";
 
+export function isValidProfilePic(profilePictureUrl: string) {
+  if (!profilePictureUrl.trim()) return true;
+}
+
 export function isValidUsername(username: string) {
   if (!username.trim()) return true;
 

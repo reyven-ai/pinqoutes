@@ -21,10 +21,10 @@ import { storage } from "../../firebase.config";
 import multer from "multer";
 import { fileValidationMiddleware } from "./pin.validation";
 import { ProfileRepository } from "../profile/profile.repository";
+const upload = multer({ storage: multer.memoryStorage() });
 
 const router = Router();
 
-const upload = multer({ storage: multer.memoryStorage() });
 router.post(
   "/",
   checkAuthMiddleware,
@@ -47,9 +47,16 @@ router.post(
         contentType: req.file.mimetype,
       };
 
+      let fileType = "unknown";
+      if (metaData.contentType.startsWith("image")) {
+        fileType = "image";
+      } else if (metaData.contentType.startsWith("video")) {
+        fileType = "video";
+      }
+
       const snapshot = await uploadBytesResumable(
         storageRef,
-        req.file?.buffer,
+        req.file.buffer,
         metaData
       );
 
@@ -67,10 +74,12 @@ router.post(
         user_id,
         title,
         description,
-        image_url: downloadURL,
+        file_url: downloadURL,
         link,
         created_at: dateTime,
         created_by: profile.username,
+        profile_picture_url: profile.profile_picture_url,
+        file_type: fileType,
       };
 
       const createdPin = await createPin(data);
@@ -117,7 +126,8 @@ router.patch(
     try {
       const user_id = res.locals.authUser.user_id;
       const id = req.params.id;
-      const { title, description, link, created_by } = req.body;
+      const { title, description, link, created_by, profile_picture_url } =
+        req.body;
 
       const existingPin = await getPinDetails(id);
       if (!existingPin) {
@@ -130,8 +140,9 @@ router.patch(
           .json({ error: "Unauthorized - you do not own this pin" });
       }
 
-      let imageUrl = existingPin.image_url;
-      let previousImageUrl = existingPin.image_url;
+      let fileUrl = existingPin.file_url;
+      let previousFileUrl = existingPin.file_url;
+      let fileType = "unknown"; // Initialize fileType with a default value
 
       if (req.file) {
         const fileID = uuidv4();
@@ -140,42 +151,56 @@ router.patch(
           contentType: req.file.mimetype,
         };
 
+        // Determine file type based on contentType
+        if (metaData.contentType.startsWith("image")) {
+          fileType = "image";
+        } else if (metaData.contentType.startsWith("video")) {
+          fileType = "video";
+        }
+
+        // Upload new file
         const snapshot = await uploadBytesResumable(
           storageRef,
           req.file.buffer,
           metaData
         );
+        fileUrl = await getDownloadURL(snapshot.ref);
 
-        imageUrl = await getDownloadURL(snapshot.ref);
+        // Delete previous file if URL has changed
+        if (previousFileUrl && previousFileUrl !== fileUrl) {
+          const previousFileRef = ref(storage, previousFileUrl);
+          await deleteObject(previousFileRef);
+        }
       }
 
-      if (previousImageUrl && previousImageUrl !== imageUrl) {
-        const previousImageRef = ref(storage, previousImageUrl);
-        await deleteObject(previousImageRef);
-      }
-
+      // Prepare update data
       const updateData = {
         user_id,
-        title: title,
+        title: title || existingPin.title,
         description: description || existingPin.description,
-        image_url: imageUrl,
+        file_url: fileUrl,
+        file_type: fileType,
         link: link || existingPin.link,
         updated_at: new Date(),
         created_by: created_by || existingPin.created_by,
+        profile_picture_url:
+          profile_picture_url || existingPin.profile_picture_url,
       };
 
+      // Update pin in database
       const updatedPin = await updatePin(id, updateData);
 
+      // Respond with success message and updated pin details
       res.status(200).json({
         message: "Pin updated successfully.",
         contentDetails: updatedPin,
       });
     } catch (error) {
+      // Handle errors
       handleError(error, res);
     }
   }
 );
-
 router.delete(
   "/:id",
   checkAuthMiddleware,
@@ -195,17 +220,18 @@ router.delete(
           .json({ error: "Unauthorized - you do not own this pin" });
       }
 
-      const pinImageRef = ref(storage, existingPin.image_url);
-      await deleteObject(pinImageRef);
+      const pinFileRef = ref(storage, existingPin.file_url);
+      await deleteObject(pinFileRef);
 
       await deletePin(id);
 
       res.status(204).json({
-        message: "Pin deleted succesfully",
+        message: "Pin deleted successfully",
       });
     } catch (error) {
       handleError(error, res);
     }
   }
 );
+
 export default router;

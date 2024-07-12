@@ -146,7 +146,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
                       <button
                         type="submit"
                         disabled={loading}
-                        className="bg-backgroundButtonColor text-white border-none cursor-pointer p-[0.8rem] w-full rounded-[30px] text-[15px] font-semibold mb-4"
+                        className="bg-[#000] text-white border-none cursor-pointer p-[0.8rem] w-full rounded-[30px] text-[15px] font-semibold mb-4"
                       >
                         {loading ? "Loading..." : button}
                       </button>

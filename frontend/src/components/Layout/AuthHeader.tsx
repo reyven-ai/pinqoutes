@@ -47,11 +47,12 @@ function AuthHeader() {
     <>
       <header className="flex justify-between items-center border xs:px-[5%] md:px-[8%] lg:px-[16%] lg:py-[2rem] xs:py-[1rem]">
         <div className="text-3xl font-semibold">
-          <img
+          <h1 className="text-[22px] font-semibold">Pinqoutes</h1>
+          {/* <img
             className="w-[125px] h-[auto] lg:block xs:hidden"
             src={Logo}
           ></img>
-          <img className="w-[40px] h-[auto] lg:hidden" src={Logos}></img>
+          <img className="w-[40px] h-[auto] lg:hidden" src={Logos}></img> */}
         </div>
         <div>{getHeaderComponent()}</div>
       </header>
