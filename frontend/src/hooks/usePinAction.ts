@@ -17,13 +17,13 @@ export const usePinAction = () => {
   const navigate: NavigateFunction = useNavigate();
 
   const handleCreatePin = async (formValue: PinFormInput) => {
-    const { title, description, link, image_url } = formValue;
+    const { title, description, link, file_url } = formValue;
 
     const pinToCreate: PinFormInput = {
       title,
       description,
       link,
-      image_url,
+      file_url,
     };
 
     setMessage("");
@@ -38,16 +38,17 @@ export const usePinAction = () => {
     } finally {
       setLoading(false);
     }
+    console.log("Create Pin Successfull", createPin);
   };
 
   const handleUpdatePin = async (id: string, formValue: PinFormInput) => {
-    const { title, description, link, image_url } = formValue;
+    const { title, description, link, file_url } = formValue;
 
     const pinToUpdate: UpdatePinInput = {
       title,
       description,
       link,
-      image_url,
+      file_url,
     };
 
     setMessage("");
@@ -107,14 +108,20 @@ export const usePinAction = () => {
 
 export const usePinDetails = (id: string) => {
   const [pinDetails, setPinDetails] = useState<PinDetails | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true);
         const pinDetailsData = await getPinDetails(id);
         setPinDetails(pinDetailsData);
       } catch (error) {
         console.error("Error fetching pin details:", error);
+        setError("Error fetching like data");
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -124,5 +131,7 @@ export const usePinDetails = (id: string) => {
 
   return {
     pinDetails,
+    loading,
+    error,
   };
 };

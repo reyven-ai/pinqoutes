@@ -10,14 +10,14 @@ const PinCreate: React.FC = () => {
     title: "",
     description: "",
     link: "",
-    image_url: "",
+    file_url: "",
   };
 
   return (
     <>
-      <div className="flex mt-20">
+      <div className="flex mt-[3rem] w-[82%] ml-[17.5rem]">
         <PinForm
-          title="Create Pin"
+          title="Create"
           loading={loading}
           successful={successful}
           message={message}

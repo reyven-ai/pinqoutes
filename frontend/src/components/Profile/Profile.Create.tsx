@@ -7,7 +7,9 @@ import ProfileForm from "./Profile.Form";
 const ProfileCreate: React.FC = () => {
   const { handleCreateProfile, message, successful, loading } =
     useProfileAction();
+
   const initialValues: ProfileFormInput = {
+    profile_picture_url: "",
     username: "",
     description: "",
     country_of_residence: "",

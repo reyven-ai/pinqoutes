@@ -2,6 +2,7 @@ import * as Yup from "yup";
 
 // This type, ProfileFormInput, represents the structure of an object that might be used in a form for inputting user profile data. Each property in this type corresponds to a field in a form, and its type annotation (string in this case) indicates the expected data type for that field.
 export type ProfileFormInput = {
+  profile_picture_url: string;
   username: string;
   description: string;
   country_of_residence: string;
@@ -17,10 +18,11 @@ export type ProfileApiData = {
   birthdate: string;
   country_of_residence: string;
   mobile_phone_number: string;
-  profile_id: number;
-  user_id: number;
+  profileId: number;
+  userId: number;
   username: string;
   description: string;
+  profile_picture_url: string;
 };
 
 export interface ProfileFormProps {
@@ -40,6 +42,7 @@ export type UserProfileInput = {
   country_of_residence: string;
   birthdate: string;
   mobile_phone_number: string;
+  profile_picture_url: string;
 };
 
 export type UserProfileTemporary = {
@@ -49,10 +52,9 @@ export type UserProfileTemporary = {
   mobile_phone_number: string;
 };
 
-// type for need to get
 export type UserProfileData = {
-  profile_id: number;
-  user_id: number;
+  profileId: number;
+  userId: number;
   username: string;
   description: string;
   country_of_residence: string;
@@ -61,4 +63,5 @@ export type UserProfileData = {
   birth_day: string;
   birth_month: string;
   birth_year: string;
+  profile_picture_url: string;
 };

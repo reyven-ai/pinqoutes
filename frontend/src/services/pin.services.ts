@@ -8,8 +8,7 @@ export const createPin = (createPinInput: CreatePinInput) => {
   const headers = authHeader();
 
   const formData = new FormData();
-  formData.append("filename", createPinInput.image_url);
-
+  formData.append("filename", createPinInput.file_url);
   formData.append("title", createPinInput.title);
   formData.append("description", createPinInput.description);
   formData.append("link", createPinInput.link);
@@ -19,10 +18,10 @@ export const createPin = (createPinInput: CreatePinInput) => {
 
 export const updatePin = async (id: string, updatePinInput: UpdatePinInput) => {
   const headers = authHeader();
-  const formData = new FormData();
 
+  const formData = new FormData();
+  formData.append("filename", updatePinInput.file_url);
   formData.append("title", updatePinInput.title);
-  formData.append("filename", updatePinInput.image_url);
   formData.append("description", updatePinInput.description);
   formData.append("link", updatePinInput.link);
 

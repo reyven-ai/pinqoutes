@@ -1,6 +1,6 @@
 import axios from "axios";
 import authHeader from "./auth.header";
-import { ListPinsData, SavedDetails } from "@/types/pin.types";
+import { ListPinsData } from "@/types/pin.types";
 
 const usersPinsUrl = import.meta.env.VITE_API_USERS;
 
@@ -50,17 +50,4 @@ export const removeUserPin = async (
   await axios.delete(`${usersPinsUrl}${userId}/savedPins/${pinId}`, {
     headers,
   });
-};
-
-export const getSavedPins = async (userId: string): Promise<SavedDetails> => {
-  const headers = authHeader();
-
-  if (!userId) {
-    throw new Error("User ID is missing");
-  }
-
-  const response = await axios.get(`${usersPinsUrl}${userId}/savedPins`, {
-    headers,
-  });
-  return response.data;
 };

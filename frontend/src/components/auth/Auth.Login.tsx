@@ -25,7 +25,7 @@ const Login: React.FC = () => {
         <div className="flex items-end">
           <button
             onClick={handleCloseReminder}
-            className="bg-backgroundButtonColor text-white px-4 py-2 rounded-[24px]"
+            className="bg-[#000] text-white px-4 py-2 rounded-[24px]"
           >
             Got it!
           </button>

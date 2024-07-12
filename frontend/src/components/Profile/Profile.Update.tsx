@@ -23,6 +23,7 @@ const EditProfile: React.FC = () => {
   };
 
   const initialValues: ProfileFormInput = {
+    profile_picture_url: userProfile?.profile_picture_url || "",
     username: userProfile?.username || "",
     description: userProfile?.description || "",
     country_of_residence: userProfile?.country_of_residence || "",

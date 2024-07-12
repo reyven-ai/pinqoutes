@@ -1,6 +1,7 @@
 export interface ProfileData {
   id: string;
   user_id: number;
+  profile_picture_url: string;
   username: string;
   description: string;
   country_of_residence: string;
@@ -10,6 +11,7 @@ export interface ProfileData {
 
 export interface CreateProfileInput {
   user_id: number;
+  profile_picture_url: string;
   username: string;
   description: string;
   country_of_residence: string;
@@ -19,6 +21,7 @@ export interface CreateProfileInput {
 
 export interface UpdateProfileInput {
   user_id: number;
+  profile_picture_url: string;
   username: string;
   description: string;
   country_of_residence: string;

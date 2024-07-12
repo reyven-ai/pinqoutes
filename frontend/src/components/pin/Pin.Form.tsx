@@ -38,18 +38,18 @@ const PinForm: React.FC<PinFormProps> = ({
               <div>
                 <div>
                   <ErrorMessage
-                    name="image_url"
+                    name="file_url"
                     component="div"
                     className="mt-[-1rem] bg-invalidCredentialBg text-center pt-6 pb-6 pl-4 pr-4 text-base font-light rounded-2xl mb-4"
                   />
                 </div>
                 <div className="flex gap-[30px]">
                   <div>
-                    <label htmlFor="image"></label>
+                    <label htmlFor="file"></label>
                     <Field
-                      type="image"
-                      id="image_url"
-                      name="image_url"
+                      type="file"
+                      id="file_url"
+                      name="file_url"
                       component={MyDropzone}
                     />
                   </div>
@@ -143,7 +143,7 @@ const PinForm: React.FC<PinFormProps> = ({
                       <button
                         type="submit"
                         disabled={!dirty}
-                        className={`bg-backgroundButtonColor text-white border-none cursor-pointer p-[0.8rem] w-full rounded-[30px] text-[15px] font-semibold mb-4 ${"disabled:opacity-50 cursor-auto"}`}
+                        className={`bg-[#000] text-white border-none cursor-pointer p-[0.8rem] w-full rounded-[30px] text-[15px] font-semibold mb-4 ${"disabled:opacity-50 cursor-auto"}`}
                       >
                         {loading ? "Saving..." : "Save"}
                       </button>

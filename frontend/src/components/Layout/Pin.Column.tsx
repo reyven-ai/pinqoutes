@@ -1,10 +1,13 @@
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Pin } from "@/types/pin.types";
-
 import Skeleton from "react-loading-skeleton";
-import { useEffect, useState } from "react";
-import { FavoriteBorderOutlined, MoreHoriz, Share } from "@material-ui/icons";
-import SavePinButton from "../pin/Pin.SaveButton";
+import { Pin } from "@/types/pin.types";
+import LikeCount from "../Reaction/Like/LikeCount";
+import LikeButton from "../Reaction/Like/LikedButton";
+import Comment from "../Reaction/comment/Comment";
+import Send from "../Reaction/Send";
+import CommentCount from "../Reaction/comment/Comment.Count";
+import SaveButton from "../Reaction/Save/SaveButton";
 
 const Column: React.FC<{ pins: Array<Pin> }> = ({ pins }) => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -19,75 +22,73 @@ const Column: React.FC<{ pins: Array<Pin> }> = ({ pins }) => {
     };
   }, []);
 
+  const renderFile = (pin: Pin) => {
+    const fileType = pin.file_type;
+    const fileUrl = pin.file_url;
+
+    if (fileType.startsWith("image")) {
+      return (
+        <img
+          className="rounded-[4px] w-full h-auto relative hover:opacity-60 transition-opacity"
+          src={fileUrl}
+          alt={pin.title}
+          loading="lazy"
+        />
+      );
+    } else if (fileType.startsWith("video")) {
+      return (
+        <video
+          loop
+          className="rounded-[4px] w-full h-auto relative hover:opacity-60 transition-opacity"
+          // controls
+        >
+          <source src={pin.file_url} type="video/MP4" />
+          Your browser does not support the video tag.
+        </video>
+      );
+    } else {
+      return null; // Handle other file types as needed
+    }
+  };
+
   return (
     <div className="column flex-1 p-2">
       {pins.length > 0 ? (
         pins.map((pin) => (
           <div key={pin.id} className="relative group mb-4">
-            <Link to={`/pins/${pin.id}`}>
-              <img
-                className="rounded-[24px] w-full h-auto relative hover:opacity-60 transition-opacity"
-                src={pin.image_url}
-                alt={pin.title}
-              />
-            </Link>
-            <div className="opacity-0 group-hover:opacity-100 transition-opacity ">
-              <div className="absolute top-0 right-0 flex items-end py-3 px-3">
-                <SavePinButton id={pin.id} />
-              </div>
-              <div className="flex items-center absolute right-0 bottom-10 justify-between">
-                <div className="w-[130px]">
-                  <div className="overflow-visible whitespace-normal py-3 truncate ... ">
-                    {pin.link && (
-                      <Link
-                        className="px-2.5 py-1.5 bg-[#e4e6eb] rounded-full"
-                        to={
-                          pin.link.startsWith("http")
-                            ? pin.link
-                            : `http://${pin.link}`
-                        }
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {pin.link}
-                      </Link>
-                    )}
-                  </div>
-                </div>
-                <div className="flex py-3 px-3 gap-2">
-                  <button className="cursor-pointer text-black rounded-[50%] bg-[#e4e6eb]">
-                    <Share className="mx-1.5 my-1.5" />
-                  </button>
-                  <button className="cursor-pointer text-black rounded-[50%] bg-[#e4e6eb]">
-                    <MoreHoriz className="mx-1.5 my-1.5" />
-                  </button>
-                </div>
+            <Link to={`/pins/${pin.id}`}>{renderFile(pin)}</Link>
+            <div className="absolute top-0 left-0 flex items-end py-3 px-3">
+              <div className="flex justify-between mt-1 items-center">
+                <Link
+                  className="text-[13px] text-[#fff] flex items-center gap-[5px]"
+                  to={`/profile/${pin.user_id}`}
+                >
+                  <img
+                    className="w-[35px] h-[35px] rounded-[50%]"
+                    src={pin?.profile_picture_url}
+                    alt=""
+                  />
+                  {pin.created_by}
+                </Link>
               </div>
             </div>
-            {/* </Link> */}
-            {isLoaded && (
-              <div className="flex justify-between mt-2 items-center">
-                <div>
-                  <Link
-                    className="text-[13px] flex items-center gap-[5px]"
-                    to={`/profile/${pin.user_id}`}
-                  >
-                    <img
-                      className="w-[35px] h-[35px] rounded-[50%]"
-                      src="https://s.pinimg.com/images/user/default_140.png"
-                      alt=""
-                    />
-                    {pin.created_by}
-                  </Link>
+            <div className="flex items-center absolute w-full bottom-0 justify-between py-3 px-1">
+              <div className="flex items-center gap-[10px] px-1 gap-2">
+                <div className="text-[15px] gap-[3px] flex items-center text-gray-500">
+                  <LikeButton pinId={pin.id} />
+                  <LikeCount pinId={pin.id} />
                 </div>
-                <div>
-                  <button className="text-[15px] flex items-center text-gray-500">
-                    <FavoriteBorderOutlined style={{ fontSize: "20px" }} />
-                    <span className="text-[15px]">13.3k</span>
-                  </button>
+                <div className="text-[15px] flex items-center text-gray-500">
+                  <Comment pinId={pin.id} />
+                  <CommentCount pinId={pin.id} />
                 </div>
+                <div className="text-[15px] flex items-center text-gray-500">
+                  <Send />
+                </div>
+                {/* </div> */}
               </div>
-            )}
+              <SaveButton pinId={pin.id} />
+            </div>
           </div>
         ))
       ) : (

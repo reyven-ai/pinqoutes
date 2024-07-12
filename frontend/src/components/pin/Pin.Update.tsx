@@ -15,7 +15,7 @@ const PinUpdate: React.FC = () => {
   const initialValues: PinFormInput = {
     title: pinDetails?.title || "",
     description: pinDetails?.description || "",
-    image_url: pinDetails?.image_url || "",
+    file_url: pinDetails?.file_url || "",
     link: pinDetails?.link || "",
   };
 

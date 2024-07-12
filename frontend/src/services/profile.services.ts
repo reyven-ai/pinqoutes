@@ -8,12 +8,42 @@ const profileUrl = import.meta.env.VITE_API_PROFILE;
 
 export const createProfile = (createProfileInput: UserProfileInput) => {
   const headers = authHeader();
-  return axios.post(profileUrl, createProfileInput, { headers });
+  const formData = new FormData();
+
+  formData.append("filename", createProfileInput.profile_picture_url);
+  formData.append("username", createProfileInput.username);
+  formData.append("description", createProfileInput.description);
+  formData.append(
+    "country_of_residence",
+    createProfileInput.country_of_residence
+  );
+  formData.append(
+    "mobile_phone_number",
+    createProfileInput.mobile_phone_number
+  );
+  formData.append("birthdate", createProfileInput.birthdate);
+
+  return axios.post(profileUrl, formData, { headers });
 };
 
 export const updateProfile = (updateProfileInput: UserProfileInput) => {
   const headers = authHeader();
-  return axios.patch(profileUrl, updateProfileInput, { headers });
+  const formData = new FormData();
+
+  formData.append("filename", updateProfileInput.profile_picture_url);
+
+  formData.append("username", updateProfileInput.username);
+  formData.append("description", updateProfileInput.description);
+  formData.append(
+    "country_of_residence",
+    updateProfileInput.country_of_residence
+  );
+  formData.append(
+    "mobile_phone_number",
+    updateProfileInput.mobile_phone_number
+  );
+  formData.append("birthdate", updateProfileInput.birthdate);
+  return axios.patch(profileUrl, formData, { headers });
 };
 
 export const getProfileProps = async (): Promise<UserProfileData> => {
@@ -38,6 +68,12 @@ export const getSelfProfile = async (
   console.log("getSelfProfile result:", userProfileData);
 
   return userProfileData;
+};
+
+export const getAllUserProfiles = async (): Promise<UserProfileData[]> => {
+  const headers = authHeader();
+  const response = await axios.get(profileUrl, { headers });
+  return response.data;
 };
 
 export const deleteProfile = () => {
@@ -72,9 +108,10 @@ function transformProfileApiDataToUserProfileData(
   const splitBirthdateFormat = splitBirthdate(apiData.birthdate);
 
   return {
+    profile_picture_url: apiData.profile_picture_url,
     username: apiData.username,
-    profile_id: apiData.profile_id,
-    user_id: apiData.user_id,
+    profileId: apiData.profileId,
+    userId: apiData.userId,
     description: apiData.description,
     country_of_residence: apiData.country_of_residence,
     mobile_phone_number_prefix: splitMobilePhoneNumber[0],

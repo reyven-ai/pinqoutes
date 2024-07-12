@@ -34,11 +34,15 @@ export default {
         backgroundErrorIcon: "rgb(168, 32, 13)",
         invalidCredentialBg: "rgba(22, 51, 0, 0.08)",
         backgroundButtonColor: "rgb(61, 145, 253)",
+        activeBackground: "rgb(228 230 235",
         inputBorder: "#868685",
         socialButtonBorder: "#e5e7eb",
       },
       boxShadow: {
         shadowTop: "-3px 0 10px rgba(0, 0, 0, 0.1)",
+      },
+      gridTemplateColumns: {
+        "auto-fit-minmax": "repeat(auto-fit, minmax(15rem, 1fr))",
       },
     },
   },

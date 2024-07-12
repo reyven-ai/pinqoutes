@@ -1,10 +1,10 @@
 import Column from "@/components/Layout/Pin.Column";
-import { useGetAllPins } from "@/hooks/useUsersPins";
+import { useGetAllPins } from "@/hooks/useUsersAction";
 
 const GetAllUsers: React.FC = () => {
   const { allPins } = useGetAllPins();
 
-  const columns = 6;
+  const columns = 4;
   const pinsPerColumn = Math.ceil(allPins.length / columns);
 
   const sortedPins = allPins
@@ -12,8 +12,8 @@ const GetAllUsers: React.FC = () => {
     : null;
 
   return (
-    <div className="lg:flex mt-[5.5rem] justify-center lg:w-[90%] xs:w-[98%] m-[auto]">
-      <div className="grid lg:grid-cols-6 gap-0 xs:grid-cols-2">
+    <div className="lg:flex mt-[1rem] justify-center lg:w-[80%] xs:w-[98%] ml-[16.5rem]">
+      <div className="grid grid-cols-auto-fit-minmax justify-center w-[100%] p-[1rem] ">
         {Array.from({ length: columns }, (_, i) => (
           <Column
             key={i}

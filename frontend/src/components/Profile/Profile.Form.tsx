@@ -9,6 +9,7 @@ import {
   CountryResidence,
 } from "./Profile.FormOptions";
 import { ErrorOutline } from "@material-ui/icons";
+import { ProfilePic } from "./Profile.Picture";
 
 const fontSize = "20px";
 
@@ -23,7 +24,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
 }) => {
   return (
     <div className="flex justify-center">
-      <div className="flex items-center justify-center lg:w-[550px] xs:w-full lg:mt-[2rem] xs:mt-[1.5rem] flex-col xs:m-3">
+      <div className="flex items-center justify-center lg:w-[550px] xs:w-full lg:mt-[1rem] xs:mt-[1.5rem] flex-col xs:m-3">
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
@@ -40,7 +41,16 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
                       </div>
                     </div>
                   )}
-                  <h2 className="text-[18px] mb-[2rem]">{title}</h2>
+                  <h2 className="text-[18px] text-center mb-[2rem]">{title}</h2>
+                  <div className="flex item-center justify-center">
+                    <label htmlFor="image"></label>
+                    <Field
+                      type="img"
+                      id="profile_picture_url"
+                      name="profile_picture_url"
+                      component={ProfilePic}
+                    />
+                  </div>
                   <div>
                     <label
                       htmlFor="username"
@@ -215,7 +225,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
                   <button
                     type="submit"
                     disabled={!dirty}
-                    className={`bg-backgroundButtonColor text-white border-none cursor-pointer p-[0.8rem] w-full rounded-[30px] text-[15px] font-semibold mb-4 ${
+                    className={`bg-[#000] text-white border-none cursor-pointer p-[0.8rem] w-full rounded-[30px] text-[15px] font-semibold mb-4 ${
                       loading
                         ? "opacity-50 cursor-not-allowed"
                         : "disabled:opacity-50 cursor-not-allowed"
